@@ -149,6 +149,26 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Asset\img\avatar1.jpg" />
+    <Content Include="Asset\img\avatar10.jpg" />
+    <Content Include="Asset\img\avatar11.jpg" />
+    <Content Include="Asset\img\avatar2.jpg" />
+    <Content Include="Asset\img\avatar3.jpg" />
+    <Content Include="Asset\img\avatar4.jpg" />
+    <Content Include="Asset\img\avatar5.jpg" />
+    <Content Include="Asset\img\avatar6.jpg" />
+    <Content Include="Asset\img\avatar7.jpg" />
+    <Content Include="Asset\img\avatar8.jpg" />
+    <Content Include="Asset\img\avatar9.jpg" />
+    <Content Include="Asset\img\facebook.png" />
+    <Content Include="Asset\img\googleplus.png" />
+    <Content Include="Asset\img\linkedin.png" />
+    <Content Include="Asset\img\logo-default.jpg" />
+    <Content Include="Asset\img\menu-toggler.png" />
+    <Content Include="Asset\img\rss.png" />
+    <Content Include="Asset\img\twitter.png" />
+    <Content Include="Asset\img\vimeo.png" />
+    <Content Include="Asset\img\youtube.png" />
     <Content Include="Content\bootstrap-rtl.min.css" />
     <Content Include="Content\bootstrap-switch-rtl.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -175,6 +195,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\Simple-Line-Icons.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\Simple-Line-Icons.ttf" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\dashboard.min.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
@@ -225,6 +250,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
