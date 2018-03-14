@@ -46,6 +46,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -53,6 +59,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -146,6 +154,51 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Asset.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetManagement.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssetManagement.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetManagement.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetManagement.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssetManagement.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Asset_Disposal.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Staff.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubCategory.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserInfor.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Vendor.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +241,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\AssetManagement.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AssetManagement.edmx</DependentUpon>
+      <LastGenOutput>AssetManagement.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\AssetManagement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AssetManagement.edmx</DependentUpon>
+      <LastGenOutput>AssetManagement.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap-switch.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -200,6 +263,13 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\Simple-Line-Icons.ttf" />
+    <EntityDeploy Include="Models\AssetManagement.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AssetManagement.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\AssetManagement.edmx.diagram">
+      <DependentUpon>AssetManagement.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\dashboard.min.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
@@ -255,7 +325,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -268,6 +337,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

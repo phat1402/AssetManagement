@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="PurchaseDate" Type="date" />
+          <Property Name="SubCategoryId" Type="int" />
+          <Property Name="VendorId" Type="int" />
+          <Property Name="LocationId" Type="int" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="StatusId" Type="int" />
+          <Property Name="CreateById" Type="int" />
+          <Property Name="UsedById" Type="int" />
+        </EntityType>
+        <EntityType Name="Asset_Disposal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="DisposalDate" Type="date" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="255" />
+          <Property Name="AssetId" Type="int" />
+          <Property Name="DiposeById" Type="int" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="FloorNo" Type="int" />
+          <Property Name="RoomNo" Type="int" />
+          <Property Name="BuildingName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CategoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="CreatedDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="TelephoneNo" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="FK_Asset_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Disposal_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="0..1" />
+          <End Role="Asset_Disposal" Type="Self.Asset_Disposal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset_Disposal">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Disposal_UserInfor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="Asset_Disposal" Type="Self.Asset_Disposal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset_Disposal">
+              <PropertyRef Name="DiposeById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="UsedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_SubCategory">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_UserInfor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="CreateById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCategory_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssetManagementModelStoreContainer">
+          <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asset_Disposal" EntityType="Self.Asset_Disposal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInfor" EntityType="Self.UserInfor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Asset_Department" Association="Self.FK_Asset_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Disposal_Asset" Association="Self.FK_Asset_Disposal_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Disposal_UserInfor" Association="Self.FK_Asset_Disposal_UserInfor">
+            <End Role="UserInfor" EntitySet="UserInfor" />
+            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Location" Association="Self.FK_Asset_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Staff" Association="Self.FK_Asset_Staff">
+            <End Role="Staff" EntitySet="Staff" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_SubCategory" Association="Self.FK_Asset_SubCategory">
+            <End Role="SubCategory" EntitySet="SubCategory" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_UserInfor" Association="Self.FK_Asset_UserInfor">
+            <End Role="UserInfor" EntitySet="UserInfor" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Vendor" Association="Self.FK_Asset_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCategory_Category" Association="Self.FK_SubCategory_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="SubCategory" EntitySet="SubCategory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AssetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Asset">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PurchaseDate" Type="DateTime" Precision="0" />
+          <Property Name="SubCategoryId" Type="Int32" />
+          <Property Name="VendorId" Type="Int32" />
+          <Property Name="LocationId" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="StatusId" Type="Int32" />
+          <Property Name="CreateById" Type="Int32" />
+          <Property Name="UsedById" Type="Int32" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_Asset_Department" FromRole="Asset" ToRole="Department" />
+          <NavigationProperty Name="Asset_Disposal" Relationship="Self.FK_Asset_Disposal_Asset" FromRole="Asset" ToRole="Asset_Disposal" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_Asset_Location" FromRole="Asset" ToRole="Location" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Asset_Staff" FromRole="Asset" ToRole="Staff" />
+          <NavigationProperty Name="SubCategory" Relationship="Self.FK_Asset_SubCategory" FromRole="Asset" ToRole="SubCategory" />
+          <NavigationProperty Name="UserInfor" Relationship="Self.FK_Asset_UserInfor" FromRole="Asset" ToRole="UserInfor" />
+          <NavigationProperty Name="Vendor" Relationship="Self.FK_Asset_Vendor" FromRole="Asset" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Asset_Disposal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="DisposalDate" Type="DateTime" Precision="0" />
+          <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="DiposeById" Type="Int32" />
+          <NavigationProperty Name="Asset" Relationship="Self.FK_Asset_Disposal_Asset" FromRole="Asset_Disposal" ToRole="Asset" />
+          <NavigationProperty Name="UserInfor" Relationship="Self.FK_Asset_Disposal_UserInfor" FromRole="Asset_Disposal" ToRole="UserInfor" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SubCategories" Relationship="Self.FK_SubCategory_Category" FromRole="Category" ToRole="SubCategory" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_Department" FromRole="Department" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="FloorNo" Type="Int32" />
+          <Property Name="RoomNo" Type="Int32" />
+          <Property Name="BuildingName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_Location" FromRole="Location" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mobile" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_Staff" FromRole="Staff" ToRole="Asset" />
+        </EntityType>
+        <EntityType Name="SubCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_SubCategory" FromRole="SubCategory" ToRole="Asset" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_SubCategory_Category" FromRole="SubCategory" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_UserInfor" FromRole="UserInfor" ToRole="Asset" />
+          <NavigationProperty Name="Asset_Disposal" Relationship="Self.FK_Asset_Disposal_UserInfor" FromRole="UserInfor" ToRole="Asset_Disposal" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TelephoneNo" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_Vendor" FromRole="Vendor" ToRole="Asset" />
+        </EntityType>
+        <Association Name="FK_Asset_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Disposal_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="0..1" />
+          <End Role="Asset_Disposal" Type="Self.Asset_Disposal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset_Disposal">
+              <PropertyRef Name="AssetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="UsedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_SubCategory">
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="SubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_UserInfor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="CreateById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Vendor">
+          <End Role="Vendor" Type="Self.Vendor" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Disposal_UserInfor">
+          <End Role="UserInfor" Type="Self.UserInfor" Multiplicity="0..1" />
+          <End Role="Asset_Disposal" Type="Self.Asset_Disposal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset_Disposal">
+              <PropertyRef Name="DiposeById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubCategory_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubCategory" Type="Self.SubCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SubCategory">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AssetManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Assets" EntityType="Self.Asset" />
+          <EntitySet Name="Asset_Disposal" EntityType="Self.Asset_Disposal" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Staffs" EntityType="Self.Staff" />
+          <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="UserInfors" EntityType="Self.UserInfor" />
+          <EntitySet Name="Vendors" EntityType="Self.Vendor" />
+          <AssociationSet Name="FK_Asset_Department" Association="Self.FK_Asset_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Disposal_Asset" Association="Self.FK_Asset_Disposal_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Location" Association="Self.FK_Asset_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Staff" Association="Self.FK_Asset_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_SubCategory" Association="Self.FK_Asset_SubCategory">
+            <End Role="SubCategory" EntitySet="SubCategories" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_UserInfor" Association="Self.FK_Asset_UserInfor">
+            <End Role="UserInfor" EntitySet="UserInfors" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Vendor" Association="Self.FK_Asset_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Disposal_UserInfor" Association="Self.FK_Asset_Disposal_UserInfor">
+            <End Role="UserInfor" EntitySet="UserInfors" />
+            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubCategory_Category" Association="Self.FK_SubCategory_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="SubCategory" EntitySet="SubCategories" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AssetManagementModelStoreContainer" CdmEntityContainer="AssetManagementEntities">
+          <EntitySetMapping Name="Assets">
+            <EntityTypeMapping TypeName="AssetManagementModel.Asset">
+              <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="SubCategoryId" ColumnName="SubCategoryId" />
+                <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+                <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="CreateById" ColumnName="CreateById" />
+                <ScalarProperty Name="UsedById" ColumnName="UsedById" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asset_Disposal">
+            <EntityTypeMapping TypeName="AssetManagementModel.Asset_Disposal">
+              <MappingFragment StoreEntitySet="Asset_Disposal">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DisposalDate" ColumnName="DisposalDate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="DiposeById" ColumnName="DiposeById" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="AssetManagementModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="AssetManagementModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="AssetManagementModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="FloorNo" ColumnName="FloorNo" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
+                <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="AssetManagementModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubCategories">
+            <EntityTypeMapping TypeName="AssetManagementModel.SubCategory">
+              <MappingFragment StoreEntitySet="SubCategory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AssetManagementModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInfors">
+            <EntityTypeMapping TypeName="AssetManagementModel.UserInfor">
+              <MappingFragment StoreEntitySet="UserInfor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="AssetManagementModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
