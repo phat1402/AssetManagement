@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AssetManagement.Models;
+using AssetManagement.Models.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,21 +12,12 @@ namespace AssetManagement.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            AssetManagementEntities Db = new AssetManagementEntities();
+            DashboardViewModel model = new DashboardViewModel();
+            int numberOfAsset = Db.Assets.Count();
 
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

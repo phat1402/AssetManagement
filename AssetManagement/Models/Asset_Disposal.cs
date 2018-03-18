@@ -21,6 +21,6 @@ namespace AssetManagement.Models
         public Nullable<int> DiposeById { get; set; }
     
         public virtual Asset Asset { get; set; }
-        public virtual UserInfor UserInfor { get; set; }
+        public virtual Staff Staff { get; set; }
     }
 }

@@ -151,6 +151,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\AssetManagementContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,12 +194,10 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserInfor.cs">
-      <DependentUpon>AssetManagement.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +274,7 @@
     <Content Include="Scripts\daterangepicker.min.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
+    <Content Include="Scripts\google-pie-chart.js" />
     <Content Include="Scripts\jquery.blockui.min.js" />
     <Content Include="Scripts\jquery.counterup.min.js" />
     <Content Include="Scripts\jquery.easypiechart.min.js" />

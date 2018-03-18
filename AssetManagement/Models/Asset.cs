@@ -37,8 +37,8 @@ namespace AssetManagement.Models
         public virtual ICollection<Asset_Disposal> Asset_Disposal { get; set; }
         public virtual Location Location { get; set; }
         public virtual Staff Staff { get; set; }
+        public virtual Staff Staff1 { get; set; }
         public virtual SubCategory SubCategory { get; set; }
-        public virtual UserInfor UserInfor { get; set; }
         public virtual Vendor Vendor { get; set; }
     }
 }

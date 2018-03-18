@@ -33,7 +33,6 @@ namespace AssetManagement.Models
         public virtual DbSet<Staff> Staffs { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<UserInfor> UserInfors { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
     }
 }

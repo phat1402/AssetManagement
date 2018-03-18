@@ -1,4 +1,9 @@
-﻿<div class="row widget-row">
+﻿@section scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="~/Scripts/google-pie-chart.js"></script>
+}
+
+<div class="row widget-row">
     <div class="col-md-6">
         <!-- BEGIN WIDGET THUMB -->
         <div class="widget-thumb widget-bg-color-white text-uppercase margin-bottom-20 ">
@@ -37,7 +42,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="dashboard_amchart_2" class="mapChart"></div>
+                <div id="category_pie_chart" style="height:500px;"></div>
             </div>
         </div>
     </div>
@@ -49,7 +54,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="dashboard_amchart_4" class="CSSAnimationChart"></div>
+                <div id="department_pie_chart" style="height:500px;"></div>
             </div>
         </div>
     </div>
@@ -64,7 +69,7 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div id="dashboard_amchart_4" class="CSSAnimationChart"></div>
+                <div id="vendor_pie_chart" style="height:500px;"></div>
             </div>
         </div>
     </div>
