@@ -9,12 +9,14 @@ namespace AssetManagement.DAL
 {
     public class AssetManagementContext: DbContext
     {
-        public AssetManagementContext() : base("AssetManagementEntities")
-        {
-
-        }
+        public AssetManagementContext() : base("AssetManagementEntities"){}
         DbSet<Asset> Assets { get; set; }
         DbSet<Asset_Disposal> AssetDisposals { get; set; }
-        
+        DbSet<Category> Categories { get; set; }
+        DbSet<Department> Departments { get; set; }
+        DbSet<Location> Locations { get; set; }
+        DbSet<Staff> Staffs { get; set; }
+        DbSet<SubCategory> SubCategories { get; set; }
+        DbSet<Vendor> Vendors { get; set; }
     }
 }
