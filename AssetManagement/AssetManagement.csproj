@@ -179,6 +179,10 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dashboard\CategoryDetail.cs" />
+    <Compile Include="Models\Dashboard\DataList.cs" />
+    <Compile Include="Models\Dashboard\DepartmentDetail.cs" />
+    <Compile Include="Models\Dashboard\VendorDetail.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -321,6 +325,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Asset\CreatingNewAsset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

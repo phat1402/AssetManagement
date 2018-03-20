@@ -7,8 +7,7 @@ namespace AssetManagement.Models.ViewModel
 {
     public class DashboardViewModel
     {
-        int NumberOfAsset { get; set; }
-        float TotalValue { get; set; }
-
+        public int NumberOfAsset { get; set; }
+        public decimal TotalValue { get; set; }
     }
 }
