@@ -270,6 +270,7 @@
       <DependentUpon>AssetManagement.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
     <Content Include="Scripts\demo.min.js" />

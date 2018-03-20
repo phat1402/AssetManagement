@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Asset">
           <Key>
             <PropertyRef Name="ID" />
@@ -20,6 +20,7 @@
           <Property Name="StatusId" Type="int" />
           <Property Name="CreateById" Type="int" />
           <Property Name="UsedById" Type="int" />
+          <Property Name="UnitPrice" Type="decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -260,8 +261,7 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AssetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -287,6 +287,7 @@
           <NavigationProperty Name="Staff1" Relationship="Self.FK_Asset_Staff1" FromRole="Asset" ToRole="Staff" />
           <NavigationProperty Name="SubCategory" Relationship="Self.FK_Asset_SubCategory" FromRole="Asset" ToRole="SubCategory" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK_Asset_Vendor" FromRole="Asset" ToRole="Vendor" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="15" Scale="2" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -547,6 +548,7 @@
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="AssetManagementModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

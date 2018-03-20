@@ -14,6 +14,8 @@ namespace AssetManagement.Controllers
         public ActionResult Index()
         {        
             int numberOfAsset =  Db.Assets.Count();
+            var assetUnitPriceList = Db.Assets.Select(a => a.UnitPrice).ToList();
+            decimal assetTotalValue = assetUnitPriceList.Sum(value => value).Value;
             var category_count = Db.Assets.Join(Db.SubCategories,
                                                 asset => asset.SubCategoryId,
                                                 subcategory => subcategory.ID,
@@ -21,16 +23,24 @@ namespace AssetManagement.Controllers
                                            .Join(Db.Categories,
                                                 as_sub => as_sub.subcategory.CategoryId,
                                                 ca => ca.ID,
-                                                (as_sub, ca) => new { as_sub, ca })
-                                           .GroupBy(a => a.ca.ID)
+                                                (as_sub, ca) => new { as_sub.asset.ID, ca.Name })
+                                           .GroupBy(a => a.Name)
                                            .Select(item =>
-                                                        new { categoryID = item.Key,
-                                                              category_count = item.Count()
+                                                        new { categoryName = item.Key,
+                                                              count = item.Count()
                                                             }
                                                    )
                                            .ToList();
+            var department_count = Db.Assets.Join(Db.Departments,
+                                                  a => a.DepartmentId,
+                                                  d => d.ID,
+                                                  (a, d) => new { a.ID,d.Name})
+                                            .GroupBy(x => x.Name)
+                                            .Select(item => new { departmentName = item.Key, count = item.Count()})
+                                            .ToList();
             return View();
         }
+
 
     }
 }

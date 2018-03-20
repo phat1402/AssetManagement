@@ -13,7 +13,7 @@ function drawChart() {
     ]);
 
     var options = {
-        title: ''
+        title: 'My Daily Activities'
     };
 
     var category_chart = new google.visualization.PieChart(document.getElementById('category_pie_chart'));
