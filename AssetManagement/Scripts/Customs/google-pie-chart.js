@@ -1,16 +1,21 @@
-﻿google.charts.load('current', { 'packages': ['corechart'] });
-google.charts.setOnLoadCallback(drawChart);
+﻿var categoryChartData;
+var departmentChartData;
+var vendorChartData;
 $(document).ready(function () {
     $.ajax({
         url: "Home/GetDataForDashboard",
         method: "POST",
+        async: false,
         success: function (response) {
             categoryChartData = response.CategoryDataList;
             departmentChartData = response.DepartmentDataList;
             vendorChartData = response.VendorDataList;
-            drawChart(categoryChartData, departmentChartData, vendorChartData);
         }
-    });
+    }).done(function () {
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawMultipleChart);
+
+        });
 });
 function drawChart(categoryChartData, departmentChartData, vendorChartData) {
 
@@ -55,4 +60,8 @@ function drawChart(categoryChartData, departmentChartData, vendorChartData) {
     category_chart.draw(categoryData, category_options);
     department_chart.draw(departmentData, deparment_options);
     vendor_chart.draw(vendorData, vendor_options);
+}
+
+function drawMultipleChart() {
+    drawChart(categoryChartData, departmentChartData, vendorChartData);
 }
