@@ -1,4 +1,7 @@
-﻿<div class="portlet light ">
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/Customs/create-new-asset.js"></script>
+}
+<div class="portlet light ">
     <div class="portlet-title">
         <div class="caption">
             <span class="caption-subject font-green-haze bold uppercase">Add New Asset</span>
@@ -35,7 +38,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Asset Category</label>
                             <div class="col-md-9">
-                                <select class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                                <select class="choose-category form-control" data-placeholder="Choose a Category" tabindex="1">
                                     <option value="Category 1">Category 1</option>
                                     <option value="Category 2">Category 2</option>
                                     <option value="Category 3">Category 5</option>
@@ -49,12 +52,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Vendor</label>
                             <div class="col-md-9">
-                                <select class="form-control" data-placeholder="Choose a Vendor" tabindex="1">
-                                    <option value="Category 1">Category 1</option>
-                                    <option value="Category 2">Category 2</option>
-                                    <option value="Category 3">Category 5</option>
-                                    <option value="Category 4">Category 4</option>
-                                </select>
+                                <select class="choose-vendor form-control"></select>
                             </div>
                         </div>
                     </div>
@@ -142,12 +140,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Deparment</label>
                             <div class="col-md-9">
-                                <select class="form-control" data-placeholder="Choose a Department" tabindex="1">
-                                    <option value="Category 1">Department 1</option>
-                                    <option value="Category 2">Department 2</option>
-                                    <option value="Category 3">Department 5</option>
-                                    <option value="Category 4">Department 4</option>
-                                </select>
+                                <select class="choose-department form-control"></select>
                             </div>
                         </div>
                     </div>

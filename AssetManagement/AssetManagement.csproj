@@ -150,6 +150,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DataSourceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\AssetManagementContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,6 +184,7 @@
     <Compile Include="Models\Dashboard\DataList.cs" />
     <Compile Include="Models\Dashboard\DepartmentDetail.cs" />
     <Compile Include="Models\Dashboard\VendorDetail.cs" />
+    <Compile Include="Models\DataSource\Select2DataModel.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -243,6 +245,8 @@
     <Content Include="Content\layout-rtl.min.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\plugins-rtl.min.css" />
+    <Content Include="Content\select2-bootstrap.min.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="Content\simple-line-icons.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -283,6 +287,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\clockface.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
+    <Content Include="Scripts\Customs\create-new-asset.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
@@ -320,6 +325,7 @@
     <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -338,6 +344,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\DataSource\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
