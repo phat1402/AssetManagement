@@ -1,4 +1,5 @@
 ﻿using AssetManagement.Models;
+using AssetManagement.Models.Common;
 using AssetManagement.Models.Dashboard;
 using AssetManagement.Models.ViewModel;
 using System;
@@ -82,6 +83,50 @@ namespace AssetManagement.Controllers
         {
             return View("~/Views/Asset/CreatingNewAsset.cshtml");
         }
-
+        [HttpPost]
+        public ActionResult CreateNewAsset(CreatNewAssetViewModel model)
+        {
+            try
+            {
+                int numberOfAsset = model.PurchaseAmount;
+                List<Asset> assetList = new List<Asset>();
+                for (int i = 0; i < numberOfAsset; i++)
+                {
+                    Asset asset = new Asset
+                    {
+                        Name = model.AssetName,
+                        Description = model.AssetDescription,
+                        PurchaseDate = model.PurchaseDate,
+                        SubCategoryId = model.AssetSubCategoryId,
+                        VendorId = model.VendorId,
+                        LocationId = model.LocationId,
+                        DepartmentId = model.DepartmentId,
+                        UnitPrice = model.UnitOfPrice
+                    };
+                    assetList.Add(asset);
+                }
+                Db.Assets.AddRange(assetList);
+                Db.SaveChanges();
+                return Json("Success");
+            }
+            catch(Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+        
+        public ActionResult ViewAssetList()
+        {
+            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            {
+                ID = x.ID,
+                Name = x.Name,
+                Tag = x.Tag,
+                SubCategory = x.SubCategory.Name,
+                Category = x.SubCategory.Category.Name,
+                StatusID = x.StatusId.Value 
+            }).ToList();
+            return View("~/Views/Asset/AssetList.cshtml", assetList);
+        }
     }
 }

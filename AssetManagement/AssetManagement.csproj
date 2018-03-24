@@ -180,11 +180,13 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\EnumList.cs" />
     <Compile Include="Models\Dashboard\CategoryDetail.cs" />
     <Compile Include="Models\Dashboard\DataList.cs" />
     <Compile Include="Models\Dashboard\DepartmentDetail.cs" />
     <Compile Include="Models\Dashboard\VendorDetail.cs" />
     <Compile Include="Models\DataSource\Select2DataModel.cs" />
+    <Compile Include="Models\DataSource\Select2GroupDataModel.cs" />
     <Compile Include="Models\Department.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -203,6 +205,8 @@
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
+    <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -237,6 +241,8 @@
     <Content Include="Content\clockface.css" />
     <Content Include="Content\components-rtl.min.css" />
     <Content Include="Content\custom-rtl.min.css" />
+    <Content Include="Content\datatables.bootstrap-rtl.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.min.css" />
     <Content Include="Content\default-rtl.min.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -288,8 +294,13 @@
     <Content Include="Scripts\clockface.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
     <Content Include="Scripts\Customs\create-new-asset.js" />
+    <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\datatable.js" />
+    <Content Include="Scripts\DataTable\datatables.bootstrap.js" />
+    <Content Include="Scripts\DataTable\datatables.min.js" />
+    <Content Include="Scripts\DataTable\table-datatables-colreorder.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
@@ -341,6 +352,7 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Asset\CreatingNewAsset.cshtml" />
+    <Content Include="Views\Asset\AssetList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,6 +32,7 @@ namespace AssetManagement.Models
         public Nullable<int> CreateById { get; set; }
         public Nullable<int> UsedById { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
+        public string Tag { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -21,6 +21,7 @@
           <Property Name="CreateById" Type="int" />
           <Property Name="UsedById" Type="int" />
           <Property Name="UnitPrice" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="Tag" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -288,6 +289,7 @@
           <NavigationProperty Name="SubCategory" Relationship="Self.FK_Asset_SubCategory" FromRole="Asset" ToRole="SubCategory" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK_Asset_Vendor" FromRole="Asset" ToRole="Vendor" />
           <Property Name="UnitPrice" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="Tag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -548,6 +550,7 @@
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="AssetManagementModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="Tag" ColumnName="Tag" />
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
