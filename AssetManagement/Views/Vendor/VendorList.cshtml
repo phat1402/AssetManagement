@@ -1,0 +1,41 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+}
+@model IEnumerable<AssetManagement.Models.ViewModel.VendorListViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green-haze bold uppercase">Vendor List</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th> ID </th>
+                            <th> Name </th>
+                            <th> Email </th>
+                            <th> Telephone No </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var vendor in Model)
+                        {
+                            <tr>
+                                <td> @vendor.ID </td>
+                                <td> @vendor.Name </td>
+                                <td> @vendor.Email </td>
+                                <td> @vendor.PhoneNo </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

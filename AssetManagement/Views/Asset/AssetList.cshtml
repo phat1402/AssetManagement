@@ -1,17 +1,15 @@
 ﻿@section scripts {
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
-    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/DataTable/table-datatables-colreorder.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
 }
 @model IEnumerable<AssetManagement.Models.ViewModel.AssetListViewModel>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
             <div class="portlet-title">
-                <div class="caption font-dark">
-                    <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase">Asset List</span>
+                <div class="caption">
+                    <span class="caption-subject font-green-haze bold uppercase">Asset List</span>
                 </div>
                 <div class="tools"> </div>
             </div>
@@ -29,7 +27,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var asset in Model)
+                        @foreach (var asset in Model)
                         {
                             <tr>
                                 <td> @asset.ID </td>
@@ -37,7 +35,16 @@
                                 <td> @asset.Tag </td>
                                 <td> @asset.SubCategory </td>
                                 <td> @asset.Category </td>
-                                <td> @asset.StatusID </td>
+                                <td>
+                                    @if (asset.StatusID == 1)
+                                    {
+                                        <span class="label label-sm label-success"> Active </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-sm label-danger"> Disposal </span>
+                                    }
+                                </td>
                                 <td></td>
                             </tr>
                         }

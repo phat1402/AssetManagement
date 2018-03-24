@@ -208,6 +208,7 @@
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
+    <Compile Include="Models\ViewModel\VendorListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -228,9 +229,12 @@
     <Content Include="Asset\img\logo-default.jpg" />
     <Content Include="Asset\img\menu-toggler.png" />
     <Content Include="Asset\img\rss.png" />
+    <Content Include="Asset\img\sort_asc.png" />
+    <Content Include="Asset\img\sort_both.png" />
     <Content Include="Asset\img\twitter.png" />
     <Content Include="Asset\img\vimeo.png" />
     <Content Include="Asset\img\youtube.png" />
+    <Content Include="Asset\img\sort_desc.png" />
     <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-rtl.min.css" />
@@ -353,6 +357,8 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Asset\CreatingNewAsset.cshtml" />
     <Content Include="Views\Asset\AssetList.cshtml" />
+    <Content Include="Views\Vendor\VendorList.cshtml" />
+    <Content Include="Views\Vendor\CreateNewVendor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,6 +13,7 @@ namespace AssetManagement.Controllers
     public class HomeController : Controller
     {
         AssetManagementEntities Db = new AssetManagementEntities();
+
         public ActionResult Index()
         {        
             int numberOfAsset =  Db.Assets.Count();
@@ -79,10 +80,12 @@ namespace AssetManagement.Controllers
 
             return Json(dataList);
         }
+
         public ActionResult CreatNewAsset()
         {
             return View("~/Views/Asset/CreatingNewAsset.cshtml");
         }
+
         [HttpPost]
         public ActionResult CreateNewAsset(CreatNewAssetViewModel model)
         {
@@ -127,6 +130,38 @@ namespace AssetManagement.Controllers
                 StatusID = x.StatusId.Value 
             }).ToList();
             return View("~/Views/Asset/AssetList.cshtml", assetList);
+        }
+
+        public ActionResult ViewVendorList()
+        {
+            var vendorList = Db.Vendors.Select(x => new VendorListViewModel
+            {
+                ID = x.ID,
+                Name = x.Name,
+                Email = x.Email,
+                PhoneNo = x.TelephoneNo
+            }).ToList();
+            return View("~/Views/Vendor/VendorList.cshtml", vendorList);
+        }
+
+        public ActionResult CreateNewVendor()
+        {
+            return View("~/Views/Vendor/CreateNewVendor.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult CreateNewVendor(Vendor vendor)
+        {
+            try
+            {
+                Db.Vendors.Add(vendor);
+                Db.SaveChanges();
+                return Json("Success");
+            }
+            catch(Exception e)
+            {
+                return Json(e.Message);
+            }
         }
     }
 }
