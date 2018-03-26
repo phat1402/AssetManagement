@@ -1,0 +1,56 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/category-datatables-editable.js"></script>
+}
+@model IEnumerable<AssetManagement.Models.ViewModel.CategoryListViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green-haze bold uppercase">Category List</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button id="category-list-table_new" class="btn green">
+                                    Add New
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover table-bordered" id="category-list-table">
+                    <thead>
+                        <tr>
+                            <th> Category ID </th>
+                            <th> Category Name </th>
+                            <th> Edit  </th>
+                            <th> Delete </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach( var category in Model)
+                        {
+                            <tr data-id="@category.ID" class="categoryId">
+                                <td><a href="@Url.Action("ViewSubCategoryList","Home",new { id = category.ID})">@category.ID</a></td>
+                                <td>@category.Name</td>
+                                <td><a class="edit" href="javascript:;"> Edit </a></td>
+                                <td><a class="delete" href="javascript:;"> Delete </a></td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

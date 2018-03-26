@@ -206,8 +206,10 @@
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
+    <Compile Include="Models\ViewModel\CategoryListViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
+    <Compile Include="Models\ViewModel\SubCategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\VendorListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -301,10 +303,12 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\subcategory-datatables-editable.js" />
     <Content Include="Scripts\DataTable\datatable.js" />
     <Content Include="Scripts\DataTable\datatables.bootstrap.js" />
     <Content Include="Scripts\DataTable\datatables.min.js" />
     <Content Include="Scripts\DataTable\table-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\category-datatables-editable.js" />
     <Content Include="Scripts\daterangepicker.min.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
@@ -359,6 +363,8 @@
     <Content Include="Views\Asset\AssetList.cshtml" />
     <Content Include="Views\Vendor\VendorList.cshtml" />
     <Content Include="Views\Vendor\CreateNewVendor.cshtml" />
+    <Content Include="Views\CategoryAndSub\CategoryList.cshtml" />
+    <Content Include="Views\CategoryAndSub\SubCategoryList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

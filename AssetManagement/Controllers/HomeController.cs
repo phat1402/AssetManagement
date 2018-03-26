@@ -15,8 +15,8 @@ namespace AssetManagement.Controllers
         AssetManagementEntities Db = new AssetManagementEntities();
 
         public ActionResult Index()
-        {        
-            int numberOfAsset =  Db.Assets.Count();
+        {
+            int numberOfAsset = Db.Assets.Count();
             var assetUnitPriceList = Db.Assets.Select(a => a.UnitPrice).ToList();
             decimal assetTotalValue = assetUnitPriceList.Sum(value => value).Value;
             DashboardViewModel model = new DashboardViewModel()
@@ -64,8 +64,8 @@ namespace AssetManagement.Controllers
                                               v => v.ID,
                                               (a, v) => new { a.ID, v.Name })
                                          .GroupBy(x => x.Name)
-                                         .Select(item => 
-                                                      new VendorDetail                                                   
+                                         .Select(item =>
+                                                      new VendorDetail
                                                       {
                                                           VendorName = item.Key,
                                                           VendorCount = item.Count()
@@ -112,12 +112,12 @@ namespace AssetManagement.Controllers
                 Db.SaveChanges();
                 return Json("Success");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return Json(e.Message);
             }
         }
-        
+
         public ActionResult ViewAssetList()
         {
             var assetList = Db.Assets.Select(x => new AssetListViewModel
@@ -127,7 +127,7 @@ namespace AssetManagement.Controllers
                 Tag = x.Tag,
                 SubCategory = x.SubCategory.Name,
                 Category = x.SubCategory.Category.Name,
-                StatusID = x.StatusId.Value 
+                StatusID = x.StatusId.Value
             }).ToList();
             return View("~/Views/Asset/AssetList.cshtml", assetList);
         }
@@ -158,7 +158,177 @@ namespace AssetManagement.Controllers
                 Db.SaveChanges();
                 return Json("Success");
             }
-            catch(Exception e)
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public ActionResult ViewCategoryList()
+        {
+            var categoryList = Db.Categories.Select(x => new CategoryListViewModel
+            {
+                ID = x.ID,
+                Name = x.Name
+            }).ToList();
+            return View("~/Views/CategoryAndSub/CategoryList.cshtml", categoryList);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrUpdateCategory(Category model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var category = Db.Categories.Find(model.ID);
+                    if (category != null)
+                    {
+                        category.Name = model.Name;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = category.ID,
+                                Name = category.Name
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newCategory = new Category();
+                    newCategory.Name = model.Name;
+                    Db.Categories.Add(newCategory);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully",
+                            ID = newCategory.ID,
+                            Name = newCategory.Name
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!",
+                            ID = newCategory.ID,
+                            Name = newCategory.Name
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        public ActionResult ViewSubCategoryList(int id)
+        {
+            var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == id).Select(x => new SubCategoryViewModel
+            {
+                ID = x.ID,
+                Name = x.Name,
+                CategoryId = x.CategoryId.Value
+            }).ToList();
+
+            return View("~/Views/CategoryAndSub/SubCategoryList.cshtml", subCategoryList);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrUpdateSubCategory(SubCategory model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var subcategory = Db.SubCategories.Find(model.ID);
+                    if (subcategory != null)
+                    {
+                        subcategory.Name = model.Name;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = subcategory.ID,
+                                Name = subcategory.Name
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newSubCategory = new SubCategory();
+                    newSubCategory.Name = model.Name;
+                    Db.SubCategories.Add(newSubCategory);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully",
+                            ID = newSubCategory.ID,
+                            Name = newSubCategory.Name
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!",
+                            ID = newSubCategory.ID,
+                            Name = newSubCategory.Name
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
             {
                 return Json(e.Message);
             }
