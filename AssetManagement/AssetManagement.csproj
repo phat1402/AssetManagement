@@ -303,6 +303,7 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\vendor-datatables-editable.js" />
     <Content Include="Scripts\DataTable\subcategory-datatables-editable.js" />
     <Content Include="Scripts\DataTable\datatable.js" />
     <Content Include="Scripts\DataTable\datatables.bootstrap.js" />

@@ -150,13 +150,86 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNewVendor(Vendor vendor)
+        public ActionResult CreateOrUpdateVendor(Vendor model)
         {
             try
             {
-                Db.Vendors.Add(vendor);
-                Db.SaveChanges();
-                return Json("Success");
+                if (model.ID != 0)
+                {
+                    var vendor = Db.Vendors.Find(model.ID);
+                    if (vendor != null)
+                    {
+                        vendor.Name = model.Name;
+                        vendor.Email = model.Email;
+                        vendor.TelephoneNo = model.TelephoneNo;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = vendor.ID,
+                                Name = vendor.Name,
+                                Email = vendor.Email,
+                                TelephoneNo = vendor.TelephoneNo
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = "",
+                                Email = "",
+                                TelephoneNo = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = "",
+                        Email = "",
+                        TelephoneNo = ""
+                    });
+                }
+                else
+                {
+                    var newVendor = new Vendor();
+                    newVendor.Name = model.Name;
+                    newVendor.Email = model.Email;
+                    newVendor.TelephoneNo = model.TelephoneNo;
+                    Db.Vendors.Add(newVendor);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully",
+                            ID = newVendor.ID,
+                            Name = newVendor.Name,
+                            Email = newVendor.Email,
+                            TelephoneNo = newVendor.TelephoneNo
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!",
+                            ID = 0,
+                            Name = "",
+                            Email = "",
+                            TelephoneNo = ""
+                        });
+                    }
+                }
+
             }
             catch (Exception e)
             {
