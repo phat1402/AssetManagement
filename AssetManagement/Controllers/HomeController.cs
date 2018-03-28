@@ -377,6 +377,7 @@ namespace AssetManagement.Controllers
                 {
                     var newSubCategory = new SubCategory();
                     newSubCategory.Name = model.Name;
+                    newSubCategory.CategoryId = model.CategoryId;
                     Db.SubCategories.Add(newSubCategory);
                     if (Db.SaveChanges() > 0)
                     {
@@ -405,6 +406,47 @@ namespace AssetManagement.Controllers
             {
                 return Json(e.Message);
             }
+        }
+
+        public ActionResult ViewAssetFromVendor(int vendorId)
+        {
+            var vendorName = Db.Vendors.Where(x => x.ID == vendorId).Select(x => x.Name).FirstOrDefault();
+            var assetList = Db.Assets.Where(x => x.VendorId == vendorId)
+                              .Select(x => new AssetListViewModel
+                              {
+                                  ID = x.ID,
+                                  Name = x.Name,
+                                  SubCategory = x.SubCategory.Name,
+                                  Category = x.SubCategory.Category.Name,
+                                  StatusID = x.StatusId ?? 0
+                              }).ToList();
+            AssetFromVendorViewModel viewModel = new AssetFromVendorViewModel {
+                VendorName = vendorName,
+                AssetList = assetList
+            };
+            return View("~/Views/Vendor/AssetFromVendorList.cshtml", viewModel);
+        }
+
+        public ActionResult ViewAssetTransfer()
+        {
+            return View("~/Views/Asset/AssetTransfer.cshtml");
+        }
+
+        public ActionResult ViewAssetCheckIn()
+        {
+            return View("~/Views/Asset/AssetCheckIn.cshtml");
+        }
+
+
+
+        public ActionResult ViewAssetCheckOut()
+        {
+            return View("~/Views/Asset/AssetCheckOut.cshtml");
+        }
+
+        public ActionResult ViewAssetDisposal()
+        {
+            return View("~/Views/Asset/AssetDisposal.cshtml");
         }
     }
 }

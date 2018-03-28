@@ -22,29 +22,40 @@ var TableDatatablesEditable = function () {
         }
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            categoryID = $(nRow).data("id");
-            categoryName = jqInputs[0].value;
+            categoryID = $(nRow).data("categoryid");
+            subCategoryID = $(nRow).data("id");
+            subCategoryName = jqInputs[0].value;
             $.ajax({
                 data: {
-                    ID: categoryID,
-                    Name: categoryName
+                    ID: subCategoryID,
+                    Name: subCategoryName,
+                    CategoryId: categoryID
                 },
                 type: "POST",
                 url: "/Home/CreateOrUpdateSubCategory",
                 success: function (response) {
                     if (response.RequestType == "Update") {
                         alert(response.Message);
-                        oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                        oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                        oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                        oTable.fnDraw();
+                        if (response.Message !== "Update successfully") {
+                            location.reload();
+                        }
+                        else {
+                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
+                            oTable.fnDraw();
+                        }                    
                     }
                     else {
                         alert(response.Message);
-                        oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                        oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                        oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                        oTable.fnDraw();
+                        if (response.Message !== "Create successfully") {
+                            location.reload();
+                        } else {
+                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
+                            oTable.fnDraw();
+                        }
                     }
                 }
             });

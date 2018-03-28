@@ -24,29 +24,48 @@ var TableDatatablesEditable = function () {
         }
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            categoryID = $(nRow).data("id");
-            categoryName = jqInputs[0].value;
+            vendorID = $(nRow).data("id");
+            vendorName = jqInputs[0].value;
+            vendorEmail = jqInputs[1].value;
+            vendorTelephoneNo = jqInputs[2].value;
             $.ajax({
                 data: {
-                    ID: categoryID,
-                    Name: categoryName
+                    ID: vendorID,
+                    Name: vendorName,
+                    Email: vendorEmail,
+                    TelephoneNo: vendorTelephoneNo
                 },
                 type: "POST",
-                url: "/Home/CreateOrUpdateCategory",
+                url: "/Home/CreateOrUpdateVendor",
                 success: function (response) {
                     if (response.RequestType == "Update") {
                         alert(response.Message);
-                        oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                        oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                        oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                        oTable.fnDraw();
+                        if (response.Message !== "Update successfully") {
+                            location.reload();
+                        }
+                        else {
+                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
+                            oTable.fnUpdate(jqInputs[1].value, nRow, 2, false);
+                            oTable.fnUpdate(jqInputs[2].value, nRow, 3, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
+                            oTable.fnDraw();
+                        }
                     }
                     else {
                         alert(response.Message);
-                        oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                        oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                        oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                        oTable.fnDraw();
+                        if (response.Message !== "Create successfully") {
+                            location.reload();
+                        }
+                        else {
+                            oTable.fnUpdate(response.ID, nRow, 0, false);
+                            oTable.fnUpdate(response.Name, nRow, 1, false);
+                            oTable.fnUpdate(response.Email, nRow, 2, false);
+                            oTable.fnUpdate(response.TelephoneNo, nRow, 3, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
+                            oTable.fnDraw();
+                        }
                     }
                 }
             });
@@ -54,9 +73,10 @@ var TableDatatablesEditable = function () {
 
         function cancelEditRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            oTable.fnUpdate(jqInputs[0].value, nRow, 0, false);
-            oTable.fnUpdate(jqInputs[1].value, nRow, 1, false);
-            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
+            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
+            oTable.fnUpdate(jqInputs[1].value, nRow, 2, false);
+            oTable.fnUpdate(jqInputs[2].value, nRow, 3, false);
+            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
             oTable.fnDraw();
         }
 

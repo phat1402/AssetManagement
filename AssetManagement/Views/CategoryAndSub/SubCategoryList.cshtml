@@ -39,7 +39,7 @@
                     <tbody>
                         @foreach (var subcategory in Model)
                         {
-                            <tr data-id="@subcategory.ID" class="categoryId">
+                            <tr data-id="@subcategory.ID" data-categoryid="@subcategory.CategoryId" class="categoryId">
                                 <td>@subcategory.ID</td>
                                 <td>@subcategory.Name</td>
                                 <td><a class="edit" href="javascript:;"> Edit </a></td>

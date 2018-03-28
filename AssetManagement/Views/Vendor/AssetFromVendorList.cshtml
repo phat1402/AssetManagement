@@ -4,13 +4,13 @@
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/asset-datatables-colreorder.js"></script>
 }
-@model IEnumerable<AssetManagement.Models.ViewModel.AssetListViewModel>
+@model AssetManagement.Models.ViewModel.AssetFromVendorViewModel
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green-haze bold uppercase">Asset List</span>
+                    <span class="caption-subject font-green-haze bold uppercase">Asset List From @Model.VendorName</span>
                 </div>
                 <div class="tools"> </div>
             </div>
@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var asset in Model)
+                        @foreach (var asset in Model.AssetList)
                         {
                             <tr>
                                 <td> @asset.ID </td>

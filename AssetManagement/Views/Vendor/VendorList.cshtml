@@ -42,7 +42,7 @@
                         @foreach (var vendor in Model)
                         {
                             <tr data-id="@vendor.ID" class="vendorId">
-                                <td>@vendor.ID</td>
+                                <td><a href="@Url.Action("ViewAssetFromVendor","Home",new { vendorId = vendor.ID })">@vendor.ID</a></td>
                                 <td>@vendor.Name</td>
                                 <td>@vendor.Email</td>
                                 <td>@vendor.PhoneNo</td>

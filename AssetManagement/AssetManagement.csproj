@@ -205,6 +205,7 @@
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryListViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
@@ -303,6 +304,7 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\asset-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\vendor-datatables-editable.js" />
     <Content Include="Scripts\DataTable\subcategory-datatables-editable.js" />
     <Content Include="Scripts\DataTable\datatable.js" />
@@ -363,9 +365,13 @@
     <Content Include="Views\Asset\CreatingNewAsset.cshtml" />
     <Content Include="Views\Asset\AssetList.cshtml" />
     <Content Include="Views\Vendor\VendorList.cshtml" />
-    <Content Include="Views\Vendor\CreateNewVendor.cshtml" />
+    <Content Include="Views\Vendor\AssetFromVendorList.cshtml" />
     <Content Include="Views\CategoryAndSub\CategoryList.cshtml" />
     <Content Include="Views\CategoryAndSub\SubCategoryList.cshtml" />
+    <Content Include="Views\Asset\AssetTransfer.cshtml" />
+    <Content Include="Views\Asset\AssetCheckIn.cshtml" />
+    <Content Include="Views\Asset\AssetCheckOut.cshtml" />
+    <Content Include="Views\Asset\AssetDisposal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
