@@ -38,6 +38,7 @@
             data: fromEmployee
         }); 
     });
+
     $(".choose-to-employee").select2({
         placeholder: "Input an employee name",
         allowClear: true,

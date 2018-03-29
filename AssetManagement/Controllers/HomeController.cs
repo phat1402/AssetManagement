@@ -497,5 +497,17 @@ namespace AssetManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult CheckInAsset()
+        {
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CheckOutAsset()
+        {
+            return null;
+        }
+
     }
 }

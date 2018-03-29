@@ -214,6 +214,9 @@
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModel\AssetCheckInViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetCheckOutViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetDisposalViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetTransferHistoryViewModel.cs" />
