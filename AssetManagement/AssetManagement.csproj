@@ -159,6 +159,12 @@
     <Compile Include="Models\Asset.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AssetCheckIn.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetCheckOut.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AssetManagement.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -173,6 +179,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssetManagement.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetTransfer.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Asset_Disposal.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
@@ -231,6 +240,16 @@
     <Content Include="Asset\img\linkedin.png" />
     <Content Include="Asset\img\logo-default.jpg" />
     <Content Include="Asset\img\menu-toggler.png" />
+    <Content Include="Asset\img\portlet-collapse-icon-white.png" />
+    <Content Include="Asset\img\portlet-collapse-icon.png" />
+    <Content Include="Asset\img\portlet-config-icon-white.png" />
+    <Content Include="Asset\img\portlet-config-icon.png" />
+    <Content Include="Asset\img\portlet-expand-icon-white.png" />
+    <Content Include="Asset\img\portlet-expand-icon.png" />
+    <Content Include="Asset\img\portlet-reload-icon-white.png" />
+    <Content Include="Asset\img\portlet-reload-icon.png" />
+    <Content Include="Asset\img\portlet-remove-icon-white.png" />
+    <Content Include="Asset\img\portlet-remove-icon.png" />
     <Content Include="Asset\img\rss.png" />
     <Content Include="Asset\img\sort_asc.png" />
     <Content Include="Asset\img\sort_both.png" />

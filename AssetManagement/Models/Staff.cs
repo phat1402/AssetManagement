@@ -20,6 +20,8 @@ namespace AssetManagement.Models
             this.Assets = new HashSet<Asset>();
             this.Assets1 = new HashSet<Asset>();
             this.Asset_Disposal = new HashSet<Asset_Disposal>();
+            this.AssetCheckIns = new HashSet<AssetCheckIn>();
+            this.AssetCheckOuts = new HashSet<AssetCheckOut>();
         }
     
         public int ID { get; set; }
@@ -37,5 +39,9 @@ namespace AssetManagement.Models
         public virtual ICollection<Asset> Assets1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asset_Disposal> Asset_Disposal { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AssetCheckIn> AssetCheckIns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AssetCheckOut> AssetCheckOuts { get; set; }
     }
 }
