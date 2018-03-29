@@ -429,15 +429,27 @@ namespace AssetManagement.Controllers
 
         public ActionResult ViewAssetTransfer()
         {
-            return View("~/Views/Asset/AssetTransfer.cshtml");
+            var transferHistoryList = Db.AssetTransfers.Select(x => new AssetTransferHistoryViewModel {
+                ID = x.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                TransferDate = x.TransferDate.Value,
+                FromEmployee = x.Staff.Firstname + " " + x.Staff.Lastname,
+                ToEmployee = x.Staff1.Firstname + " " + x.Staff1.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID)
+            .ToList();
+            var viewModel = new AssetTransferViewModel
+            {
+                TransferHistoryList = transferHistoryList
+            };
+            return View("~/Views/Asset/AssetTransfer.cshtml", viewModel);
         }
 
         public ActionResult ViewAssetCheckIn()
         {
             return View("~/Views/Asset/AssetCheckIn.cshtml");
         }
-
-
 
         public ActionResult ViewAssetCheckOut()
         {
@@ -448,5 +460,42 @@ namespace AssetManagement.Controllers
         {
             return View("~/Views/Asset/AssetDisposal.cshtml");
         }
+
+        [HttpPost]
+        public ActionResult CreateAssetTransfer( AssetTransferViewModel model) 
+        {
+            var newTransfer = new AssetTransfer()
+            {
+                AssetID = model.AssetID,
+                TransferDate = model.TransferDate,
+                FromEmployeeId = model.FromEmployeeId,
+                ToEmployeeId = model.ToEmployeeId,
+                Note = model.Note
+            };
+            Db.AssetTransfers.Add(newTransfer);
+
+            //Update asset table
+            var asset = Db.Assets.Find(model.AssetID);
+            asset.UsedById = model.ToEmployeeId;
+            
+            if( Db.SaveChanges() > 0)
+            {
+                var transferHistoryList = Db.AssetTransfers.Select(x => new AssetTransferHistoryViewModel
+                {
+                    ID = x.ID,
+                    AssetName = x.Asset.Name,
+                    AssetTag = x.Asset.Tag,
+                    TransferDate = x.TransferDate.Value,
+                    FromEmployee = x.Staff.Firstname + " " + x.Staff.Lastname,
+                    ToEmployee = x.Staff1.Firstname + " " + x.Staff1.Lastname,
+                    Note = x.Note
+                }).OrderByDescending(x => x.ID).ToList();
+                return PartialView("~/Views/Asset/AssetTransferHistory.cshtml", transferHistoryList);
+            }
+            else{
+                return PartialView("~/Views/Error/Page500.cshtml");
+            }
+        }
+
     }
 }

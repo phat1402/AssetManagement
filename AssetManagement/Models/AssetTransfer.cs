@@ -19,8 +19,10 @@ namespace AssetManagement.Models
         public Nullable<int> FromEmployeeId { get; set; }
         public Nullable<int> ToEmployeeId { get; set; }
         public string Note { get; set; }
+        public Nullable<int> AssetID { get; set; }
     
         public virtual Asset Asset { get; set; }
-        public virtual Asset Asset1 { get; set; }
+        public virtual Staff Staff { get; set; }
+        public virtual Staff Staff1 { get; set; }
     }
 }

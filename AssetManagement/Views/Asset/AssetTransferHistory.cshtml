@@ -1,0 +1,42 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/transfer-datatables-colreorder.js"></script>
+}
+@model IEnumerable<AssetManagement.Models.ViewModel.AssetTransferHistoryViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover" id="transfer_table">
+                    <thead>
+                        <tr>
+                            <th> ID </th>
+                            <th> Asset Tag </th>
+                            <th> Asset Name </th>
+                            <th> Transfer Date </th>
+                            <th> From Employee </th>
+                            <th> To Employee </th>
+                            <th> Note </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transfer in Model)
+                        {
+                            <tr>
+                                <td> @transfer.ID </td>
+                                <td> @transfer.AssetTag</td>
+                                <td> @transfer.AssetName</td>
+                                <td> @transfer.TransferDate</td>
+                                <td> @transfer.FromEmployee</td>
+                                <td> @transfer.ToEmployee </td>
+                                <td> @transfer.Note </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

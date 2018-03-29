@@ -1,4 +1,13 @@
-﻿<div class="row">
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/Customs/create-asset-transfer.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/asset-transfer-handle.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/transfer-datatables-colreorder.js"></script>
+}
+@model AssetManagement.Models.ViewModel.AssetTransferViewModel
+<div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
             <div class="portlet-title">
@@ -13,24 +22,92 @@
                         <div class="caption">
                             <i class="fa fa-edit"></i> Asset Transfer Infor
                         </div>
-                        <div class="tools">
-                            <a href="javascript:;" class="collapse"> </a>
-                            <a href="#portlet-config" data-toggle="modal" class="config"> </a>
-                            <a href="javascript:;" class="reload"> </a>
-                            <a href="" class="fullscreen"> </a>
-                            <a href="javascript:;" class="remove"> </a>
-                        </div>
                     </div>
                     <div class="portlet-body">
-                        <p>
-                            <strong>Scroll is hidden</strong>
-                            <br /> Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat
-                            porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec
-                            elit. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
-                            fermentum.
-                        </p>
+                        @using (Ajax.BeginForm("CreateAssetTransfer", "Home", new AjaxOptions{ HttpMethod = "POST", OnSuccess = "OnCreateTransferSuccess", OnFailure = "OnCreateTransferFailure"}, new { @id = "assetTransferForm", @class = "form-horizontal", role = "form" }))
+                        {
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Asset Name</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(x => x.AssetID, Enumerable.Empty<SelectListItem>(), new { @class = "choose-asset form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Transfer Date</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(x => x.TransferDate, new { @class = "form-control date-picker" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">From Employee </label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(x => x.FromEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-from-employee form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">To Employee</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(x => x.ToEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-to-employee form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Note </label>
+                                            <div class="col-md-9">
+                                                @Html.TextAreaFor(x => x.Note, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn green-haze">Submit</button>
+                                                <button type="button" class="btn default">Clear All</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"> </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
+
+                <div class="portlet box green-haze">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-list"></i> Asset Transfer History
+                        </div>
+                    </div>
+                    <div class="portlet-body" id="transferHistoryTable">
+                        @Html.Partial("~/Views/Asset/AssetTransferHistory.cshtml", Model.TransferHistoryList)
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

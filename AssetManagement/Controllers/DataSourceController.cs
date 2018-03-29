@@ -85,5 +85,58 @@ namespace AssetManagement.Controllers
             }
             return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetAssetList(string query)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
+            {
+                dataList = Db.Assets.Where(v => v.Name.Contains(query.ToLower()) ||
+                                                v.Tag.Contains(query.ToLower()))
+                                     .Select(v => new Select2DataModel
+                                     {
+                                         id = v.ID,
+                                         text = "Asset Tag: " + v.Tag + " - Name: " + v.Name
+                                     })
+                                     .ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetEmployeeList(string query)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
+            {
+                dataList = Db.Staffs.Where(v => (v.Firstname + " "  + v.Lastname).Contains(query.ToLower()))
+                                     .Select(v => new Select2DataModel
+                                     {
+                                         id = v.ID,
+                                         text = v.Firstname + " " + v.Lastname
+                                     })
+                                     .ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetSourceEmployee(int assetID)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (assetID > 0)
+            {
+                dataList = Db.Assets.Join(Db.Staffs,
+                                          asset => asset.UsedById,
+                                          staff => staff.ID,
+                                          (asset, staff) => new { asset, staff })
+                                     .Where(x => x.asset.ID == assetID)
+                                     .Select(x => new Select2DataModel
+                                     {
+                                         id = x.staff.ID,
+                                         text = x.staff.Firstname + " " + x.staff.Lastname
+                                     })
+                                     .ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

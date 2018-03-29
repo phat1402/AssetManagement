@@ -216,6 +216,8 @@
     </Compile>
     <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetTransferHistoryViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetTransferViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryListViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
@@ -271,6 +273,7 @@
     <Content Include="Content\datatables.min.css" />
     <Content Include="Content\daterangepicker.min.css" />
     <Content Include="Content\default-rtl.min.css" />
+    <Content Include="Content\error-rtl.min.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\jqvmap.css" />
@@ -294,6 +297,7 @@
       <DependentUpon>AssetManagement.edmx</DependentUpon>
       <LastGenOutput>AssetManagement.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -319,10 +323,13 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\clockface.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
+    <Content Include="Scripts\Customs\asset-transfer-handle.js" />
+    <Content Include="Scripts\Customs\create-asset-transfer.js" />
     <Content Include="Scripts\Customs\create-new-asset.js" />
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\transfer-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\vendor-datatables-editable.js" />
     <Content Include="Scripts\DataTable\subcategory-datatables-editable.js" />
@@ -344,6 +351,8 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.slimscroll.min.js" />
     <Content Include="Scripts\jquery.sparkline.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -391,6 +400,8 @@
     <Content Include="Views\Asset\AssetCheckIn.cshtml" />
     <Content Include="Views\Asset\AssetCheckOut.cshtml" />
     <Content Include="Views\Asset\AssetDisposal.cshtml" />
+    <Content Include="Views\Asset\AssetTransferHistory.cshtml" />
+    <Content Include="Views\Error\Page500.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
