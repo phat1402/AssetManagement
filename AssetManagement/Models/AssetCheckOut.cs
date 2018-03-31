@@ -18,6 +18,7 @@ namespace AssetManagement.Models
         public Nullable<System.DateTime> CheckOutDate { get; set; }
         public Nullable<int> WhoTake { get; set; }
         public Nullable<int> AssetId { get; set; }
+        public string Note { get; set; }
     
         public virtual Asset Asset { get; set; }
         public virtual Staff Staff { get; set; }

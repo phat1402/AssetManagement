@@ -1,12 +1,12 @@
 ﻿@section scripts {
-    <script type="text/javascript" src="~/Scripts/Customs/create-asset-transfer.js"></script>
-    <script type="text/javascript" src="~/Scripts/Customs/asset-transfer-handle.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/check-in-asset.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/asset-checkin-handle.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
-    <script type="text/javascript" src="~/Scripts/DataTable/transfer-datatables-colreorder.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/check-in-datatables-colreorder.js"></script>
 }
-@model AssetManagement.Models.ViewModel.AssetTransferViewModel
+@model AssetManagement.Models.ViewModel.AssetCheckInViewModel
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="portlet-body">
-                        @using (Ajax.BeginForm("CheckInAsset", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnCreateTransferSuccess", OnFailure = "OnCreateTransferFailure" }, new { @id = "assetTransferForm", @class = "form-horizontal", role = "form" }))
+                        @using (Ajax.BeginForm("CheckInAsset", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "assetCheckInForm", @class = "form-horizontal", role = "form" }))
                         {
                             <div class="form-body">
                                 <div class="row">
@@ -39,9 +39,9 @@
                                     <!--/span-->
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label col-md-3">Transfer Date</label>
+                                            <label class="control-label col-md-3">Check-in Date</label>
                                             <div class="col-md-9">
-                                                @Html.TextBoxFor(x => x.TransferDate, new { @class = "form-control date-picker" })
+                                                @Html.TextBoxFor(x => x.CheckInDate, new { @class = "form-control date-picker" })
                                             </div>
                                         </div>
                                     </div>
@@ -52,32 +52,22 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="control-label col-md-3">From Employee </label>
+                                            <label class="control-label col-md-3">Assign To </label>
                                             <div class="col-md-9">
-                                                @Html.DropDownListFor(x => x.FromEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-from-employee form-control" })
+                                                @Html.DropDownListFor(x => x.StaffID, Enumerable.Empty<SelectListItem>(), new { @class = "choose-assigned-staff form-control" })
                                             </div>
                                         </div>
                                     </div>
                                     <!--/span-->
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">To Employee</label>
-                                            <div class="col-md-9">
-                                                @Html.DropDownListFor(x => x.ToEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-to-employee form-control" })
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3">Note </label>
+                                                <div class="col-md-9">
+                                                    @Html.TextAreaFor(x => x.Note, new { @class = "form-control" })
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                     <!--/span-->
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="control-label col-md-3">Note </label>
-                                            <div class="col-md-9">
-                                                @Html.TextAreaFor(x => x.Note, new { @class = "form-control" })
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -85,7 +75,7 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md-offset-3 col-md-9">
-                                                <button type="submit" class="btn green">Submit</button>
+                                                <button type="submit" class="btn green">Check-in</button>
                                                 <button type="button" class="btn default">Clear All</button>
                                             </div>
                                         </div>
@@ -100,11 +90,11 @@
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="fa fa-list"></i> Asset Transfer History
+                            <i class="fa fa-list"></i> Asset Check-in History
                         </div>
                     </div>
-                    <div class="portlet-body" id="transferHistoryTable">
-                        @Html.Partial("~/Views/Asset/AssetTransferHistory.cshtml", Model.TransferHistoryList)
+                    <div class="portlet-body" id="checkInHistoryTable">
+                        @Html.Partial("~/Views/Asset/AssetCheckInHistory.cshtml", Model.LastCheckIn)
                     </div>
                 </div>
 

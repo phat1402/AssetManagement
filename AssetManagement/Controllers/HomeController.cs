@@ -448,12 +448,40 @@ namespace AssetManagement.Controllers
 
         public ActionResult ViewAssetCheckIn()
         {
-            return View("~/Views/Asset/AssetCheckIn.cshtml");
+            var lastCheckIn = Db.AssetCheckIns.Select(x => new LastAssetCheckInViewModel
+            {
+                ID = x.ID,
+                AssetID = x.Asset.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                CheckInDate = x.CheckInDate.Value,
+                AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID).ToList();
+            var viewModel = new AssetCheckInViewModel {
+                LastCheckIn = lastCheckIn
+            };
+
+            return View("~/Views/Asset/AssetCheckIn.cshtml", viewModel);
         }
 
         public ActionResult ViewAssetCheckOut()
         {
-            return View("~/Views/Asset/AssetCheckOut.cshtml");
+            var lastCheckOut = Db.AssetCheckOuts.Select(x => new LastAssetCheckOutViewModel
+            {
+                ID = x.ID,
+                AssetID = x.Asset.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                CheckOutDate = x.CheckOutDate.Value,
+                AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID).ToList();
+            var viewModel = new AssetCheckOutViewModel
+            {
+                LastCheckOut = lastCheckOut
+            };
+            return View("~/Views/Asset/AssetCheckOut.cshtml", viewModel);
         }
 
         public ActionResult ViewAssetDisposal()
@@ -498,15 +526,65 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckInAsset()
+        public ActionResult CheckInAsset(AssetCheckInViewModel model)
         {
-            return null;
+            var newCheckIn = new AssetCheckIn
+            {
+                AssetId = model.AssetID,
+                AssignedTo = model.StaffID,
+                Note = model.Note,
+                CheckInDate = model.CheckInDate
+            };
+            Db.AssetCheckIns.Add(newCheckIn);
+            if( Db.SaveChanges() > 0)
+            {
+                var lastCheckIn = Db.AssetCheckIns.Select(x => new LastAssetCheckInViewModel
+                {
+                    ID = x.ID,
+                    AssetID = x.Asset.ID,
+                    AssetName = x.Asset.Name,
+                    AssetTag = x.Asset.Tag,
+                    CheckInDate = x.CheckInDate.Value,
+                    AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                    Note = x.Note
+                }).OrderByDescending(x => x.ID).ToList();
+                return PartialView("~/Views/Asset/AssetCheckInHistory.cshtml", lastCheckIn);
+            }
+            else
+            {
+                return PartialView("~/Views/Error/Page500.cshtml");
+            }
         }
 
         [HttpPost]
-        public ActionResult CheckOutAsset()
+        public ActionResult CheckOutAsset(AssetCheckOutViewModel model)
         {
-            return null;
+            var newCheckOut = new AssetCheckOut
+            {
+                AssetId = model.AssetID,
+                WhoTake = model.StaffID,
+                Note = model.Note,
+                CheckOutDate = model.CheckOutDate
+            };
+            Db.AssetCheckOuts.Add(newCheckOut);
+            if (Db.SaveChanges() > 0)
+            {
+                var lastCheckOut = Db.AssetCheckOuts.Select(x => new LastAssetCheckOutViewModel
+                {
+                    ID = x.ID,
+                    AssetID = x.Asset.ID,
+                    AssetName = x.Asset.Name,
+                    AssetTag = x.Asset.Tag,
+                    CheckOutDate = x.CheckOutDate.Value,
+                    AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                    Note = x.Note
+                }).OrderByDescending(x => x.ID).ToList();
+                return PartialView("~/Views/Asset/AssetCheckOutHistory.cshtml", lastCheckOut);
+            }
+            else
+            {
+                return PartialView("~/Views/Error/Page500.cshtml");
+            }
         }
 
     }

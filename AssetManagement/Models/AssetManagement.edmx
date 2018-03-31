@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Asset">
           <Key>
             <PropertyRef Name="ID" />
@@ -51,6 +51,7 @@
           <Property Name="CheckOutDate" Type="date" />
           <Property Name="WhoTake" Type="int" />
           <Property Name="AssetId" Type="int" />
+          <Property Name="Note" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="AssetTransfer">
           <Key>
@@ -407,8 +408,7 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AssetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -474,6 +474,7 @@
           <Property Name="AssetId" Type="Int32" />
           <NavigationProperty Name="Asset" Relationship="Self.FK_AssetCheckOut_Asset" FromRole="AssetCheckOut" ToRole="Asset" />
           <NavigationProperty Name="Staff" Relationship="Self.FK_AssetCheckOut_Staff" FromRole="AssetCheckOut" ToRole="Staff" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="AssetTransfer">
           <Key>
@@ -896,6 +897,7 @@
           <EntitySetMapping Name="AssetCheckOuts">
             <EntityTypeMapping TypeName="AssetManagementModel.AssetCheckOut">
               <MappingFragment StoreEntitySet="AssetCheckOut">
+                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
                 <ScalarProperty Name="WhoTake" ColumnName="WhoTake" />
