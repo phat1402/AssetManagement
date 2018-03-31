@@ -1,1 +1,104 @@
-﻿<h1> Asset Disposal </h1>
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/Customs/dispose-asset.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/asset-disposal-handle.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/disposal-datatables-colreorder.js"></script>
+}
+@model AssetManagement.Models.ViewModel.AssetDisposalViewModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">Asset Disposal</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-edit"></i> Disposal Infor
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        @using (Ajax.BeginForm("DisposeAsset", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "assetDisposalForm", @class = "form-horizontal", role = "form" }))
+                        {
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Asset Name</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(x => x.AssetID, Enumerable.Empty<SelectListItem>(), new { @class = "choose-asset form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Disposal Date</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(x => x.DisposalDate, new { @class = "form-control date-picker" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                                <!--/row-->
+                                <!--/row-->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Disposed By </label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(x => x.DisposedBy, Enumerable.Empty<SelectListItem>(), new { @class = "choose-assigned-staff form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Comment </label>
+                                            <div class="col-md-9">
+                                                @Html.TextAreaFor(x => x.Comment, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn green">Dispose</button>
+                                                <button type="button" class="btn default">Clear All</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"> </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-list"></i> Asset Disposal History
+                        </div>
+                    </div>
+                    <div class="portlet-body" id="disposalHistoryTable">
+                        @Html.Partial("~/Views/Asset/AssetDisposalHistory.cshtml", Model.DisposalHistory)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

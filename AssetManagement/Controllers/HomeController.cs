@@ -486,7 +486,22 @@ namespace AssetManagement.Controllers
 
         public ActionResult ViewAssetDisposal()
         {
-            return View("~/Views/Asset/AssetDisposal.cshtml");
+            var disposalList = Db.Asset_Disposal.Select(x => new AssetDisposalItem
+            {
+                ID = x.ID,
+                AssetID = x.AssetId.Value,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                DisposalDate = x.DisposalDate.Value,
+                DiposedBy = x.Staff.Firstname + " " + x.Staff.Lastname,
+                Comment = x.Comment
+            }).OrderByDescending(x => x.ID).ToList();
+
+            var viewModel = new AssetDisposalViewModel
+            {
+                DisposalHistory = disposalList
+            };
+            return View("~/Views/Asset/AssetDisposal.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -587,5 +602,40 @@ namespace AssetManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult DisposeAsset(AssetDisposalViewModel model)
+        {
+            var newDisposal = new Asset_Disposal()
+            {
+                AssetId = model.AssetID,
+                Comment = model.Comment,
+                DiposeById = model.DisposedBy,
+                DisposalDate = model.DisposalDate
+            };
+
+            Db.Asset_Disposal.Add(newDisposal);
+
+            var asset = Db.Assets.Find(model.AssetID);
+            asset.StatusId = (int) EnumList.AssetStatus.Disposal;
+
+            if( Db.SaveChanges() > 0)
+            {
+                var disposalList = Db.Asset_Disposal.Select(x => new AssetDisposalItem
+                {
+                    ID = x.ID,
+                    AssetID = x.AssetId.Value,
+                    AssetName = x.Asset.Name,
+                    AssetTag = x.Asset.Tag,
+                    DisposalDate = x.DisposalDate.Value,
+                    DiposedBy = x.Staff.Firstname + " " + x.Staff.Lastname,
+                    Comment = x.Comment
+                }).OrderByDescending(x => x.ID).ToList();
+                return PartialView("~/Views/Asset/AssetDisposalHistory.cshtml", disposalList);
+            }
+            else
+            {
+                return PartialView("~/Views/Error/Page500.cshtml");
+            }
+        }
     }
 }

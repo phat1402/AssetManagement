@@ -216,6 +216,7 @@
     </Compile>
     <Compile Include="Models\ViewModel\AssetCheckInViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetCheckOutViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetDisposalItem.cs" />
     <Compile Include="Models\ViewModel\AssetDisposalViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
@@ -328,9 +329,11 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\clockface.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
+    <Content Include="Scripts\Customs\asset-disposal-handle.js" />
     <Content Include="Scripts\Customs\asset-checkout-handle.js" />
     <Content Include="Scripts\Customs\asset-checkin-handle.js" />
     <Content Include="Scripts\Customs\asset-transfer-handle.js" />
+    <Content Include="Scripts\Customs\dispose-asset.js" />
     <Content Include="Scripts\Customs\check-out-asset.js" />
     <Content Include="Scripts\Customs\check-in-asset.js" />
     <Content Include="Scripts\Customs\create-asset-transfer.js" />
@@ -338,6 +341,7 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\disposal-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-out-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-in-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\transfer-datatables-colreorder.js" />
@@ -415,6 +419,7 @@
     <Content Include="Views\Error\Page500.cshtml" />
     <Content Include="Views\Asset\AssetCheckInHistory.cshtml" />
     <Content Include="Views\Asset\AssetCheckOutHistory.cshtml" />
+    <Content Include="Views\Asset\AssetDisposalHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
