@@ -341,6 +341,10 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\asset-by-category-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\asset-by-department-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\asset-by-building-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\asset-by-employee-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\disposal-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-out-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-in-datatables-colreorder.js" />
@@ -420,6 +424,14 @@
     <Content Include="Views\Asset\AssetCheckInHistory.cshtml" />
     <Content Include="Views\Asset\AssetCheckOutHistory.cshtml" />
     <Content Include="Views\Asset\AssetDisposalHistory.cshtml" />
+    <Content Include="Views\Report\AssetByEmployee.cshtml" />
+    <Content Include="Views\Report\ReportTableByEmployee.cshtml" />
+    <Content Include="Views\Report\AssetByBuilding.cshtml" />
+    <Content Include="Views\Report\ReportTableByBuilding.cshtml" />
+    <Content Include="Views\Report\AssetByDepartment.cshtml" />
+    <Content Include="Views\Report\ReportTableByDepartment.cshtml" />
+    <Content Include="Views\Report\AssetByCategory.cshtml" />
+    <Content Include="Views\Report\ReportTableByCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

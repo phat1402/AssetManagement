@@ -1,0 +1,32 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/asset-by-category-datatables-colreorder.js"></script>
+}
+@model IEnumerable<AssetManagement.Models.ViewModel.AssetListViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">Asset By Building</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="select-category form-control"></select>
+                    </div>
+                    <button type="submit" class="btn green" onclick="filterAssetByCategory()">Filter</button>
+                    <button type="button" class="btn default">Clear</button>
+                </div>
+                <br />
+                <div id="assetByCategoryTable">
+                    @Html.Partial("~/Views/Report/ReportTableByCategory.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

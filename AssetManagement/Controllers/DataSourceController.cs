@@ -138,5 +138,37 @@ namespace AssetManagement.Controllers
             }
             return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult GetBuildingList(string query)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
+            {
+                query = query.ToLower();
+                dataList = Db.Locations.Where(x => x.BuildingName.ToLower().Contains(query))
+                                       .GroupBy(x => x.BuildingName)
+                                       .Select(x => new Select2DataModel {
+                                           id = x.FirstOrDefault().ID,
+                                           text = x.FirstOrDefault().BuildingName
+                                       }).ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet); ;
+        }
+
+        public ActionResult GetCategoryListForReport(string query)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
+            {
+                query = query.ToLower();
+                dataList = Db.Categories.Where(x => x.Name.ToLower().Contains(query))
+                                       .Select(x => new Select2DataModel
+                                       {
+                                           id = x.ID,
+                                           text = x.Name
+                                       }).ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet); ;
+        }
     }
 }

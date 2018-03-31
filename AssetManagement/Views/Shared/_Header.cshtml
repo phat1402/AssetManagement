@@ -149,22 +149,22 @@
                                         <a href="#"> Print Asset Label</a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Employee </a>
+                                        <a href="@Url.Action("GetAssetByEmployee","Home")" class="nav-link  ">  Asset By Employee </a>
                                     </li>
-                                    <li aria-haspopup="true" class=" ">
+                                    @*<li aria-haspopup="true" class=" ">
                                         <a href="#" class="nav-link  ">  Asset By Store </a>
+                                    </li>*@
+                                    <li aria-haspopup="true" class=" ">
+                                        <a href="@Url.Action("GetAssetByBuilding","Home")" class="nav-link  ">  Asset By Building </a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Building </a>
+                                        <a href="@Url.Action("GetAssetByDepartment","Home")" class="nav-link  ">  Asset By Department </a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Department </a>
+                                        <a href="@Url.Action("GetAssetByCategory","Home")" class="nav-link  ">  Asset By Category </a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Category </a>
-                                    </li>
-                                    <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Category & Department </a>
+                                        <a href="@Url.Action("GetAssetByCategoAndDept","Home")" class="nav-link  ">  Asset By Category & Department </a>
                                     </li>
                                 </ul>
                             </li>
