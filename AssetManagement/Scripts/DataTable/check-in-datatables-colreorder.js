@@ -1,4 +1,4 @@
-var TableDatatablesColreorder = function () {
+var CheckInTableDatatablesColreorder = function () {
 
     var initTable1 = function () {
         var table = $('#check_in_table');
@@ -75,5 +75,5 @@ var TableDatatablesColreorder = function () {
 }();
 
 jQuery(document).ready(function() {
-    TableDatatablesColreorder.init();
+    CheckInTableDatatablesColreorder.init();
 });

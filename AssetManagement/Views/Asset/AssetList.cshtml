@@ -31,7 +31,7 @@
                         @foreach (var asset in Model)
                         {
                             <tr>
-                                <td> @asset.ID </td>
+                                <td><a href="@Url.Action("ViewAssetDetail","Home",new { assetId = asset.ID})">@asset.ID</a></td>
                                 <td> @asset.Name </td>
                                 <td> @asset.Tag </td>
                                 <td> @asset.SubCategory </td>

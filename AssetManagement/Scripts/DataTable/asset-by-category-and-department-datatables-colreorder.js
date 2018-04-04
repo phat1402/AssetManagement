@@ -1,7 +1,7 @@
-var CheckOutTableDatatablesColreorder = function () {
+var TableDatatablesColreorder = function () {
 
     var initTable1 = function () {
-        var table = $('#check_out_table');
+        var table = $('#asset_by_category_and_department_table');
 
         var oTable = table.dataTable({
 
@@ -27,6 +27,8 @@ var CheckOutTableDatatablesColreorder = function () {
 
             // setup buttons extentension: http://datatables.net/extensions/buttons/
             buttons: [
+                { extend: 'print', className: 'btn dark btn-outline margin-top10' },
+                { extend: 'pdf', className: 'btn green btn-outline margin-top10' },
             ],
 
             // setup responsive extension: http://datatables.net/extensions/responsive/
@@ -40,7 +42,7 @@ var CheckOutTableDatatablesColreorder = function () {
             },
 
             "order": [
-                [0, 'desc']
+                [0, 'asc']
             ],
             
             "lengthMenu": [
@@ -48,7 +50,7 @@ var CheckOutTableDatatablesColreorder = function () {
                 [5, 10, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,
+            "pageLength": 10,
 
             "dom": "<'row' <'col-md-12'B>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
 
@@ -74,6 +76,62 @@ var CheckOutTableDatatablesColreorder = function () {
 
 }();
 
+function filterAssetByCategory() {
+    var categoryId = $('.select-category').select2('val');
+    var departmentId = $('.select-department').select2('val');
+    $.ajax({
+        async: false,
+        url: '/Home/FilterAssetByCategoAndDept',
+        data: { categoryId: categoryId, departmentId: departmentId },
+        success: function (response) {
+            $("#assetByCategoryAndDepartmentTable").html(response);
+            TableDatatablesColreorder.init();
+        },
+        error: function () {
+            alert("Oops! Something wrong!");
+            location.reload();
+        }
+    });
+}
 jQuery(document).ready(function() {
-    CheckOutTableDatatablesColreorder.init();
+    TableDatatablesColreorder.init();
+    $(".select-category").select2({
+        placeholder: "Input a category",
+        allowClear: true,
+        ajax: {
+            url: '/DataSource/GetCategoryListForReport',
+            width: 'resolve',
+            data: function (params) {
+                return {
+                    query: params.term// search term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            },
+            minimumInputLength: 2
+        }
+    });
+
+    $(".select-department").select2({
+        placeholder: "Input a department name",
+        allowClear: true,
+        ajax: {
+            url: '/DataSource/GetDepartmentList',
+            width: 'resolve',
+            data: function (params) {
+                return {
+                    query: params.term// search term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data.items
+                };
+            },
+            minimumInputLength: 2
+        }
+    });
 });

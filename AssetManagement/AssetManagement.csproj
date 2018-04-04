@@ -216,8 +216,10 @@
     </Compile>
     <Compile Include="Models\ViewModel\AssetCheckInViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetCheckOutViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetDetailViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetDisposalItem.cs" />
     <Compile Include="Models\ViewModel\AssetDisposalViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetEditViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetTransferHistoryViewModel.cs" />
@@ -333,6 +335,7 @@
     <Content Include="Scripts\Customs\asset-checkout-handle.js" />
     <Content Include="Scripts\Customs\asset-checkin-handle.js" />
     <Content Include="Scripts\Customs\asset-transfer-handle.js" />
+    <Content Include="Scripts\Customs\edit-asset.js" />
     <Content Include="Scripts\Customs\dispose-asset.js" />
     <Content Include="Scripts\Customs\check-out-asset.js" />
     <Content Include="Scripts\Customs\check-in-asset.js" />
@@ -341,6 +344,7 @@
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
     <Content Include="Scripts\dashboard.min.js" />
+    <Content Include="Scripts\DataTable\asset-by-category-and-department-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-category-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-department-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-building-datatables-colreorder.js" />
@@ -432,6 +436,10 @@
     <Content Include="Views\Report\ReportTableByDepartment.cshtml" />
     <Content Include="Views\Report\AssetByCategory.cshtml" />
     <Content Include="Views\Report\ReportTableByCategory.cshtml" />
+    <Content Include="Views\Report\AssetByCategoAndDept.cshtml" />
+    <Content Include="Views\Report\ReportTableByCategoAndDept.cshtml" />
+    <Content Include="Views\Asset\AssetDetail.cshtml" />
+    <Content Include="Views\Asset\AssetDetailEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

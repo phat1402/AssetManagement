@@ -132,6 +132,116 @@ namespace AssetManagement.Controllers
             return View("~/Views/Asset/AssetList.cshtml", assetList);
         }
 
+        public ActionResult ViewAssetDetail(int assetId)
+        {
+            var transferHistory = Db.AssetTransfers.Where(x => x.AssetID == assetId).Select(x => new AssetTransferHistoryViewModel
+            {
+                ID = x.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                TransferDate = x.TransferDate.Value,
+                FromEmployee = x.Staff.Firstname + " " + x.Staff.Lastname,
+                ToEmployee = x.Staff1.Firstname + " " + x.Staff1.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID).ToList();
+
+            var lastCheckIn = Db.AssetCheckIns.Where(x => x.AssetId == assetId).Select(x => new LastAssetCheckInViewModel
+            {
+                ID = x.ID,
+                AssetID = x.Asset.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                CheckInDate = x.CheckInDate.Value,
+                AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID).ToList();
+
+            var lastCheckOut = Db.AssetCheckOuts.Where(x => x.AssetId == assetId).Select(x => new LastAssetCheckOutViewModel
+            {
+                ID = x.ID,
+                AssetID = x.Asset.ID,
+                AssetName = x.Asset.Name,
+                AssetTag = x.Asset.Tag,
+                CheckOutDate = x.CheckOutDate.Value,
+                AssignToName = x.Staff.Firstname + x.Staff.Lastname,
+                Note = x.Note
+            }).OrderByDescending(x => x.ID).ToList();
+
+            var assetInfor = Db.Assets.Where(x => x.ID == assetId).FirstOrDefault();
+
+            var viewModel = new AssetDetailViewModel
+            {
+                AssetID = assetInfor.ID,
+                AssetName = assetInfor.Name,
+                AssetDescription = assetInfor.Description,
+                PurchaseDate = assetInfor.PurchaseDate,
+                SubCategory = assetInfor.SubCategory.Name,
+                Category = assetInfor.SubCategory.Category.Name,
+                Vendor = assetInfor.Vendor.Name,
+                Department = assetInfor.Department.Name,
+                Location = assetInfor.Location.Name,
+                StatusId = assetInfor.StatusId,
+                CreatedBy = assetInfor.Staff.Firstname + " " + assetInfor.Staff.Lastname,
+                UsedBy = assetInfor.Staff1.Firstname + " " + assetInfor.Staff1.Lastname,
+                UnitOfPrice = assetInfor.UnitPrice,
+                AssetTag = assetInfor.Tag,
+                TransferHistory = transferHistory,
+                CheckInHistory = lastCheckIn,
+                CheckOutHistory = lastCheckOut
+            };
+
+            return View("~/Views/Asset/AssetDetail.cshtml", viewModel);
+        }
+
+        public ActionResult ViewEditAssetPage(int assetId)
+        {
+            var asset = Db.Assets.Where(x => x.ID == assetId).Select(x => new AssetEditViewModel
+            {
+                AssetID = x.ID,
+                AssetDescription = x.Description,
+                AssetName = x.Name,
+                AssetTag = x.Tag,
+                CreatedBy = x.CreateById,
+                CreatedByName = x.Staff.Firstname + " " + x.Staff.Lastname,
+                DepartmentId = x.DepartmentId,
+                DepartmentName = x.Department.Name,
+                LocationId = x.LocationId,
+                LocationName = x.Location.Name,
+                PurchaseDate = x.PurchaseDate,
+                StatusId = x.StatusId,
+                SubCategoryId = x.SubCategoryId,
+                SubCategoryName = x.SubCategory.Name,
+                UnitOfPrice = x.UnitPrice,
+                UsedBy = x.UsedById,
+                UsedByName = x.Staff1.Firstname + " " + x.Staff1.Lastname,
+                VendorId = x.VendorId,
+                VendorName = x.Vendor.Name
+            }).FirstOrDefault();
+            return View("~/Views/Asset/AssetDetailEdit.cshtml", asset);
+        }
+        [HttpPost]
+        public ActionResult EditAssetDetail(AssetEditViewModel viewmodel)
+        {
+            var asset = Db.Assets.Find(viewmodel.AssetID);
+            asset.LocationId = viewmodel.LocationId;
+            asset.DepartmentId = viewmodel.DepartmentId;
+            asset.Description = viewmodel.AssetDescription;
+            asset.Name = viewmodel.AssetName;
+            asset.PurchaseDate = viewmodel.PurchaseDate;
+            asset.VendorId = viewmodel.VendorId;
+            asset.SubCategoryId = viewmodel.SubCategoryId;
+            asset.UnitPrice = viewmodel.UnitOfPrice;
+
+            if( Db.SaveChanges() > 0)
+            {
+                return ViewAssetDetail(asset.ID);
+            }
+            else
+            {
+                return View("~/Views/Error/Page500.cshtml");
+            }
+        }
+
         public ActionResult ViewVendorList()
         {
             var vendorList = Db.Vendors.Select(x => new VendorListViewModel
@@ -788,6 +898,28 @@ namespace AssetManagement.Controllers
                       StatusID = x.StatusId.Value
                   }).ToList();
             return PartialView("~/Views/Report/ReportTableByCategoAndDept.cshtml", assetList);
+        }
+
+        public ActionResult GetEditAssetInfor(int assetId)
+        {
+            var assetInfor = Db.Assets.Where(x => x.ID == assetId).FirstOrDefault();
+            var viewModel = new AssetEditViewModel()
+            {
+                AssetID = assetInfor.ID,
+                AssetDescription = assetInfor.Description,
+                AssetName = assetInfor.Name,
+                AssetTag = assetInfor.Tag,
+                CreatedBy = assetInfor.CreateById.Value,
+                UsedBy = assetInfor.UsedById,
+                DepartmentId = assetInfor.DepartmentId,
+                LocationId = assetInfor.LocationId,
+                SubCategoryId = assetInfor.SubCategoryId,
+                VendorId = assetInfor.VendorId,
+                PurchaseDate = assetInfor.PurchaseDate,
+                UnitOfPrice = assetInfor.UnitPrice,
+                StatusId = assetInfor.StatusId
+            };
+            return View("~/Views/Asset/AssetDetailEdit.cshtml", viewModel);
         }
     }
 }

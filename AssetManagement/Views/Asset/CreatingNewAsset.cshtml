@@ -18,7 +18,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Asset Name</label>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(x => x.AssetName,new { @class = "form-control", placeholder = "Please fill in the asset name" })
+                                @Html.TextBoxFor(x => x.AssetName, new { @class = "form-control", placeholder = "Please fill in the asset name" })
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Asset Category</label>
                             <div class="col-md-9">
-                                @Html.DropDownListFor( x => x.AssetSubCategoryId,Enumerable.Empty<SelectListItem>(), new { @class = "choose-category form-control"})
+                                @Html.DropDownListFor(x => x.AssetSubCategoryId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-category form-control" })
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Purchase Date</label>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control date-picker"})
+                                @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control date-picker" })
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Purchase Amount</label>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(x => x.PurchaseAmount, new {type = "number", @class="form-control"})
+                                @Html.TextBoxFor(x => x.PurchaseAmount, new { type = "number", @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Unit Of Price</label>
                             <div class="col-md-9">
-                                @Html.TextBoxFor( x=> x.UnitOfPrice, new { type = "number", @class="form-control"})
+                                @Html.TextBoxFor(x => x.UnitOfPrice, new { type = "number", @class = "form-control" })
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Vendor</label>
                             <div class="col-md-9">
-                                @Html.DropDownListFor( x=> x.VendorId, Enumerable.Empty<SelectListItem>(),new{ @class ="choose-vendor form-control"})
+                                @Html.DropDownListFor(x => x.VendorId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-vendor form-control" })
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Deparment</label>
                             <div class="col-md-9">
-                                @Html.DropDownListFor(x => x.DepartmentId, Enumerable.Empty<SelectListItem>(), new {@class = "choose-department form-control" })                            </div>
+                                @Html.DropDownListFor(x => x.DepartmentId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-department form-control" })
+                            </div>
                         </div>
                     </div>
                     <!--/span-->

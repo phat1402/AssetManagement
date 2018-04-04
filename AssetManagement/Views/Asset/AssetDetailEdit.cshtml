@@ -1,0 +1,130 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/Customs/edit-asset.js"></script>
+}
+@model AssetManagement.Models.ViewModel.AssetEditViewModel
+@{
+    var subCategorySelectList = new List<SelectListItem>();
+    var vendorSelectList = new List<SelectListItem>();
+    var departmentSelectList = new List<SelectListItem>();
+    var locationSelectList = new List<SelectListItem>();
+    subCategorySelectList.Add(new SelectListItem
+    {
+        Text = Model.SubCategoryName,
+        Value = Model.SubCategoryId.ToString(),
+        Selected = true
+    });
+
+    vendorSelectList.Add(new SelectListItem {
+        Text = Model.VendorName,
+        Value = Model.VendorId.ToString(),
+        Selected = true
+    });
+    departmentSelectList.Add(new SelectListItem
+    {
+        Text = Model.DepartmentName,
+        Value = Model.DepartmentId.ToString(),
+        Selected = true
+    });
+    locationSelectList.Add(new SelectListItem
+    {
+        Text = Model.LocationName,
+        Value = Model.LocationId.ToString(),
+        Selected = true
+    });
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">Edit Asset Detail</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-edit"></i> Asset Infor
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form action="@Url.Action("EditAssetDetail", "Home")" class="form-horizontal" method="post">
+                            @Html.HiddenFor(x => x.AssetID)
+                            @Html.HiddenFor(x => x.StatusId)
+                            @Html.HiddenFor(x => x.CreatedBy)
+                            @Html.HiddenFor(x => x.UsedBy)
+                            @Html.HiddenFor(x => x.AssetTag)
+                            <table class="table table-bordered table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="bold"> ID </td>
+                                        <td> @Model.AssetID</td>
+                                        <td class="bold"> Name </td>
+                                        <td> @Html.TextBoxFor(x => x.AssetName, new { @class = "form-control" }) </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Description </td>
+                                        <td> @Html.TextAreaFor(x => x.AssetDescription, new { @class = "form-control" })</td>
+                                        <td class="bold"> Purchased Date </td>
+                                        <td> @Html.TextBoxFor(x => x.PurchaseDate, Model.PurchaseDate.Value.ToShortDateString(), new { @class = "form-control date-picker" }) </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Sub-Category </td>
+                                        <td> @Html.DropDownListFor(x => x.SubCategoryId, subCategorySelectList, new { @class = "choose-category form-control" })</td>
+                                        <td class="bold"> Vendor </td>
+                                        <td> @Html.DropDownListFor(x => x.VendorId, vendorSelectList, new { @class = "choose-vendor form-control" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Department </td>
+                                        <td> @Html.DropDownListFor(x => x.DepartmentId, departmentSelectList, new { @class = "choose-department form-control" })</td>
+                                        <td class="bold"> Location </td>
+                                        <td> @Html.DropDownListFor(x => x.LocationId, locationSelectList, new { @class = "choose-location form-control" })</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Status </td>
+                                        <td>
+                                            @if (Model.StatusId == 1)
+                    {
+                        <span class="label label-sm label-success"> Active </span>
+}
+else
+{
+                        <span class="label label-sm label-danger"> Disposal </span>
+}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Created By </td>
+                                        <td> @Model.CreatedByName</td>
+                                        <td class="bold"> Used By </td>
+                                        <td> @Model.UsedByName</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold"> Unit of Price </td>
+                                        <td> @Html.TextBoxFor(x => x.UnitOfPrice, new { type = "number", @class = "form-control" })</td>
+                                        <td class="bold"> Asset Tag </td>
+                                        <td> @Model.AssetTag</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn green">Submit</button>
+                                                <button type="button" class="btn default">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"> </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
