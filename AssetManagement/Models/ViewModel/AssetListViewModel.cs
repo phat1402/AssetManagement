@@ -13,6 +13,5 @@ namespace AssetManagement.Models.ViewModel
         public string SubCategory { get; set; }
         public string Category { get; set; }
         public int StatusID { get; set; }
-
     }
 }

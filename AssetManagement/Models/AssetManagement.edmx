@@ -5,6 +5,20 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="RoleID" Type="int" />
+          <Property Name="CreatedDate" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedDate" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Asset">
           <Key>
             <PropertyRef Name="ID" />
@@ -98,7 +112,6 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
           <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
-          <Property Name="RoleId" Type="int" />
           <Property Name="CreatedDate" Type="date" />
         </EntityType>
         <EntityType Name="SubCategory">
@@ -119,6 +132,13 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Label" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="ID" />
@@ -128,6 +148,18 @@
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
           <Property Name="TelephoneNo" Type="nvarchar" MaxLength="30" />
         </EntityType>
+        <Association Name="FK_ApplicationUser_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="ApplicationUser" Type="Self.ApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicationUser">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Asset_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
           <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
@@ -331,6 +363,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AssetManagementModelStoreContainer">
+          <EntitySet Name="ApplicationUser" EntityType="Self.ApplicationUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Asset" EntityType="Self.Asset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Asset_Disposal" EntityType="Self.Asset_Disposal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AssetCheckIn" EntityType="Self.AssetCheckIn" Schema="dbo" store:Type="Tables" />
@@ -342,7 +375,12 @@
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ApplicationUser_UserRole" Association="Self.FK_ApplicationUser_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+          </AssociationSet>
           <AssociationSet Name="FK_Asset_Department" Association="Self.FK_Asset_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Asset" EntitySet="Asset" />
@@ -527,7 +565,6 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RoleId" Type="Int32" />
           <Property Name="CreatedDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Assets" Relationship="Self.FK_Asset_Staff" FromRole="Staff" ToRole="Asset" />
           <NavigationProperty Name="Assets1" Relationship="Self.FK_Asset_Staff1" FromRole="Staff" ToRole="Asset" />
@@ -846,7 +883,48 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
+          <EntitySet Name="ApplicationUsers" EntityType="AssetManagementModel.ApplicationUser" />
+          <EntitySet Name="UserRoles" EntityType="AssetManagementModel.UserRole" />
+          <AssociationSet Name="FK_ApplicationUser_UserRole" Association="AssetManagementModel.FK_ApplicationUser_UserRole">
+            <End Role="UserRole" EntitySet="UserRoles" />
+            <End Role="ApplicationUser" EntitySet="ApplicationUsers" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ApplicationUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RoleID" Type="Int32" />
+          <Property Name="CreatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserRole" Relationship="AssetManagementModel.FK_ApplicationUser_UserRole" FromRole="ApplicationUser" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ApplicationUsers" Relationship="AssetManagementModel.FK_ApplicationUser_UserRole" FromRole="UserRole" ToRole="ApplicationUser" />
+        </EntityType>
+        <Association Name="FK_ApplicationUser_UserRole">
+          <End Type="AssetManagementModel.UserRole" Role="UserRole" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.ApplicationUser" Role="ApplicationUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ApplicationUser">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -953,7 +1031,6 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -985,6 +1062,29 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ApplicationUsers">
+            <EntityTypeMapping TypeName="AssetManagementModel.ApplicationUser">
+              <MappingFragment StoreEntitySet="ApplicationUser">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="AssetManagementModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

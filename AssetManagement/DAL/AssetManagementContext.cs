@@ -18,5 +18,7 @@ namespace AssetManagement.DAL
         DbSet<Staff> Staffs { get; set; }
         DbSet<SubCategory> SubCategories { get; set; }
         DbSet<Vendor> Vendors { get; set; }
+        DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        DbSet<UserRole> UserRoles { get; set; }
     }
 }

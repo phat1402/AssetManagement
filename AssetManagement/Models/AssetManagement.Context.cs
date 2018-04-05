@@ -37,5 +37,7 @@ namespace AssetManagement.Models
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
     }
 }

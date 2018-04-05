@@ -156,6 +156,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApplicationUser.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Asset.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -209,6 +212,9 @@
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Vendor.cs">
