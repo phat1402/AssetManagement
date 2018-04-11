@@ -15,14 +15,15 @@ namespace AssetManagement.Models
     public partial class ApplicationUser
     {
         public int ID { get; set; }
-        public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Country { get; set; }
         public Nullable<int> RoleID { get; set; }
-        public string CreatedDate { get; set; }
-        public string UpdatedDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
     
         public virtual UserRole UserRole { get; set; }
     }

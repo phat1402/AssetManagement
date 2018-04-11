@@ -1,10 +1,11 @@
-﻿<div class="row">
+﻿@model AssetManagement.Models.Error.ErrorViewModel
+<div class="row">
     <div class="col-md-12 page-500">
         <div class=" number font-red"> 500 </div>
         <div class=" details">
             <h3>Oops! Something went wrong.</h3>
             <p>
-                We are fixing it! Please come back in a while.
+                @Model.ErrorMessage
                 <br />
             </p>
             <p>

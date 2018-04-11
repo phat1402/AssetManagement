@@ -59,6 +59,7 @@ var TableDatatablesEditable = function () {
                     }
                 }
             });
+            $('#sub-category-list-table_new').prop("disabled", false);
         }
 
         function cancelEditRow(oTable, nRow) {
@@ -115,7 +116,7 @@ var TableDatatablesEditable = function () {
             e.preventDefault();
 
             if (nNew && nEditing) {
-                if (confirm("Previose row not saved. Do you want to save it ?")) {
+                if (confirm("Previous row not saved. Do you want to save it ?")) {
                     saveRow(oTable, nEditing); // save
                     $(nEditing).find("td:first").html("Untitled");
                     nEditing = null;
@@ -135,6 +136,7 @@ var TableDatatablesEditable = function () {
             editRow(oTable, nRow);
             nEditing = nRow;
             nNew = true;
+            $('#sub-category-list-table_new').prop("disabled", true);
         });
 
         table.on('click', '.delete', function (e) {
@@ -155,6 +157,7 @@ var TableDatatablesEditable = function () {
                 oTable.fnDeleteRow(nEditing);
                 nEditing = null;
                 nNew = false;
+                $('#sub-category-list-table_new').prop("disabled", false);
             } else {
                 restoreRow(oTable, nEditing);
                 nEditing = null;

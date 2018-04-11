@@ -1,4 +1,13 @@
-﻿<div class="page-wrapper-row">
+﻿@using AssetManagement.Models.Account
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    if (profileData == null)
+    {
+        Response.Redirect("~/Account/Index");
+    }
+    var fullName = profileData.FullName;
+}
+<div class="page-wrapper-row">
     <div class="page-wrapper-top">
         <!-- BEGIN HEADER -->
         <div class="page-header">
@@ -21,8 +30,7 @@
                             <!-- BEGIN USER LOGIN DROPDOWN -->
                             <li class="dropdown dropdown-user dropdown-dark">
                                 <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="~/Asset/img/avatar9.jpg">
-                                    <span class="username username-hide-mobile">Hello Nick</span>
+                                    <span class="username username-hide-mobile">Hello, @fullName</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-default">
                                     <li>
@@ -37,7 +45,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="page_user_login_1.html">
+                                        <a href="@Url.Action("LogOut","Account")">
                                             <i class="icon-key"></i> Log Out
                                         </a>
                                     </li>
@@ -55,15 +63,15 @@
                 <div class="container">
                     <!-- BEGIN HEADER SEARCH BOX -->
                     @*<form class="search-form" action="page_general_search.html" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" name="query">
-                            <span class="input-group-btn">
-                                <a href="javascript:;" class="btn submit">
-                                    <i class="icon-magnifier"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </form>*@
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search" name="query">
+                                <span class="input-group-btn">
+                                    <a href="javascript:;" class="btn submit">
+                                        <i class="icon-magnifier"></i>
+                                    </a>
+                                </span>
+                            </div>
+                        </form>*@
                     <!-- END HEADER SEARCH BOX -->
                     <!-- BEGIN MEGA MENU -->
                     <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
@@ -125,20 +133,20 @@
                                     <span class="arrow"></span>
                                 </a>
                             </li>
-                            <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                <a href="javascript:;">
-                                    Purchase & Quantity
-                                    <span class="arrow"></span>
-                                </a>
-                                <ul class="dropdown-menu pull-left">
-                                    <li aria-haspopup="true" class=" ">
-                                        <a href="#"> New Purchase </a>
-                                    </li>
-                                    <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  "> Add New Asset Quantity</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            @*<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                    <a href="javascript:;">
+                                        Purchase & Quantity
+                                        <span class="arrow"></span>
+                                    </a>
+                                    <ul class="dropdown-menu pull-left">
+                                        <li aria-haspopup="true" class=" ">
+                                            <a href="#"> New Purchase </a>
+                                        </li>
+                                        <li aria-haspopup="true" class=" ">
+                                            <a href="#" class="nav-link  "> Add New Asset Quantity</a>
+                                        </li>
+                                    </ul>
+                                </li>*@
                             <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                 <a href="javascript:;">
                                     Label & Report
@@ -146,14 +154,14 @@
                                 </a>
                                 <ul class="dropdown-menu pull-left">
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#"> Print Asset Label</a>
+                                        <a href="@Url.Action("PrintAssetLabel","Home")"> Print Asset Label</a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
                                         <a href="@Url.Action("GetAssetByEmployee","Home")" class="nav-link  ">  Asset By Employee </a>
                                     </li>
                                     @*<li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">  Asset By Store </a>
-                                    </li>*@
+                                            <a href="#" class="nav-link  ">  Asset By Store </a>
+                                        </li>*@
                                     <li aria-haspopup="true" class=" ">
                                         <a href="@Url.Action("GetAssetByBuilding","Home")" class="nav-link  ">  Asset By Building </a>
                                     </li>
@@ -169,16 +177,22 @@
                                 </ul>
                             </li>
                             <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                <a href="javascript:;">
+                                <a href="@Url.Action("GetEmployeeList","Home")" class="nav-link">
                                     Employees
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+                            <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                <a href="#" class="nav-link">
+                                    More
                                     <span class="arrow"></span>
                                 </a>
                                 <ul class="dropdown-menu pull-left">
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#">New Employee </a>
+                                        <a href="@Url.Action("ViewLocationList","Home")" class="nav-link"> Location List</a>
                                     </li>
                                     <li aria-haspopup="true" class=" ">
-                                        <a href="#" class="nav-link  ">Employee List </a>
+                                        <a href="@Url.Action("ViewDepartmentList","Home")" class="nav-link"> Department List</a>
                                     </li>
                                 </ul>
                             </li>

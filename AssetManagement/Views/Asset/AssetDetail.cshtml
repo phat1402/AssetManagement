@@ -1,10 +1,12 @@
-﻿@section scripts {
+﻿@using Neodynamic.Web.MVC.Barcode
+@section scripts {
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/transfer-datatables-colreorder.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/check-in-datatables-colreorder.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/check-out-datatables-colreorder.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/handle-printing-tag.js"></script>
 }
 @model AssetManagement.Models.ViewModel.AssetDetailViewModel
 <div class="row">
@@ -17,6 +19,10 @@
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
+                <a class="btn btn-warning margin-bot20" data-tag="@Model.AssetTag" data-assetname="@Model.AssetName" onclick="printTag(this)">
+                    <i class="fa fa-print"></i>
+                    Print Asset Tag
+                </a>
                 <div class="portlet box green">
                     <div class="portlet-title">
                         <div class="caption">
@@ -56,13 +62,13 @@
                                     <td class="bold"> Status </td>
                                     <td>
                                         @if (Model.StatusId == 1)
-                                        {
-                                            <span class="label label-sm label-success"> Active </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="label label-sm label-danger"> Disposal </span>
-                                        }
+                            {
+                                <span class="label label-sm label-success"> Active </span>
+                }
+                else
+                {
+                    <span class="label label-sm label-danger"> Disposal </span>
+    }
                                     </td>
                                 </tr>
                                 <tr>

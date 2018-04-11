@@ -2,15 +2,15 @@
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
-    <script type="text/javascript" src="~/Scripts/DataTable/vendor-datatables-editable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/department-datatables-editable.js"></script>
 }
-@model IEnumerable<AssetManagement.Models.ViewModel.VendorListViewModel>
+@model IEnumerable<AssetManagement.Models.ViewModel.DepartmentListViewModel>
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green bold uppercase">Vendor List</span>
+                    <span class="caption-subject font-green bold uppercase">Department List</span>
                 </div>
                 <div class="tools"> </div>
             </div>
@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <button id="vendor-list-table_new" class="btn green">
+                                <button id="department-list-table_new" class="btn green">
                                     Add New
                                     <i class="fa fa-plus"></i>
                                 </button>
@@ -27,25 +27,21 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-bordered" id="vendor-list-table">
+                <table class="table table-striped table-hover table-bordered" id="deparment-list-table">
                     <thead>
                         <tr>
-                            <th> Vendor ID </th>
-                            <th> Vendor Name </th>
-                            <th> Email  </th>
-                            <th> Telephone Number </th>
+                            <th> Department ID </th>
+                            <th> Name </th>
                             <th> Edit </th>
                             <th> Delete</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var vendor in Model)
+                        @foreach (var department in Model)
                         {
-                            <tr data-id="@vendor.ID" class="vendorId">
-                                <td><a href="@Url.Action("ViewAssetFromVendor","Home",new { vendorId = vendor.ID })">@vendor.ID</a></td>
-                                <td>@vendor.Name</td>
-                                <td>@vendor.Email</td>
-                                <td>@vendor.PhoneNo</td>
+                            <tr data-id="@department.ID" class="departmentId">
+                                <td>@department.ID</td>
+                                <td>@department.Name</td>
                                 <td><a class="edit" href="javascript:;"> Edit </a></td>
                                 <td><a class="delete" href="javascript:;"> Delete </a></td>
                             </tr>

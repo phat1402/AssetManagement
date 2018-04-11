@@ -20,8 +20,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
@@ -56,6 +56,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Neodynamic.Web.MVC.Barcode, Version=10.0.2000.0, Culture=neutral, PublicKeyToken=c6b33c3093a0d4cd, processorArchitecture=MSIL">
+      <HintPath>..\packages\Neodynamic.Web.MVC.Barcode.10.0.2018.328\lib\Neodynamic.Web.MVC.Barcode.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -150,12 +153,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DataSourceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\AssetManagementContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginViewModel.cs" />
+    <Compile Include="Models\Account\UserProfileSessionData.cs" />
     <Compile Include="Models\ApplicationUser.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -202,6 +208,7 @@
     <Compile Include="Models\Department.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Error\ErrorViewModel.cs" />
     <Compile Include="Models\Location.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -226,6 +233,7 @@
     <Compile Include="Models\ViewModel\AssetDisposalItem.cs" />
     <Compile Include="Models\ViewModel\AssetDisposalViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetEditViewModel.cs" />
+    <Compile Include="Models\ViewModel\AssetFromEmployeeViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetFromVendorViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetListViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetTransferHistoryViewModel.cs" />
@@ -233,8 +241,13 @@
     <Compile Include="Models\ViewModel\CategoryListViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
+    <Compile Include="Models\ViewModel\DepartmentListViewModel.cs" />
+    <Compile Include="Models\ViewModel\EmployeeListViewModel.cs" />
+    <Compile Include="Models\ViewModel\LabelPrintingModel.cs" />
     <Compile Include="Models\ViewModel\LastAssetCheckInViewModel.cs" />
     <Compile Include="Models\ViewModel\LastAssetCheckOutViewModel.cs" />
+    <Compile Include="Models\ViewModel\LocationListViewModel.cs" />
+    <Compile Include="Models\ViewModel\PrintLabelViewModel.cs" />
     <Compile Include="Models\ViewModel\SubCategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\VendorListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -254,6 +267,7 @@
     <Content Include="Asset\img\facebook.png" />
     <Content Include="Asset\img\googleplus.png" />
     <Content Include="Asset\img\linkedin.png" />
+    <Content Include="Asset\img\logo-big.png" />
     <Content Include="Asset\img\logo-default.jpg" />
     <Content Include="Asset\img\menu-toggler.png" />
     <Content Include="Asset\img\portlet-collapse-icon-white.png" />
@@ -292,6 +306,7 @@
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\jqvmap.css" />
     <Content Include="Content\layout-rtl.min.css" />
+    <Content Include="Content\login-rtl.min.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\plugins-rtl.min.css" />
     <Content Include="Content\select2-bootstrap.min.css" />
@@ -311,6 +326,7 @@
       <DependentUpon>AssetManagement.edmx</DependentUpon>
       <LastGenOutput>AssetManagement.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -334,6 +350,7 @@
     <Content Include="Models\AssetManagement.edmx.diagram">
       <DependentUpon>AssetManagement.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\SmarterASP.NET.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\clockface.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
@@ -349,6 +366,7 @@
     <Content Include="Scripts\Customs\create-new-asset.js" />
     <Content Include="Scripts\Customs\global-custom.js" />
     <Content Include="Scripts\Customs\google-pie-chart.js" />
+    <Content Include="Scripts\Customs\handle-printing-tag.js" />
     <Content Include="Scripts\dashboard.min.js" />
     <Content Include="Scripts\DataTable\asset-by-category-and-department-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-category-datatables-colreorder.js" />
@@ -358,8 +376,12 @@
     <Content Include="Scripts\DataTable\disposal-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-out-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-in-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\department-datatables-editable.js" />
+    <Content Include="Scripts\DataTable\location-datatables-editable.js" />
+    <Content Include="Scripts\DataTable\table-datatables-managed.js" />
     <Content Include="Scripts\DataTable\transfer-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\employee-datatables-editable.js" />
     <Content Include="Scripts\DataTable\vendor-datatables-editable.js" />
     <Content Include="Scripts\DataTable\subcategory-datatables-editable.js" />
     <Content Include="Scripts\DataTable\datatable.js" />
@@ -396,6 +418,7 @@
     <Content Include="Scripts\jquery.waypoints.min.js" />
     <Content Include="Scripts\js.cookie.min.js" />
     <Content Include="Scripts\layout.min.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\morris.min.js" />
@@ -405,7 +428,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\select2.full.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -446,6 +471,12 @@
     <Content Include="Views\Report\ReportTableByCategoAndDept.cshtml" />
     <Content Include="Views\Asset\AssetDetail.cshtml" />
     <Content Include="Views\Asset\AssetDetailEdit.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Employee\EmployeeList.cshtml" />
+    <Content Include="Views\Employee\AssetFromEmployee.cshtml" />
+    <Content Include="Views\More\DepartmentList.cshtml" />
+    <Content Include="Views\More\LocationList.cshtml" />
+    <Content Include="Views\Report\PrintLabel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

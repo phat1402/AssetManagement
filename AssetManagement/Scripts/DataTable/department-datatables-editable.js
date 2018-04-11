@@ -17,26 +17,20 @@ var TableDatatablesEditable = function () {
             var aData = oTable.fnGetData(nRow);
             var jqTds = $('>td', nRow);
             jqTds[1].innerHTML = '<input type="text" class="form-control input" value="' + aData[1] + '">';
-            jqTds[2].innerHTML = '<input type="text" class="form-control input" value="' + aData[2] + '">';
-            jqTds[3].innerHTML = '<input type="text" class="form-control input" value="' + aData[3] + '">';
-            jqTds[4].innerHTML = '<a class="edit" href="">Save</a>';
-            jqTds[5].innerHTML = '<a class="cancel" href="">Cancel</a>';
+            jqTds[2].innerHTML = '<a class="edit" href="">Save</a>';
+            jqTds[3].innerHTML = '<a class="cancel" href="">Cancel</a>';
         }
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            vendorID = $(nRow).data("id");
-            vendorName = jqInputs[0].value;
-            vendorEmail = jqInputs[1].value;
-            vendorTelephoneNo = jqInputs[2].value;
+            departmentID = $(nRow).data("id");
+            name = jqInputs[0].value;
             $.ajax({
                 data: {
-                    ID: vendorID,
-                    Name: vendorName,
-                    Email: vendorEmail,
-                    TelephoneNo: vendorTelephoneNo
+                    ID: departmentID,
+                    Name: name,
                 },
                 type: "POST",
-                url: "/Home/CreateOrUpdateVendor",
+                url: "/Home/CreateOrUpdateDepartment",
                 success: function (response) {
                     if (response.RequestType == "Update") {
                         alert(response.Message);
@@ -45,10 +39,8 @@ var TableDatatablesEditable = function () {
                         }
                         else {
                             oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                            oTable.fnUpdate(jqInputs[1].value, nRow, 2, false);
-                            oTable.fnUpdate(jqInputs[2].value, nRow, 3, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
                             oTable.fnDraw();
                         }
                     }
@@ -60,28 +52,24 @@ var TableDatatablesEditable = function () {
                         else {
                             oTable.fnUpdate(response.ID, nRow, 0, false);
                             oTable.fnUpdate(response.Name, nRow, 1, false);
-                            oTable.fnUpdate(response.Email, nRow, 2, false);
-                            oTable.fnUpdate(response.TelephoneNo, nRow, 3, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 5, false);
+                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
+                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
                             oTable.fnDraw();
                         }
                     }
                 }
             });
-            $('#vendor-list-table_new').prop("disabled", false);
+            $('#department-list-table_new').prop("disabled", false);
         }
 
         function cancelEditRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
             oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-            oTable.fnUpdate(jqInputs[1].value, nRow, 2, false);
-            oTable.fnUpdate(jqInputs[2].value, nRow, 3, false);
             oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 4, false);
             oTable.fnDraw();
         }
 
-        var table = $('#vendor-list-table');
+        var table = $('#deparment-list-table');
 
         var oTable = table.dataTable({
 
@@ -118,12 +106,12 @@ var TableDatatablesEditable = function () {
             ] // set first column as a default sort by asc
         });
 
-        var tableWrapper = $("#vendor-list-table_wrapper");
+        var tableWrapper = $("#department-list-table_wrapper");
 
         var nEditing = null;
         var nNew = false;
 
-        $('#vendor-list-table_new').click(function (e) {
+        $('#department-list-table_new').click(function (e) {
             e.preventDefault();
 
             if (nNew && nEditing) {
@@ -147,7 +135,7 @@ var TableDatatablesEditable = function () {
             editRow(oTable, nRow);
             nEditing = nRow;
             nNew = true;
-            $('#vendor-list-table_new').prop("disabled", true);
+            $('#department-list-table_new').prop("disabled", true);
         });
 
         table.on('click', '.delete', function (e) {
@@ -168,7 +156,7 @@ var TableDatatablesEditable = function () {
                 oTable.fnDeleteRow(nEditing);
                 nEditing = null;
                 nNew = false;
-                $('#vendor-list-table_new').prop("disabled", false);
+                $('#department-list-table_new').prop("disabled", false);
             } else {
                 restoreRow(oTable, nEditing);
                 nEditing = null;

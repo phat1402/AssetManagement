@@ -25,6 +25,7 @@ namespace AssetManagement.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Asset> Assets { get; set; }
         public virtual DbSet<Asset_Disposal> Asset_Disposal { get; set; }
         public virtual DbSet<AssetCheckIn> AssetCheckIns { get; set; }
@@ -36,8 +37,7 @@ namespace AssetManagement.Models
         public virtual DbSet<Staff> Staffs { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<Vendor> Vendors { get; set; }
-        public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<Vendor> Vendors { get; set; }
     }
 }

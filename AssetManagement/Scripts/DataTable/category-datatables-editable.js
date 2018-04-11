@@ -58,6 +58,8 @@ var TableDatatablesEditable = function () {
                     }
                 }
             });
+            $('#category-list-table_new').prop("disabled", false);
+
         }
 
         function cancelEditRow(oTable, nRow) {
@@ -134,6 +136,7 @@ var TableDatatablesEditable = function () {
             editRow(oTable, nRow);
             nEditing = nRow;
             nNew = true;
+            $('#category-list-table_new').prop("disabled", true);
         });
 
         table.on('click', '.delete', function (e) {
@@ -154,6 +157,7 @@ var TableDatatablesEditable = function () {
                 oTable.fnDeleteRow(nEditing);
                 nEditing = null;
                 nNew = false;
+                $('#category-list-table_new').prop("disabled", false);
             } else {
                 restoreRow(oTable, nEditing);
                 nEditing = null;

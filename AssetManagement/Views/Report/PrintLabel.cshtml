@@ -1,0 +1,61 @@
+﻿@model IEnumerable<AssetManagement.Models.ViewModel.PrintLabelViewModel>
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/table-datatables-managed.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/Customs/handle-printing-tag.js"></script>
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject font-green bold uppercase"> Asset Tag List</span>
+                </div>
+                <div class="actions">
+                    <a class="btn btn-warning" onclick="printMultipleTag()">
+                        <i class="fa fa-print"></i>
+                        Print Asset Tag
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" />
+                                    <span></span>
+                                </label>
+                            </th>
+                            <th> Asset Name </th>
+                            <th> Asset Tag </th>
+                        </tr>
+                    </thead>
+                    <tbody id="check_box_body">
+                        @foreach (var asset in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td>
+                                    <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                        <input type="checkbox" class="checkboxes" value="@asset.AssetID" />
+                                        <span></span>
+                                    </label>
+                                </td>
+                                <td> @asset.AssetName </td>
+                                <td>
+                                    @asset.AssetTag
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+</div>

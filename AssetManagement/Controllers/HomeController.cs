@@ -1,6 +1,7 @@
 ﻿using AssetManagement.Models;
 using AssetManagement.Models.Common;
 using AssetManagement.Models.Dashboard;
+using AssetManagement.Models.Error;
 using AssetManagement.Models.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -86,6 +87,11 @@ namespace AssetManagement.Controllers
             return View("~/Views/Asset/CreatingNewAsset.cshtml");
         }
 
+        private string GenerateAssetTag(int assetId)
+        {
+            var assetTag = String.Format("{0:D9}", assetId);
+            return assetTag;
+        }
         [HttpPost]
         public ActionResult CreateNewAsset(CreatNewAssetViewModel model)
         {
@@ -104,11 +110,18 @@ namespace AssetManagement.Controllers
                         VendorId = model.VendorId,
                         LocationId = model.LocationId,
                         DepartmentId = model.DepartmentId,
-                        UnitPrice = model.UnitOfPrice
+                        UnitPrice = model.UnitOfPrice,
+                        StatusId = (int)EnumList.AssetStatus.Active
                     };
                     assetList.Add(asset);
                 }
                 Db.Assets.AddRange(assetList);
+                Db.SaveChanges();
+                foreach( var recentAddAsset in assetList)
+                {
+                    var entity = Db.Assets.Find(recentAddAsset.ID);
+                    entity.Tag = GenerateAssetTag(recentAddAsset.ID);                      
+                }
                 Db.SaveChanges();
                 return Json("Success");
             }
@@ -181,8 +194,8 @@ namespace AssetManagement.Controllers
                 Department = assetInfor.Department.Name,
                 Location = assetInfor.Location.Name,
                 StatusId = assetInfor.StatusId,
-                CreatedBy = assetInfor.Staff.Firstname + " " + assetInfor.Staff.Lastname,
-                UsedBy = assetInfor.Staff1.Firstname + " " + assetInfor.Staff1.Lastname,
+                CreatedBy = assetInfor.CreateById != null? assetInfor.Staff.Firstname + " " + assetInfor.Staff.Lastname : "",
+                UsedBy = assetInfor.UsedById != null ? assetInfor.Staff1.Firstname + " " + assetInfor.Staff1.Lastname : "" ,
                 UnitOfPrice = assetInfor.UnitPrice,
                 AssetTag = assetInfor.Tag,
                 TransferHistory = transferHistory,
@@ -238,7 +251,11 @@ namespace AssetManagement.Controllers
             }
             else
             {
-                return View("~/Views/Error/Page500.cshtml");
+                var error = new ErrorViewModel
+                {
+                    ErrorMessage = "Can not edit asset detail!"
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
             }
         }
 
@@ -646,7 +663,11 @@ namespace AssetManagement.Controllers
                 return PartialView("~/Views/Asset/AssetTransferHistory.cshtml", transferHistoryList);
             }
             else{
-                return PartialView("~/Views/Error/Page500.cshtml");
+                var error = new ErrorViewModel
+                {
+                    ErrorMessage = "Can not transfer the asset! "
+                };
+                return View("~/Views/Error/Page500.cshtml",error);
             }
         }
 
@@ -677,7 +698,11 @@ namespace AssetManagement.Controllers
             }
             else
             {
-                return PartialView("~/Views/Error/Page500.cshtml");
+                var error = new ErrorViewModel
+                {
+                    ErrorMessage = "Can not check in asset !"
+                };
+                return View("~/Views/Error/Page500.cshtml",error);
             }
         }
 
@@ -708,7 +733,11 @@ namespace AssetManagement.Controllers
             }
             else
             {
-                return PartialView("~/Views/Error/Page500.cshtml");
+                var error = new ErrorViewModel
+                {
+                    ErrorMessage = "Can not check out asset !"
+                };
+                return View("~/Views/Error/Page500.cshtml",error);
             }
         }
 
@@ -744,7 +773,11 @@ namespace AssetManagement.Controllers
             }
             else
             {
-                return PartialView("~/Views/Error/Page500.cshtml");
+                var error = new ErrorViewModel
+                {
+                    ErrorMessage = "Can not dispose asset!"
+                };
+                return View("~/Views/Error/Page500.cshtml",error);
             }
         }
 
@@ -921,5 +954,325 @@ namespace AssetManagement.Controllers
             };
             return View("~/Views/Asset/AssetDetailEdit.cshtml", viewModel);
         }
+
+        #region Employee Management
+        public ActionResult GetEmployeeList()
+        {
+            var staffList = Db.Staffs.Select(
+                x => new EmployeeListViewModel {
+                    EmployeeId = x.ID,
+                    FirstName = x.Firstname,
+                    LastName = x.Lastname,
+                    Email = x.Email,
+                    Phone = x.MobileNo                  
+                }
+                ).OrderByDescending(x => x.EmployeeId).ToList();
+
+            return View("~/Views/Employee/EmployeeList.cshtml",staffList);
+        }
+
+        public ActionResult GetAssetFromEmployee(int employeeId)
+        {
+            var firstName = Db.Staffs.Where(x => x.ID == employeeId).Select(x => x.Firstname).FirstOrDefault();
+            var lastName = Db.Staffs.Where(x => x.ID == employeeId).Select(x => x.Lastname).FirstOrDefault();
+            var assetList = Db.Assets.Where(x => x.UsedById == employeeId)
+                              .Select(x => new AssetListViewModel
+                              {
+                                  ID = x.ID,
+                                  Name = x.Name,
+                                  SubCategory = x.SubCategory.Name,
+                                  Category = x.SubCategory.Category.Name,
+                                  StatusID = x.StatusId ?? 0
+                              }).ToList();
+            AssetFromEmployeeViewModel viewModel = new AssetFromEmployeeViewModel
+            {
+                EmployeeFullName = firstName + " " + lastName,
+                AssetList = assetList
+            };
+            return View("~/Views/Employee/AssetFromEmployee.cshtml", viewModel);
+
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrUpdateEmployee(Staff model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var employee = Db.Staffs.Find(model.ID);
+                    if (employee != null)
+                    {
+                        employee.Firstname = model.Firstname;
+                        employee.Lastname = model.Lastname;
+                        employee.Email = model.Email;
+                        employee.MobileNo = model.MobileNo;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = employee.ID,
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newStaff = new Staff();
+                    newStaff.Firstname = model.Firstname;
+                    newStaff.Lastname = model.Lastname;
+                    newStaff.Email = model.Email;
+                    newStaff.MobileNo = model.MobileNo;
+                    newStaff.CreatedDate = DateTime.Now;
+                    Db.Staffs.Add(newStaff);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully"
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!"
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+
+        #endregion
+
+        #region Location
+        public ActionResult ViewLocationList()
+        {
+            var locationList = Db.Locations.Select(
+                x => new LocationListViewModel {
+                    ID = x.ID,
+                    BuildingName = x.BuildingName,
+                    FloorNo = x.FloorNo,
+                    Name = x.Name,
+                    RoomNo = x.RoomNo
+                }
+                ).ToList();
+
+            return View("~/Views/More/LocationList.cshtml", locationList);
+        }
+        [HttpPost]
+        public ActionResult CreateOrUpdateLocation(Location model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var location = Db.Locations.Find(model.ID);
+                    if (location != null)
+                    {
+                        location.Name = model.Name;
+                        location.FloorNo = model.FloorNo;
+                        location.RoomNo = model.RoomNo;
+                        location.BuildingName = model.BuildingName;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = location.ID,
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newLocation = new Location();
+                    newLocation.Name= model.Name;
+                    newLocation.FloorNo = model.FloorNo;
+                    newLocation.RoomNo = model.RoomNo;
+                    newLocation.BuildingName = model.BuildingName;
+                    Db.Locations.Add(newLocation);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully"
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!"
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+        #endregion
+
+        #region Department
+        public ActionResult ViewDepartmentList()
+        {
+            var departmentList = Db.Departments.Select(
+                x => new DepartmentListViewModel
+                {
+                    ID = x.ID,
+                    Name = x.Name
+                }
+                ).ToList();
+
+            return View("~/Views/More/DepartmentList.cshtml", departmentList);
+        }
+        [HttpPost]
+        public ActionResult CreateOrUpdateDepartment(Department model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var department = Db.Departments.Find(model.ID);
+                    if (department != null)
+                    {
+                        department.Name = model.Name;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = department.ID,
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newDepartment = new Department();
+                    Db.Departments.Add(newDepartment);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully"
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!"
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+        }
+        #endregion
+
+        public ActionResult PrintAssetLabel()
+        {
+            var assetList = Db.Assets.Select(x => new PrintLabelViewModel
+            {
+                AssetID = x.ID,
+                AssetName = x.Name,
+                AssetTag = x.Tag
+            }).ToList();
+
+            return View("~/Views/Report/PrintLabel.cshtml",assetList);
+        }
+
+        [HttpPost]
+        public ActionResult GetDataToPrintLabel(List<int> assetIdList)
+        {
+            List<LabelPrintingModel> model = new List<LabelPrintingModel>();
+            foreach(int id in assetIdList)
+            {
+                var assetLabel = Db.Assets.Where(x => x.ID == id)
+                                   .Select(x => new LabelPrintingModel
+                                   {
+                                       AssetName = x.Name,
+                                       AssetTag = x.Tag
+                                   }).FirstOrDefault();
+                model.Add(assetLabel);
+            }
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

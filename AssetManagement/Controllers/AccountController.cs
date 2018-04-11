@@ -3,6 +3,7 @@ using AssetManagement.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -20,12 +21,49 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
-            var user = Db.ApplicationUsers.FirstOrDefault(x => (x.Email == model.Email && x.Password == model.Password));
-            if( user != null)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                var user = Db.ApplicationUsers.FirstOrDefault(x => (x.Email == model.Email && x.Password == model.Password));
+                if (user != null)
+                {
+                    var userRole = Db.UserRoles.FirstOrDefault(x => x.ID == user.RoleID).Label;
+                    var profileData = new UserProfileSessionData
+                    {
+                        FullName = user.Firstname + " " + user.Lastname,
+                        UserId = user.ID,
+                        UserRole = userRole
+                    };
+                    this.Session["UserProfile"] = profileData;
+                    return RedirectToAction("Index", "Home");
+                }
+                return null;
             }
-            return null;
+            return View("~/Views/Account/Index.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult Register(LoginViewModel model)
+        {
+            var user = new ApplicationUser
+            {
+                Firstname = model.Firstname,
+                Lastname = model.Lastname,
+                Country = model.Country,
+                CreatedDate = DateTime.Now,
+                Email = model.Email,
+                Password = model.Password,
+                Phone = model.Phone,
+            };
+            Db.ApplicationUsers.Add(user);
+            Db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult LogOut()
+        {
+            Session.Abandon();
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }
