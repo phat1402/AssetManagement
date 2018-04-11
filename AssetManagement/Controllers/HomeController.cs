@@ -2,10 +2,13 @@
 using AssetManagement.Models.Common;
 using AssetManagement.Models.Dashboard;
 using AssetManagement.Models.Error;
+using AssetManagement.Models.Setting;
 using AssetManagement.Models.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Web;
 using System.Web.Mvc;
 
@@ -1273,6 +1276,84 @@ namespace AssetManagement.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+
+        #region Setting
+        public ActionResult GetFooter()
+        {
+            var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel
+            {
+                CompanyDescription = x.Description,
+                CompanyEmail = x.Email,
+                LoginLink = x.LogoLink,
+                CompanyPhone = x.Phone,
+                CompanyID = x.ID
+            }).FirstOrDefault();
+
+            return PartialView("~/Views/Shared/_Footer.cshtml", setting);
+        }
+        public ActionResult GetLogo()
+        {
+            var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel
+            {
+                CompanyDescription = x.Description,
+                CompanyEmail = x.Email,
+                LoginLink = x.LogoLink,
+                CompanyPhone = x.Phone,
+                CompanyID = x.ID
+            }).FirstOrDefault();
+
+            return PartialView("~/Views/Shared/_Logo.cshtml", setting);
+        }
+        public JsonResult UpdateCompanySetting(CompanySettingViewModel model)
+        {
+            var setting = Db.CompanySettings.Find(model.CompanyID);
+            setting.Description = model.CompanyDescription;
+            setting.Email = model.CompanyEmail;
+            setting.Phone = model.CompanyPhone;
+            if( Db.SaveChanges() > 0)
+            {
+                return Json("Update Setting Successfully!");
+            }
+            return Json("Update Setting Failed! ");
+        }
+
+
+        [HttpPost]
+        public ActionResult UploadLogo(HttpPostedFileBase Content)
+        {
+            int defaultSettingId = 1;
+            string[] validTypes = new[] { "image/jpeg", "image/png" };
+            if (Content == null || Content.ContentLength == 0)
+            {
+                return null;
+            }
+
+            if (!validTypes.Contains(Content.ContentType))
+            {
+                throw new InvalidDataException("Please upload only an image of type JPG or PNG.");
+            }
+            else
+            {
+                string fileName = Path.GetFileName(Content.FileName);
+                string path = Path.Combine(Server.MapPath("~/UploadedLogo"), fileName);
+                Content.SaveAs(path);
+
+                var setting = Db.CompanySettings.Find(defaultSettingId);
+                setting.LogoLink = fileName;
+                if (Db.SaveChanges() > 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                var error = new ErrorViewModel {
+                    ErrorTitle = "Upload Logo Failed",
+                    ErrorMessage = "Something wrong! You can not upload new Logo"
+                
+                };
+                return View("~/Views/Error/ErrorPage.cshtml", error);
+            }
+        }
+
+        #endregion
 
     }
 }

@@ -7,6 +7,8 @@ namespace AssetManagement.Models.Error
 {
     public class ErrorViewModel
     {
+        public string ErrorTitle { get; set; }
+
         public string ErrorMessage { get; set; }
     }
 }

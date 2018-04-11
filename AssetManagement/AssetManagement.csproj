@@ -160,8 +160,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
+    <Compile Include="Models\Account\SystemUserViewModel.cs" />
     <Compile Include="Models\Account\UserProfileSessionData.cs" />
+    <Compile Include="Models\Account\UserProfileViewModel.cs" />
     <Compile Include="Models\ApplicationUser.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -199,6 +202,9 @@
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Common\EnumList.cs" />
+    <Compile Include="Models\CompanySetting.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Dashboard\CategoryDetail.cs" />
     <Compile Include="Models\Dashboard\DataList.cs" />
     <Compile Include="Models\Dashboard\DepartmentDetail.cs" />
@@ -212,6 +218,7 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Setting\CompanySettingViewModel.cs" />
     <Compile Include="Models\Staff.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -264,6 +271,7 @@
     <Content Include="Asset\img\avatar7.jpg" />
     <Content Include="Asset\img\avatar8.jpg" />
     <Content Include="Asset\img\avatar9.jpg" />
+    <Content Include="Asset\img\earth-rtl.jpg" />
     <Content Include="Asset\img\facebook.png" />
     <Content Include="Asset\img\googleplus.png" />
     <Content Include="Asset\img\linkedin.png" />
@@ -283,12 +291,14 @@
     <Content Include="Asset\img\rss.png" />
     <Content Include="Asset\img\sort_asc.png" />
     <Content Include="Asset\img\sort_both.png" />
+    <Content Include="Asset\img\test_logo.png" />
     <Content Include="Asset\img\twitter.png" />
     <Content Include="Asset\img\vimeo.png" />
     <Content Include="Asset\img\youtube.png" />
     <Content Include="Asset\img\sort_desc.png" />
     <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-fileinput.css" />
     <Content Include="Content\bootstrap-rtl.min.css" />
     <Content Include="Content\bootstrap-switch-rtl.min.css" />
     <Content Include="Content\bootstrap-timepicker.min.css" />
@@ -309,6 +319,7 @@
     <Content Include="Content\login-rtl.min.css" />
     <Content Include="Content\morris.css" />
     <Content Include="Content\plugins-rtl.min.css" />
+    <Content Include="Content\profile-rtl.min.css" />
     <Content Include="Content\select2-bootstrap.min.css" />
     <Content Include="Content\select2.min.css" />
     <Content Include="Content\simple-line-icons.min.css" />
@@ -326,6 +337,10 @@
       <DependentUpon>AssetManagement.edmx</DependentUpon>
       <LastGenOutput>AssetManagement.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Account\bootstrap-fileinput.js" />
+    <Content Include="Scripts\Account\handle-user-profile.js" />
+    <Content Include="Scripts\Account\jquery.sparkline.min.js" />
+    <Content Include="Scripts\Account\profile.js" />
     <Content Include="Scripts\additional-methods.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app.min.js" />
@@ -477,9 +492,15 @@
     <Content Include="Views\More\DepartmentList.cshtml" />
     <Content Include="Views\More\LocationList.cshtml" />
     <Content Include="Views\Report\PrintLabel.cshtml" />
+    <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Error\ErrorPage.cshtml" />
+    <Content Include="Views\Account\ViewSystemUser.cshtml" />
+    <Content Include="Views\Account\CompanySetting.cshtml" />
+    <Content Include="Views\Shared\_Logo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedLogo\" />
     <Folder Include="Views\DataSource\" />
   </ItemGroup>
   <ItemGroup>

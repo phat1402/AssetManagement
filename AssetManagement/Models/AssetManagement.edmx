@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AssetManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ApplicationUser">
           <Key>
             <PropertyRef Name="ID" />
@@ -19,6 +19,7 @@
           <Property Name="UpdatedDate" Type="date" />
           <Property Name="Firstname" Type="nvarchar" MaxLength="50" />
           <Property Name="Lastname" Type="nvarchar" MaxLength="50" />
+          <Property Name="StatusId" Type="int" />
         </EntityType>
         <EntityType Name="Asset">
           <Key>
@@ -85,6 +86,16 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="CompanySetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogoLink" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -370,6 +381,7 @@
           <EntitySet Name="AssetCheckOut" EntityType="Self.AssetCheckOut" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AssetTransfer" EntityType="Self.AssetTransfer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompanySetting" EntityType="Self.CompanySetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
@@ -446,8 +458,7 @@
             <End Role="SubCategory" EntitySet="SubCategory" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AssetManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -466,6 +477,7 @@
           <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_ApplicationUser_UserRole" FromRole="ApplicationUser" ToRole="UserRole" />
+          <Property Name="StatusId" Type="Int32" />
         </EntityType>
         <EntityType Name="Asset">
           <Key>
@@ -925,7 +937,18 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
+          <EntitySet Name="CompanySettings" EntityType="AssetManagementModel.CompanySetting" />
         </EntityContainer>
+        <EntityType Name="CompanySetting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogoLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -935,6 +958,7 @@
           <EntitySetMapping Name="ApplicationUsers">
             <EntityTypeMapping TypeName="AssetManagementModel.ApplicationUser">
               <MappingFragment StoreEntitySet="ApplicationUser">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -1086,6 +1110,17 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TelephoneNo" ColumnName="TelephoneNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CompanySettings">
+            <EntityTypeMapping TypeName="AssetManagementModel.CompanySetting">
+              <MappingFragment StoreEntitySet="CompanySetting">
+                <ScalarProperty Name="LogoLink" ColumnName="LogoLink" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

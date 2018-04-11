@@ -39,5 +39,6 @@ namespace AssetManagement.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<CompanySetting> CompanySettings { get; set; }
     }
 }

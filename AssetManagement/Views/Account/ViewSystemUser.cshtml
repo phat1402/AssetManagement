@@ -1,0 +1,59 @@
+﻿@model IEnumerable<AssetManagement.Models.Account.SystemUserViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">System User List</span>
+                </div>
+                <div class="tools"> </div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-striped table-hover table-bordered" id="employee-list-table">
+                    <thead>
+                        <tr>
+                            <th> User ID </th>
+                            <th> Fullname </th>
+                            <th> Email  </th>
+                            <th> Created Date </th>
+                            <th> Status </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr data-id="@user.ID" class="userId">
+                                <td>@user.ID</td>
+                                <td>@user.Fullname</td>
+                                <td>@user.Email</td>
+                                <td>@user.CreatedDate.ToShortDateString()</td>
+                                <td>
+                                    @if (user.StatusId == 1)
+                                    {
+                                        <span class="label label-sm label-success"> Active </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-sm label-danger"> Block </span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (user.StatusId == 1)
+                                    {
+                                        <a href="#"> Block </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#"> Unblock </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

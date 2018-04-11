@@ -20,5 +20,6 @@ namespace AssetManagement.DAL
         DbSet<Vendor> Vendors { get; set; }
         DbSet<ApplicationUser> ApplicationUsers { get; set; }
         DbSet<UserRole> UserRoles { get; set; }
+        DbSet<CompanySetting> CompanySettings { get; set; }
     }
 }

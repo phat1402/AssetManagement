@@ -12,20 +12,12 @@ namespace AssetManagement.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ApplicationUser
+    public partial class CompanySetting
     {
         public int ID { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public string Description { get; set; }
         public string Phone { get; set; }
-        public string Country { get; set; }
-        public Nullable<int> RoleID { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public string Firstname { get; set; }
-        public string Lastname { get; set; }
-        public Nullable<int> StatusId { get; set; }
-    
-        public virtual UserRole UserRole { get; set; }
+        public string Email { get; set; }
+        public string LogoLink { get; set; }
     }
 }

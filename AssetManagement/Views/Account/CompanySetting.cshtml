@@ -1,0 +1,21 @@
+﻿@model AssetManagement.Models.Setting.CompanySettingViewModel
+<div>
+    <form id="setting-infor-form" role="form" data-url="@Url.Action("UpdateCompanySetting","Home")">
+        @Html.HiddenFor(x => x.CompanyID)
+        <div class="form-group">
+            <label class="control-label">Company Description</label>
+            @Html.TextAreaFor(x => x.CompanyDescription, new { @class ="form-control"})
+        </div>
+        <div class="form-group">
+            <label class="control-label">Company Phone</label>
+            @Html.TextBoxFor(x => x.CompanyPhone, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label">Company Email</label>
+            @Html.TextBoxFor(x => x.CompanyEmail, new { @class = "form-control" })
+        </div>
+        <div class="margiv-top-10">
+            <a onclick="updateCompanySetting()" class="btn green"> Save Changes </a>
+        </div>
+    </form>
+</div>

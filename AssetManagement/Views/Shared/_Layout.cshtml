@@ -29,6 +29,8 @@
     <link href="~/Content/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/datatables.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/datatables.bootstrap-rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/profile-rtl.min.css" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS -->
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="~/Content/components-rtl.min.css" rel="stylesheet" id="style_components" type="text/css" />
@@ -75,7 +77,7 @@
             </div>
         </div>
 
-        @Html.Partial("_Footer")
+        @{Html.RenderAction("GetFooter", "Home");}
 
     </div>
 

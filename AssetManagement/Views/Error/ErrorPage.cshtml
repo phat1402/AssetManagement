@@ -1,0 +1,72 @@
+﻿@model AssetManagement.Models.Error.ErrorViewModel
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>Metronic Admin RTL Theme #3 | 404 Page Option 3</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="Preview page of Metronic Admin RTL Theme #3 for 404 page option 3" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-switch-rtl.min.css" rel="stylesheet" type="text/css" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="~/Content/components-rtl.min.css" rel="stylesheet" id="style_components" type="text/css" />
+    <link href="~/Content/plugins-rtl.min.css" rel="stylesheet" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="~/Content/error-rtl.min.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <!-- END THEME LAYOUT STYLES -->
+    <link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!-- END HEAD -->
+<body class=" page-404-3">
+    <div class="page-inner">
+        <img src="~/Asset/img/earth-rtl.jpg" class="img-responsive" alt="">
+    </div>
+    <div class="container error-404">
+        <h1>@Model.ErrorTitle</h1>
+        <h2>@Model.ErrorMessage</h2>
+        <p>
+            <a href="@Url.Action("Index","Home")" class="btn red btn-outline"> Return home </a>
+            <br>
+        </p>
+    </div>
+    <!--[if lt IE 9]>
+    <script src="../assets/global/plugins/respond.min.js"></script>
+    <script src="../assets/global/plugins/excanvas.min.js"></script>
+    <script src="../assets/global/plugins/ie8.fix.min.js"></script>
+    <![endif]-->
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="~/Scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/js.cookie.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery.blockui.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-switch.min.js" type="text/javascript"></script>
+    <!-- END CORE PLUGINS -->
+    <!-- BEGIN THEME GLOBAL SCRIPTS -->
+    <script src="~/Scripts/app.js" type="text/javascript"></script>
+    <!-- END THEME GLOBAL SCRIPTS -->
+    <!-- BEGIN THEME LAYOUT SCRIPTS -->
+    <!-- END THEME LAYOUT SCRIPTS -->
+    <script>
+        $(document).ready(function () {
+            $('#clickmewow').click(function () {
+                $('#radio1003').attr('checked', 'checked');
+            });
+        })</script>
+</body>
+</html>

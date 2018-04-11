@@ -32,7 +32,7 @@ var TableDatatablesEditable = function () {
             buildingName = jqInputs[3].value;
             $.ajax({
                 data: {
-                    ID: employeeID,
+                    ID: locationID,
                     Name: name,
                     FloorNo: floorNo,
                     RoomNo: roomNo,

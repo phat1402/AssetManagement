@@ -37,9 +37,7 @@
 <body class=" login">
     <!-- BEGIN LOGO -->
     <div class="logo">
-        <a href="index.html">
-            <img src="~/Asset/img/logo-big.png" alt="" />
-        </a>
+        @{ Html.RenderAction("GetLogo","Home");}
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
