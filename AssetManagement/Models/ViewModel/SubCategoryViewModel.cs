@@ -10,5 +10,7 @@ namespace AssetManagement.Models.ViewModel
         public int ID { get; set; }
         public string Name { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+
     }
 }

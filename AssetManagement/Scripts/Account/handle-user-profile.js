@@ -70,3 +70,40 @@ function updateCompanySetting() {
         }
     });
 }
+
+function changeRole(ele) {
+    var role = '#role' + $(ele).data('id');
+    var selectrole = '#select-role' + $(ele).data('id');
+    var changerole = '#change-role' + $(ele).data('id');
+    var saverole = '#save-role' + $(ele).data('id');
+    var cancel = '#cancel' + $(ele).data('id');
+
+    $(role).addClass('hide');
+    $(selectrole).removeClass('hide');
+
+    $(changerole).addClass('hide');
+    $(saverole).removeClass('hide');
+    $(cancel).removeClass('hide');
+
+}
+
+function saveRole(ele) {
+    var userId = $(ele).data('id');
+    var selectedrole = '#select-role' + $(ele).data('id') + ' option:selected';
+    var selected = $(selectedrole).val();
+    $.ajax({
+        method: "POST",
+        url: '/Account/UpdateRole',
+        data: {
+            userId: userId,
+            roleId: selected
+        },
+        success: function (response) {
+            alert(response);
+            location.reload();
+        }
+    });
+}
+function cancelSaveRole() {
+    location.reload();
+}

@@ -22,7 +22,7 @@ var TableDatatablesEditable = function () {
         }
         function saveRow(oTable, nRow) {
             var jqInputs = $('input', nRow);
-            categoryID = $(nRow).data("categoryid");
+            categoryID = $('#sub-category-list-table').data("categoryid");
             subCategoryID = $(nRow).data("id");
             subCategoryName = jqInputs[0].value;
             $.ajax({
@@ -51,6 +51,7 @@ var TableDatatablesEditable = function () {
                         if (response.Message !== "Create successfully") {
                             location.reload();
                         } else {
+                            oTable.fnUpdate(response.ID, nRow, 1, false);
                             oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
                             oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
                             oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);

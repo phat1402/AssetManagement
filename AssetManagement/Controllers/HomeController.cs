@@ -143,7 +143,8 @@ namespace AssetManagement.Controllers
                 Tag = x.Tag,
                 SubCategory = x.SubCategory.Name,
                 Category = x.SubCategory.Category.Name,
-                StatusID = x.StatusId.Value
+                StatusID = x.StatusId.Value,
+                UsedByFullname = x.Staff1.Firstname + " " + x.Staff1.Lastname       
             }).ToList();
             return View("~/Views/Asset/AssetList.cshtml", assetList);
         }
@@ -451,13 +452,15 @@ namespace AssetManagement.Controllers
             }
         }
 
-        public ActionResult ViewSubCategoryList(int id)
+        public ActionResult ViewSubCategoryList(int categoryId)
         {
-            var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == id).Select(x => new SubCategoryViewModel
+            var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => new SubCategoryViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
-                CategoryId = x.CategoryId.Value
+                CategoryId = x.CategoryId.Value,
+                CategoryName = x.Category.Name
+
             }).ToList();
 
             return View("~/Views/CategoryAndSub/SubCategoryList.cshtml", subCategoryList);

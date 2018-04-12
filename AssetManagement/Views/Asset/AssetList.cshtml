@@ -23,8 +23,8 @@
                             <th> Tag </th>
                             <th> Sub Category </th>
                             <th> Category </th>
+                            <th> Used By </th>
                             <th> Status </th>
-                            <th> Action </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +36,7 @@
                                 <td> @asset.Tag </td>
                                 <td> @asset.SubCategory </td>
                                 <td> @asset.Category </td>
+                                <td> @asset.UsedByFullname</td>
                                 <td>
                                     @if (asset.StatusID == 1)
                                     {
@@ -46,7 +47,6 @@
                                         <span class="label label-sm label-danger"> Disposal </span>
                                     }
                                 </td>
-                                <td></td>
                             </tr>
                         }
                     </tbody>

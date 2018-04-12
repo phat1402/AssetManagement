@@ -30,6 +30,7 @@ var TableDatatablesEditable = function () {
                     Name: categoryName
                 },
                 type: "POST",
+                async: false,
                 url: "/Home/CreateOrUpdateCategory",
                 success: function (response) {
                     if (response.RequestType == "Update") {
@@ -50,6 +51,7 @@ var TableDatatablesEditable = function () {
                             location.reload();
                         }
                         else {
+                            oTable.fnUpdate(response.ID, nRow, 0, false);
                             oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
                             oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
                             oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);

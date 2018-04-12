@@ -16,5 +16,7 @@ namespace AssetManagement.Models.Account
         public int StatusId { get; set; }
 
         public DateTime CreatedDate { get; set; }
+
+        public string Role { get; set; }
     }
 }

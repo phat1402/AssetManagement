@@ -40,7 +40,7 @@
                         @foreach( var category in Model)
                         {
                             <tr data-id="@category.ID" class="categoryId">
-                                <td><a href="@Url.Action("ViewSubCategoryList","Home",new { id = category.ID})">@category.ID</a></td>
+                                <td><a href="@Url.Action("ViewSubCategoryList","Home",new { categoryId = category.ID})">@category.ID</a></td>
                                 <td>@category.Name</td>
                                 <td><a class="edit" href="javascript:;"> Edit </a></td>
                                 <td><a class="delete" href="javascript:;"> Delete </a></td>

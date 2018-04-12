@@ -49,21 +49,35 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(LoginViewModel model)
+        public ActionResult Register(RegisterViewModel model)
         {
-            var user = new ApplicationUser
+            if (ModelState.IsValid)
             {
-                Firstname = model.Firstname,
-                Lastname = model.Lastname,
-                Country = model.Country,
-                CreatedDate = DateTime.Now,
-                Email = model.Email,
-                Password = model.Password,
-                Phone = model.Phone,
-            };
-            Db.ApplicationUsers.Add(user);
-            Db.SaveChanges();
-            return RedirectToAction("Index");
+                if(model.RegisterPassword != model.RetypePassword)
+                {
+                    var error = new ErrorViewModel
+                    {
+                        ErrorTitle = "Register Failed",
+                        ErrorMessage = "Your password and retype password does not match"
+                    };
+                    return View("~/Views/Error/ErrorPage.cshtml", error);
+                }
+                var user = new ApplicationUser
+                {
+                    Firstname = model.Firstname,
+                    Lastname = model.Lastname,
+                    Country = model.Country,
+                    CreatedDate = DateTime.Now,
+                    Email = model.RegisterEmail,
+                    Password = model.RegisterPassword,
+                    Phone = model.Phone,
+                    RoleID = 2
+                };
+                Db.ApplicationUsers.Add(user);
+                Db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View("~/Views/Account/Index.cshtml");
         }
 
         public ActionResult LogOut()
@@ -93,7 +107,8 @@ namespace AssetManagement.Controllers
                 Fullname = x.Firstname + " " + x.Lastname,
                 Email = x.Email,
                 CreatedDate = x.CreatedDate.Value,
-                StatusId = x.StatusId.Value
+                StatusId = x.StatusId.Value,
+                Role = x.UserRole.Label
             }).ToList();
 
             var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel {
@@ -166,6 +181,18 @@ namespace AssetManagement.Controllers
             {
                 return Json(e.Message);
             }
+        }
+
+        [HttpPost]
+        public ActionResult UpdateRole(int userId, int roleId)
+        {
+            var user = Db.ApplicationUsers.Find(userId);
+            user.RoleID = roleId;
+            if(Db.SaveChanges() > 0 || user.RoleID == roleId)
+            {
+                return Json("Update Role Successfully!");
+            }
+            return Json("Update Failed! ");
         }
     }
 }

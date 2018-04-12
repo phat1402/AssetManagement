@@ -14,18 +14,6 @@ namespace AssetManagement.Models.Account
 
         public string Password { get; set; }
 
-        public string RegisterEmail { get; set; }
-
-        public string RegisterPassword { get; set; }
-
-        public string RetypePassword { get; set; }
-
-        public string Phone { get; set; }
-
-        public string Country { get; set; }
-
-        public string Firstname { get; set; }
-
-        public string Lastname { get; set; }
+        public RegisterViewModel Register { get; set; }
     }
 }

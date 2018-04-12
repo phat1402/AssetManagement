@@ -1,4 +1,4 @@
-﻿@using Neodynamic.Web.MVC.Barcode
+﻿@using AssetManagement.Models.Account
 @section scripts {
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
@@ -9,6 +9,10 @@
     <script type="text/javascript" src="~/Scripts/Customs/handle-printing-tag.js"></script>
 }
 @model AssetManagement.Models.ViewModel.AssetDetailViewModel
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    var userRole = profileData.UserRole;
+}
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
@@ -62,13 +66,13 @@
                                     <td class="bold"> Status </td>
                                     <td>
                                         @if (Model.StatusId == 1)
-                            {
-                                <span class="label label-sm label-success"> Active </span>
-                }
-                else
-                {
-                    <span class="label label-sm label-danger"> Disposal </span>
-    }
+                                        {
+                                            <span class="label label-sm label-success"> Active </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-sm label-danger"> Disposal </span>
+                                        }
                                     </td>
                                 </tr>
                                 <tr>
@@ -89,7 +93,7 @@
                             <div class="col-md-6">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <a class="btn green" href="@Url.Action("ViewEditAssetPage","Home",new { assetId = Model.AssetID})">Edit Infor </a>
+                                        <a class="btn green" href="@Url.Action("ViewEditAssetPage","Home",new { assetId = Model.AssetID})" @(userRole != "ReadOnly" ? "":"disabled")>Edit Infor </a>
                                     </div>
                                 </div>
                             </div>

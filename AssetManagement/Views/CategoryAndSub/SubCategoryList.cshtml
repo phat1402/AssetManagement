@@ -10,7 +10,7 @@
         <div class="portlet light ">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green bold uppercase">Sub Category List</span>
+                    <span class="caption-subject font-green bold uppercase">Sub Category List Of @Model.First().CategoryName</span>
                 </div>
                 <div class="tools"> </div>
             </div>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-bordered" id="sub-category-list-table">
+                <table class="table table-striped table-hover table-bordered" id="sub-category-list-table" data-categoryid="@Model.First().CategoryId" >
                     <thead>
                         <tr>
                             <th> Sub Category ID </th>
@@ -39,7 +39,8 @@
                     <tbody>
                         @foreach (var subcategory in Model)
                         {
-                            <tr data-id="@subcategory.ID" data-categoryid="@subcategory.CategoryId" class="categoryId">
+
+                            <tr data-id="@subcategory.ID" class="categoryId">
                                 <td>@subcategory.ID</td>
                                 <td>@subcategory.Name</td>
                                 <td><a class="edit" href="javascript:;"> Edit </a></td>

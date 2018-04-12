@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
     <Compile Include="Models\Account\LoginViewModel.cs" />
+    <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\Account\SystemUserViewModel.cs" />
     <Compile Include="Models\Account\UserProfileSessionData.cs" />
     <Compile Include="Models\Account\UserProfileViewModel.cs" />
@@ -298,6 +299,7 @@
     <Content Include="Asset\img\sort_desc.png" />
     <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-editable-rtl.css" />
     <Content Include="Content\bootstrap-fileinput.css" />
     <Content Include="Content\bootstrap-rtl.min.css" />
     <Content Include="Content\bootstrap-switch-rtl.min.css" />
@@ -337,7 +339,9 @@
       <DependentUpon>AssetManagement.edmx</DependentUpon>
       <LastGenOutput>AssetManagement.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Account\bootstrap-editable.js" />
     <Content Include="Scripts\Account\bootstrap-fileinput.js" />
+    <Content Include="Scripts\Account\form-editable.js" />
     <Content Include="Scripts\Account\handle-user-profile.js" />
     <Content Include="Scripts\Account\jquery.sparkline.min.js" />
     <Content Include="Scripts\Account\profile.js" />

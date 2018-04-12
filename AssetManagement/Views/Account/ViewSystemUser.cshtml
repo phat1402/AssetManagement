@@ -16,6 +16,7 @@
                             <th> Fullname </th>
                             <th> Email  </th>
                             <th> Created Date </th>
+                            <th> Role </th>
                             <th> Status </th>
                             <th> Action </th>
                         </tr>
@@ -29,6 +30,14 @@
                                 <td>@user.Email</td>
                                 <td>@user.CreatedDate.ToShortDateString()</td>
                                 <td>
+                                    <span id=@("role" + user.ID)>@user.Role</span>
+                                    <select class=".change-role hide" id=@("select-role" + user.ID) >
+                                        <option value="1">Admin</option>
+                                        <option value="2">Read Only</option>
+                                        <option value="3">Can Edit</option>
+                                    </select>
+                                </td>
+                                <td>
                                     @if (user.StatusId == 1)
                                     {
                                         <span class="label label-sm label-success"> Active </span>
@@ -40,13 +49,16 @@
                                 </td>
                                 <td>
                                     @if (user.StatusId == 1)
-                                    {
-                                        <a href="#"> Block </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="#"> Unblock </a>
-                                    }
+    {
+                                <a href="#"> Block </a>
+}
+else
+{
+                                <a href="#"> Unblock </a>
+}
+                                    / <a data-id="@user.ID" onclick="changeRole(this)" id=@("change-role"+user.ID)> Change Role </a>
+                                    <a data-id="@user.ID" onclick="saveRole(this)" id=@("save-role"+user.ID) class="hide"> Save Role </a>
+                                    <a onclick="cancelSaveRole()" id=@("cancel"+user.ID)  class="hide"> - Cancel </a>
                                 </td>
                             </tr>
                         }
