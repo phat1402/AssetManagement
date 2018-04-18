@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace AssetManagement.Models.Account
 {
-    public class RegisterViewModel
+    public class LoginRegisterViewModel
     {
+        [Required(ErrorMessage = "The email address is required") ]
+        [EmailAddress(ErrorMessage = "Invalid Email Address") ]
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         [Required(ErrorMessage = "The email address is required")]
         public string RegisterEmail { get; set; }
 

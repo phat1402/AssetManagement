@@ -1,4 +1,5 @@
 ﻿@using AssetManagement.Models.Account
+@using AssetManagement.Models.Common
 @section scripts {
     <script type="text/javascript" src="~/Scripts/Account/bootstrap-fileinput.js"></script>
     <script type="text/javascript" src="~/Scripts/Account/jquery.sparkline.min.js"></script>
@@ -8,7 +9,7 @@
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/employee-datatables-editable.js"></script>
-    }
+}
 @model AssetManagement.Models.Account.UserProfileViewModel
 @{
     var profileData = this.Session["UserProfile"] as UserProfileSessionData;
@@ -20,7 +21,7 @@
             <div class="portlet-title tabbable-line">
                 <div class="caption caption-md">
                     <i class="icon-globe theme-font hide"></i>
-                    <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+                    <span class="caption-subject font-green bold uppercase">Profile Account</span>
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="active">
@@ -31,12 +32,6 @@
                     </li>
                     <li class="@(userRole == "Admin" ? "":"hidden")">
                         <a href="#tab_1_3" data-toggle="tab">View All User</a>
-                    </li>
-                    <li class="@(userRole == "Admin" ? "":"hidden")">
-                        <a href="#tab_1_4" data-toggle="tab">Company Setting</a>
-                    </li>
-                    <li class="@(userRole == "Admin" ? "":"hidden")">
-                        <a href="#tab_1_5" data-toggle="tab">Change Company Logo</a>
                     </li>
                 </ul>
             </div>
@@ -60,7 +55,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label">Country</label>
-                                @Html.TextBoxFor(x => x.Country, new { @class = "form-control" })
+                                @Html.DropDownListFor(x => x.Country, Country.CountryList, new { @class = "form-control" })
                             </div>
                             <div class="margiv-top-10">
                                 <a onclick="updateUserInfor()" class="btn green"> Save Changes </a>
@@ -95,38 +90,6 @@
                         @Html.Partial("~/Views/Account/ViewSystemUser.cshtml", Model.UserList)
                     </div>
                     <!-- END PRIVACY SETTINGS TAB -->
-                    <div class="tab-pane" id="tab_1_4">
-                        @Html.Partial("~/Views/Account/CompanySetting.cshtml", Model.Setting)
-                    </div>
-
-                    <div class="tab-pane" id="tab_1_5">
-                        <form role="form" method="POST" enctype="multipart/form-data" action="@Url.Action("UploadLogo","Home")">
-                            <div class="form-group">
-                                <div class="fileinput fileinput-new" data-provides="fileinput">
-                                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" />
-                                    </div>
-                                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"> </div>
-                                    <div>
-                                        <span class="btn default btn-file">
-                                            <span class="fileinput-new"> Select image </span>
-                                            <span class="fileinput-exists"> Change </span>
-                                            <input type="file" name="Content">
-                                        </span>
-                                        <a href="javascript:;" class="btn default fileinput-exists" data-dismiss="fileinput"> Remove </a>
-                                    </div>
-                                </div>
-                                <div class="clearfix margin-top-10">
-                                    <span class="label label-danger">NOTE! </span>
-                                    <span>  You can only upload JPEG or PNG file </span>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="margin-top-10">
-                                <button type="submit" class="btn green"> Upload </button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

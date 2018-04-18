@@ -20,7 +20,5 @@ namespace AssetManagement.Models.Account
         public ChangePasswordViewModel PasswordTab { get; set; }
 
         public IEnumerable<SystemUserViewModel> UserList { get; set; }
-
-        public CompanySettingViewModel Setting { get; set; }
     }
 }

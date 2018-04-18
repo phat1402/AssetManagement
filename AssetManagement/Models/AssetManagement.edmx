@@ -96,6 +96,8 @@
           <Property Name="Phone" Type="nvarchar" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="LogoLink" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar" MaxLength="1000" />
+          <Property Name="Country" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -948,6 +950,8 @@
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LogoLink" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1116,6 +1120,8 @@
           <EntitySetMapping Name="CompanySettings">
             <EntityTypeMapping TypeName="AssetManagementModel.CompanySetting">
               <MappingFragment StoreEntitySet="CompanySetting">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="LogoLink" ColumnName="LogoLink" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

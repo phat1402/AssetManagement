@@ -1,5 +1,6 @@
 ﻿using AssetManagement.Models;
 using AssetManagement.Models.Account;
+using AssetManagement.Models.Common;
 using AssetManagement.Models.Error;
 using AssetManagement.Models.Setting;
 using System;
@@ -21,7 +22,7 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(LoginRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -49,10 +50,19 @@ namespace AssetManagement.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterViewModel model)
+        public ActionResult Register(LoginRegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                if(Db.ApplicationUsers.Any(x => x.Email == model.RegisterEmail))
+                {
+                    var error = new ErrorViewModel
+                    {
+                        ErrorTitle = "Register Failed",
+                        ErrorMessage = "Your email is already existed! Try withh another email!"
+                    };
+                    return View("~/Views/Error/ErrorPage.cshtml", error);
+                }
                 if(model.RegisterPassword != model.RetypePassword)
                 {
                     var error = new ErrorViewModel
@@ -71,7 +81,8 @@ namespace AssetManagement.Controllers
                     Email = model.RegisterEmail,
                     Password = model.RegisterPassword,
                     Phone = model.Phone,
-                    RoleID = 2
+                    RoleID = 2,
+                    StatusId = (int) EnumList.UserStatus.Active
                 };
                 Db.ApplicationUsers.Add(user);
                 Db.SaveChanges();
@@ -111,16 +122,8 @@ namespace AssetManagement.Controllers
                 Role = x.UserRole.Label
             }).ToList();
 
-            var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel {
-                CompanyDescription = x.Description,
-                CompanyEmail = x.Email,
-                LoginLink = x.LogoLink,
-                CompanyPhone = x.Phone,
-                CompanyID = x.ID
-            }).FirstOrDefault();
-
             userInfor.UserList = userList;
-            userInfor.Setting = setting;
+
             return View("~/Views/Account/UserProfile.cshtml", userInfor);
         }
 

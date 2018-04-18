@@ -1,10 +1,11 @@
-﻿@model AssetManagement.Models.Setting.CompanySettingViewModel
+﻿@using AssetManagement.Models.Common
+@model AssetManagement.Models.Setting.CompanySettingViewModel
 <div>
     <form id="setting-infor-form" role="form" data-url="@Url.Action("UpdateCompanySetting","Home")">
         @Html.HiddenFor(x => x.CompanyID)
         <div class="form-group">
-            <label class="control-label">Company Description</label>
-            @Html.TextAreaFor(x => x.CompanyDescription, new { @class ="form-control"})
+            <label class="control-label">Company Name</label>
+            @Html.TextAreaFor(x => x.CompanyDescription, new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label class="control-label">Company Phone</label>
@@ -13,6 +14,14 @@
         <div class="form-group">
             <label class="control-label">Company Email</label>
             @Html.TextBoxFor(x => x.CompanyEmail, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label">Company Address</label>
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="control-label">Country</label>
+            @Html.DropDownListFor(x => x.Country, Country.CountryList , new { @class = "form-control" })
         </div>
         <div class="margiv-top-10">
             <a onclick="updateCompanySetting()" class="btn green"> Save Changes </a>

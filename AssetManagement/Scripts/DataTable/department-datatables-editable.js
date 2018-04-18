@@ -25,37 +25,40 @@ var TableDatatablesEditable = function () {
             departmentID = $(nRow).data("id");
             name = jqInputs[0].value;
             $.ajax({
+                url: "/Home/CreateOrUpdateDepartment",
+                type: "POST",
                 data: {
                     ID: departmentID,
                     Name: name,
                 },
-                type: "POST",
-                url: "/Home/CreateOrUpdateDepartment",
+                async: false,
                 success: function (response) {
                     if (response.RequestType == "Update") {
                         alert(response.Message);
-                        if (response.Message !== "Update successfully") {
-                            location.reload();
-                        }
-                        else {
-                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
-                            oTable.fnDraw();
-                        }
+                        location.reload();
+                        //if (response.Message !== "Update successfully") {
+                        //    location.reload();
+                        //}
+                        //else {
+                        //    oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
+                        //    oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
+                        //    oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
+                        //    oTable.fnDraw();
+                        //}
                     }
                     else {
                         alert(response.Message);
-                        if (response.Message !== "Create successfully") {
-                            location.reload();
-                        }
-                        else {
-                            oTable.fnUpdate(response.ID, nRow, 0, false);
-                            oTable.fnUpdate(response.Name, nRow, 1, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
-                            oTable.fnDraw();
-                        }
+                        location.reload();
+                        //if (response.Message !== "Create successfully") {
+                        //    location.reload();
+                        //}
+                        //else {
+                        //    oTable.fnUpdate(response.ID, nRow, 0, false);
+                        //    oTable.fnUpdate(response.Name, nRow, 1, false);
+                        //    oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 3, false);
+                        //    oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 4, false);
+                        //    oTable.fnDraw();
+                        //}
                     }
                 }
             });
@@ -144,10 +147,25 @@ var TableDatatablesEditable = function () {
             if (confirm("Are you sure to delete this row ?") == false) {
                 return;
             }
-
+            var departmentId = $(this).data('id');
             var nRow = $(this).parents('tr')[0];
             oTable.fnDeleteRow(nRow);
-            alert("Deleted! Do not forget to do some ajax to sync with backend :)");
+            $.ajax({
+                url: "/Home/DeleteDepartment",
+                type: "POST",
+                data: departmentId,
+                async: false,
+                success: function (response) {
+                    if (response == "Success") {
+                        alert("Delete Successfully!");
+                        location.reload();
+                    }
+                    else {
+                        alert("Delete Failed");
+                        location.reload();
+                    }
+                }
+            });
         });
 
         table.on('click', '.cancel', function (e) {

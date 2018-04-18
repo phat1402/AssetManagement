@@ -128,7 +128,7 @@ var TableDatatablesEditable = function () {
         var nEditing = null;
         var nNew = false;
 
-        $('#employee-list-table_new').click(function (e) {
+        $('#location-list-table_new').click(function (e) {
             e.preventDefault();
 
             if (nNew && nEditing) {

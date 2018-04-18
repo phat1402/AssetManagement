@@ -1199,6 +1199,7 @@ namespace AssetManagement.Controllers
                                 RequestType = "Update",
                                 Message = "Update successfully",
                                 ID = department.ID,
+                                Name = department.Name
                             });
                         }
                         else
@@ -1223,6 +1224,7 @@ namespace AssetManagement.Controllers
                 else
                 {
                     var newDepartment = new Department();
+                    newDepartment.Name = model.Name;
                     Db.Departments.Add(newDepartment);
                     if (Db.SaveChanges() > 0)
                     {
@@ -1247,6 +1249,24 @@ namespace AssetManagement.Controllers
             {
                 return Json(e.Message);
             }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDepartment(int departmentId)
+        {
+            var assets = Db.Assets.Where(x => x.DepartmentId == departmentId).ToList();
+            foreach( var asset in assets)
+            {
+                asset.DepartmentId = null;
+            }
+            var department = Db.Departments.Find(departmentId);
+            Db.Departments.Remove(department);
+
+            if( Db.SaveChanges() > 0)
+            {
+                return Json("Success");
+            }
+            return Json("Fail");
         }
         #endregion
 
@@ -1294,6 +1314,7 @@ namespace AssetManagement.Controllers
 
             return PartialView("~/Views/Shared/_Footer.cshtml", setting);
         }
+
         public ActionResult GetLogo()
         {
             var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel
@@ -1307,19 +1328,21 @@ namespace AssetManagement.Controllers
 
             return PartialView("~/Views/Shared/_Logo.cshtml", setting);
         }
+
         public JsonResult UpdateCompanySetting(CompanySettingViewModel model)
         {
             var setting = Db.CompanySettings.Find(model.CompanyID);
             setting.Description = model.CompanyDescription;
             setting.Email = model.CompanyEmail;
             setting.Phone = model.CompanyPhone;
+            setting.Address = model.Address;
+            setting.Country = model.Country;
             if( Db.SaveChanges() > 0)
             {
                 return Json("Update Setting Successfully!");
             }
             return Json("Update Setting Failed! ");
         }
-
 
         [HttpPost]
         public ActionResult UploadLogo(HttpPostedFileBase Content)
@@ -1355,6 +1378,23 @@ namespace AssetManagement.Controllers
                 return View("~/Views/Error/ErrorPage.cshtml", error);
             }
         }
+
+        public ActionResult ViewCompanySetting()
+        {
+            var setting = Db.CompanySettings.Select(x => new CompanySettingViewModel
+            {
+                CompanyDescription = x.Description,
+                CompanyEmail = x.Email,
+                LoginLink = x.LogoLink,
+                CompanyPhone = x.Phone,
+                CompanyID = x.ID,
+                Address = x.Address,
+                Country = x.Country
+            }).FirstOrDefault();
+
+            return View("~/Views/CompanySetting/Setting.cshtml", setting);
+        }
+
 
         #endregion
 

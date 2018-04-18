@@ -6,6 +6,7 @@
         Response.Redirect("~/Account/Index");
     }
     var fullName = profileData.FullName;
+    var userRole = profileData.UserRole;
 }
 <div class="page-wrapper-row">
     <div class="page-wrapper-top">
@@ -127,19 +128,19 @@
                                 </a>
                             </li>
                             @*<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                    <a href="javascript:;">
-                                        Purchase & Quantity
-                                        <span class="arrow"></span>
-                                    </a>
-                                    <ul class="dropdown-menu pull-left">
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#"> New Purchase </a>
-                                        </li>
-                                        <li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  "> Add New Asset Quantity</a>
-                                        </li>
-                                    </ul>
-                                </li>*@
+            <a href="javascript:;">
+                Purchase & Quantity
+                <span class="arrow"></span>
+            </a>
+            <ul class="dropdown-menu pull-left">
+                <li aria-haspopup="true" class=" ">
+                    <a href="#"> New Purchase </a>
+                </li>
+                <li aria-haspopup="true" class=" ">
+                    <a href="#" class="nav-link  "> Add New Asset Quantity</a>
+                </li>
+            </ul>
+        </li>*@
                             <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                 <a href="javascript:;">
                                     Label & Report
@@ -153,8 +154,8 @@
                                         <a href="@Url.Action("GetAssetByEmployee","Home")" class="nav-link  ">  Asset By Employee </a>
                                     </li>
                                     @*<li aria-haspopup="true" class=" ">
-                                            <a href="#" class="nav-link  ">  Asset By Store </a>
-                                        </li>*@
+                    <a href="#" class="nav-link  ">  Asset By Store </a>
+                </li>*@
                                     <li aria-haspopup="true" class=" ">
                                         <a href="@Url.Action("GetAssetByBuilding","Home")" class="nav-link  ">  Asset By Building </a>
                                     </li>
@@ -189,7 +190,12 @@
                                     </li>
                                 </ul>
                             </li>
-
+                            <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown @(userRole == "Admin" ? "":"hidden")">
+                                <a href="@Url.Action("ViewCompanySetting","Home")" class="nav-link">
+                                    Company Setting
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <!-- END MEGA MENU -->

@@ -12,5 +12,11 @@ namespace AssetManagement.Models.Common
             Active = 1,
             Disposal = 2
         }
+
+        public enum UserStatus
+        {
+            Active = 1,
+            Blocked = 2
+        }
     }
 }

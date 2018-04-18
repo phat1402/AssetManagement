@@ -161,8 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
-    <Compile Include="Models\Account\LoginViewModel.cs" />
-    <Compile Include="Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Models\Account\LoginRegisterViewModel.cs" />
     <Compile Include="Models\Account\SystemUserViewModel.cs" />
     <Compile Include="Models\Account\UserProfileSessionData.cs" />
     <Compile Include="Models\Account\UserProfileViewModel.cs" />
@@ -202,6 +201,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\Country.cs" />
     <Compile Include="Models\Common\EnumList.cs" />
     <Compile Include="Models\CompanySetting.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
@@ -377,6 +377,7 @@
     <Content Include="Scripts\Customs\asset-checkout-handle.js" />
     <Content Include="Scripts\Customs\asset-checkin-handle.js" />
     <Content Include="Scripts\Customs\asset-transfer-handle.js" />
+    <Content Include="Scripts\Customs\countries-select2.js" />
     <Content Include="Scripts\Customs\edit-asset.js" />
     <Content Include="Scripts\Customs\dispose-asset.js" />
     <Content Include="Scripts\Customs\check-out-asset.js" />
@@ -502,6 +503,7 @@
     <Content Include="Views\Account\ViewSystemUser.cshtml" />
     <Content Include="Views\Account\CompanySetting.cshtml" />
     <Content Include="Views\Shared\_Logo.cshtml" />
+    <Content Include="Views\CompanySetting\Setting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

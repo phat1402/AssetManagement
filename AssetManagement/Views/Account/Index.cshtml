@@ -1,7 +1,8 @@
-﻿@{ 
+﻿@using AssetManagement.Models.Common
+@{
     Layout = null;
 }
-@model AssetManagement.Models.Account.LoginViewModel
+@model AssetManagement.Models.Account.LoginRegisterViewModel
 <!DOCTYPE html>
 <html lang="en" dir="rtl">
 <head>
@@ -37,13 +38,18 @@
 <body class=" login">
     <!-- BEGIN LOGO -->
     <div class="logo">
-        @{ Html.RenderAction("GetLogo","Home");}
+        @{ Html.RenderAction("GetLogo", "Home");}
     </div>
     <!-- END LOGO -->
     <!-- BEGIN LOGIN -->
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
         <form class="login-form" action="@Url.Action("Login","Account")" method="post">
+            @Html.HiddenFor(x => x.Firstname, new { Value = "Firstname" })
+            @Html.HiddenFor(x => x.Lastname, new { Value = "Lastname" })
+            @Html.HiddenFor(x => x.RegisterEmail, new { Value = "RegisterEmail" })
+            @Html.HiddenFor(x => x.RegisterPassword, new { Value = "RegisterPassword" })
+            @Html.HiddenFor(x => x.RetypePassword, new { Value = "RetypePassword" })
             <h3 class="form-title font-green">Sign In</h3>
             <div class="alert alert-danger display-hide">
                 <button class="close" data-close="alert"></button>
@@ -52,8 +58,8 @@
             <div class="form-group">
                 <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                 <label class="control-label visible-ie8 visible-ie9">Email</label>
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control form-control-solid placeholder-no-fix", type = "text", autocomplete = "off", placeholder = "Email" })               
-                @Html.ValidationMessageFor( x => x.Email, null, new { @class ="text-danger"})
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control form-control-solid placeholder-no-fix", type = "text", autocomplete = "off", placeholder = "Email" })
+                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Password</label>
@@ -85,41 +91,43 @@
         <!-- END FORGOT PASSWORD FORM -->
         <!-- BEGIN REGISTRATION FORM -->
         <form class="register-form" action="@Url.Action("Register","Account")" method="post">
+            @Html.HiddenFor(x => x.Email, new { Value = "email@gmail.com"})
+            @Html.HiddenFor(x => x.Password, new { Value = "Password"})
             <h3 class="font-green">Sign Up</h3>
             <p class="hint"> Enter your personal details below: </p>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">First Name</label>
-                @Html.TextBoxFor(x => x.Register.Firstname, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "First Name" })
-                @Html.ValidationMessageFor(x => x.Register.Firstname, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(x => x.Firstname, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "First Name" })
+                @Html.ValidationMessageFor(x => x.Firstname, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Last Name</label>
-                @Html.TextBoxFor(x => x.Register.Lastname, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Last Name" })
-                @Html.ValidationMessageFor(x => x.Register.Lastname, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(x => x.Lastname, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Last Name" })
+                @Html.ValidationMessageFor(x => x.Lastname, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Phone</label>
-                @Html.TextBoxFor(x => x.Register.Phone, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Phone Number" })
+                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Phone Number" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Country</label>
-                @Html.TextBoxFor(x => x.Register.Country, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Country" })
+                @Html.DropDownListFor(x => x.Country, Country.CountryList, new { @class = "form-control" })
             </div>
             <p class="hint"> Enter your account details below: </p>
             <div class="form-group">
                 <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
                 <label class="control-label visible-ie8 visible-ie9">Email</label>
-                @Html.TextBoxFor(x => x.Register.RegisterEmail, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Email" })
-                @Html.ValidationMessageFor(x => x.Register.RegisterEmail, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(x => x.RegisterEmail, new { @class = "form-control placeholder-no-fix", type = "text", placeholder = "Email" })
+                @Html.ValidationMessageFor(x => x.RegisterEmail, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Password</label>
-                @Html.TextBoxFor(x => x.Register.RegisterPassword, new { @class = "form-control placeholder-no-fix", type = "password", placeholder = "Password" })
-                @Html.ValidationMessageFor(x => x.Register.RegisterPassword, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(x => x.RegisterPassword, new { @class = "form-control placeholder-no-fix", type = "password", placeholder = "Password" })
+                @Html.ValidationMessageFor(x => x.RegisterPassword, null, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label visible-ie8 visible-ie9">Re-type Your Password</label>
-                @Html.TextBoxFor(x => x.Register.RetypePassword, new { @class = "form-control placeholder-no-fix", type = "password", placeholder = "Re-type Password" })
+                @Html.TextBoxFor(x => x.RetypePassword, new { @class = "form-control placeholder-no-fix", type = "password", placeholder = "Re-type Password" })
             </div>
             <div class="form-actions">
                 <button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>

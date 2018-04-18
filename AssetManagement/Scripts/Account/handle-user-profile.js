@@ -53,7 +53,9 @@ function updateCompanySetting() {
         CompanyID: $('#CompanyID').val(),
         CompanyDescription: $('#CompanyDescription').val(),
         CompanyPhone: $('#CompanyPhone').val(),
-        CompanyEmail: $('#CompanyEmail').val()
+        CompanyEmail: $('#CompanyEmail').val(),
+        Address: $('#Address').val(),
+        Country: $('#Country').val()
     }
 
     $.ajax({
