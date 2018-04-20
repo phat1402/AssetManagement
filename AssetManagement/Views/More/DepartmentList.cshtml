@@ -47,8 +47,8 @@
                             <tr data-id="@department.ID" class="departmentId">
                                 <td>@department.ID</td>
                                 <td>@department.Name</td>
-                                <td><a class="edit" href="javascript:;"> Edit </a></td>
-                                <td><a class="delete @(userRole == "Admin" ? "":"isDisabled")" href="javascript:;" data-id="@department.ID"> Delete </a></td>
+                                <td><a class="edit @(userRole == "ReadOnly" ? "isDisabled" : "") " href="javascript:;"> Edit </a></td>
+                                <td><a class="delete @(userRole == "Admin" ? "":"isDisabled") " href="javascript:;" data-id="@department.ID"> Delete </a></td>
                             </tr>
                         }
                     </tbody>

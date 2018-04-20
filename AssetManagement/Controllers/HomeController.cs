@@ -1166,6 +1166,24 @@ namespace AssetManagement.Controllers
                 return Json(e.Message);
             }
         }
+
+        [HttpPost]
+        public ActionResult DeleteLocation(int locationId)
+        {
+            var assets = Db.Assets.Where(x => x.LocationId == locationId).ToList();
+            foreach (var asset in assets)
+            {
+                asset.LocationId = null;
+            }
+            var location = Db.Locations.Find(locationId);
+            Db.Locations.Remove(location);
+
+            if (Db.SaveChanges() > 0)
+            {
+                return Json("Success");
+            }
+            return Json("Fail");
+        }
         #endregion
 
         #region Department
