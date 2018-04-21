@@ -257,6 +257,7 @@
     <Compile Include="Models\ViewModel\LastAssetCheckOutViewModel.cs" />
     <Compile Include="Models\ViewModel\LocationListViewModel.cs" />
     <Compile Include="Models\ViewModel\PrintLabelViewModel.cs" />
+    <Compile Include="Models\ViewModel\ReportAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\SubCategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\VendorListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

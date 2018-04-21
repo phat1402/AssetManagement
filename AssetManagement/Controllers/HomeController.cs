@@ -793,15 +793,15 @@ namespace AssetManagement.Controllers
             }
         }
 
+        #region Report
         public ActionResult GetAssetByEmployee()
         {
-            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            var assetList = Db.Assets.Select(x => new ReportAssetViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
                 Tag = x.Tag,
-                SubCategory = x.SubCategory.Name,
-                Category = x.SubCategory.Category.Name,
+                UsedByFullname = x.Staff1.Firstname + " " + x.Staff1.Lastname,
                 StatusID = x.StatusId.Value
             }).ToList();
             return View("~/Views/Report/AssetByEmployee.cshtml", assetList);
@@ -810,12 +810,11 @@ namespace AssetManagement.Controllers
         public ActionResult FilterAssetByEmployee (int employeeId)
         {
             var assetList = Db.Assets.Where(x => x.UsedById == employeeId)
-                .Select(x => new AssetListViewModel
+                .Select(x => new ReportAssetViewModel
                 {
                     ID = x.ID,
                     Tag = x.Tag,
-                    Category = x.SubCategory.Category.Name,
-                    SubCategory = x.SubCategory.Name,
+                    UsedByFullname = x.Staff1.Firstname + " " + x.Staff1.Lastname,
                     Name = x.Name,
                     StatusID = x.StatusId.Value
                 }).ToList();
@@ -825,14 +824,15 @@ namespace AssetManagement.Controllers
 
         public ActionResult GetAssetByBuilding()
         {
-            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            var assetList = Db.Assets.Select(x => new ReportAssetViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
                 Tag = x.Tag,
                 SubCategory = x.SubCategory.Name,
                 Category = x.SubCategory.Category.Name,
-                StatusID = x.StatusId.Value
+                StatusID = x.StatusId.Value,
+                BuildingName = x.Location.BuildingName
             }).ToList();
             return View("~/Views/Report/AssetByBuilding.cshtml", assetList) ;
         }
@@ -841,14 +841,15 @@ namespace AssetManagement.Controllers
         {
             var locationList = Db.Locations.Where(x => x.BuildingName == buildingName).Select(x =>x.ID).ToList();
             var assetList = Db.Assets.Where(x => x.LocationId != null).Where(x => locationList.Contains(x.LocationId.Value))
-                .Select(x => new AssetListViewModel
+                .Select(x => new ReportAssetViewModel
                 {
                     ID = x.ID,
-                    Tag = x.Tag,
-                    Category = x.SubCategory.Category.Name,
-                    SubCategory = x.SubCategory.Name,
                     Name = x.Name,
-                    StatusID = x.StatusId.Value
+                    Tag = x.Tag,
+                    SubCategory = x.SubCategory.Name,
+                    Category = x.SubCategory.Category.Name,
+                    StatusID = x.StatusId.Value,
+                    BuildingName = x.Location.BuildingName
                 }).ToList();
 
             return PartialView("~/Views/Report/ReportTableByBuilding.cshtml", assetList);
@@ -856,13 +857,12 @@ namespace AssetManagement.Controllers
 
         public ActionResult GetAssetByDepartment()
         {
-            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            var assetList = Db.Assets.Select(x => new ReportAssetViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
                 Tag = x.Tag,
-                SubCategory = x.SubCategory.Name,
-                Category = x.SubCategory.Category.Name,
+                DepartmentName = x.Department.Name,
                 StatusID = x.StatusId.Value
             }).ToList();
             return View("~/Views/Report/AssetByDepartment.cshtml", assetList);
@@ -871,22 +871,21 @@ namespace AssetManagement.Controllers
         public ActionResult FilterAssetByDepartment(int departmentId)
         {
             var assetList = Db.Assets.Where(x => x.DepartmentId == departmentId)
-                              .Select(x => new AssetListViewModel
+                              .Select(x => new ReportAssetViewModel
                                 {
-                                    ID = x.ID,
-                                    Tag = x.Tag,
-                                    Category = x.SubCategory.Category.Name,
-                                    SubCategory = x.SubCategory.Name,
-                                    Name = x.Name,
-                                    StatusID = x.StatusId.Value
-                                }).ToList();
+                                  ID = x.ID,
+                                  Name = x.Name,
+                                  Tag = x.Tag,
+                                  DepartmentName = x.Department.Name,
+                                  StatusID = x.StatusId.Value
+                              }).ToList();
 
             return PartialView("~/Views/Report/ReportTableByDepartment.cshtml", assetList);
         }
 
         public ActionResult GetAssetByCategory()
         {
-            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            var assetList = Db.Assets.Select(x => new ReportAssetViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
@@ -902,13 +901,13 @@ namespace AssetManagement.Controllers
         {
             var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => x.ID).ToList();
             var assetList = Db.Assets.Where(x => x.SubCategoryId != null).Where(x => subCategoryList.Contains(x.SubCategoryId.Value))
-                              .Select(x => new AssetListViewModel
+                              .Select(x => new ReportAssetViewModel
                               {
                                   ID = x.ID,
-                                  Tag = x.Tag,
-                                  Category = x.SubCategory.Category.Name,
-                                  SubCategory = x.SubCategory.Name,
                                   Name = x.Name,
+                                  Tag = x.Tag,
+                                  SubCategory = x.SubCategory.Name,
+                                  Category = x.SubCategory.Category.Name,
                                   StatusID = x.StatusId.Value
                               }).ToList();
 
@@ -917,14 +916,15 @@ namespace AssetManagement.Controllers
 
         public ActionResult GetAssetByCategoAndDept()
         {
-            var assetList = Db.Assets.Select(x => new AssetListViewModel
+            var assetList = Db.Assets.Select(x => new ReportAssetViewModel
             {
                 ID = x.ID,
                 Name = x.Name,
                 Tag = x.Tag,
                 SubCategory = x.SubCategory.Name,
                 Category = x.SubCategory.Category.Name,
-                StatusID = x.StatusId.Value
+                StatusID = x.StatusId.Value,
+                DepartmentName = x.Department.Name
             }).ToList();
             return View("~/Views/Report/AssetByCategoAndDept.cshtml", assetList);
         }
@@ -933,18 +933,20 @@ namespace AssetManagement.Controllers
         {
             var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => x.ID).ToList();
             var assetList = Db.Assets.Where(x => x.SubCategoryId != null && x.DepartmentId != null).Where(x => subCategoryList.Contains(x.SubCategoryId.Value) && x.DepartmentId == departmentId)
-                  .Select(x => new AssetListViewModel
+                  .Select(x => new ReportAssetViewModel
                   {
                       ID = x.ID,
-                      Tag = x.Tag,
-                      Category = x.SubCategory.Category.Name,
-                      SubCategory = x.SubCategory.Name,
                       Name = x.Name,
-                      StatusID = x.StatusId.Value
+                      Tag = x.Tag,
+                      SubCategory = x.SubCategory.Name,
+                      Category = x.SubCategory.Category.Name,
+                      StatusID = x.StatusId.Value,
+                      DepartmentName = x.Department.Name
                   }).ToList();
             return PartialView("~/Views/Report/ReportTableByCategoAndDept.cshtml", assetList);
         }
 
+        #endregion
         public ActionResult GetEditAssetInfor(int assetId)
         {
             var assetInfor = Db.Assets.Where(x => x.ID == assetId).FirstOrDefault();
