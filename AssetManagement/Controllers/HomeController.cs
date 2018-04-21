@@ -452,6 +452,7 @@ namespace AssetManagement.Controllers
             }
         }
 
+
         public ActionResult ViewSubCategoryList(int categoryId)
         {
             var subCategoryList = Db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => new SubCategoryViewModel
@@ -640,41 +641,46 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult CreateAssetTransfer( AssetTransferViewModel model) 
         {
-            var newTransfer = new AssetTransfer()
+            if (ModelState.IsValid)
             {
-                AssetID = model.AssetID,
-                TransferDate = model.TransferDate,
-                FromEmployeeId = model.FromEmployeeId,
-                ToEmployeeId = model.ToEmployeeId,
-                Note = model.Note
-            };
-            Db.AssetTransfers.Add(newTransfer);
-
-            //Update asset table
-            var asset = Db.Assets.Find(model.AssetID);
-            asset.UsedById = model.ToEmployeeId;
-            
-            if( Db.SaveChanges() > 0)
-            {
-                var transferHistoryList = Db.AssetTransfers.Select(x => new AssetTransferHistoryViewModel
+                var newTransfer = new AssetTransfer()
                 {
-                    ID = x.ID,
-                    AssetName = x.Asset.Name,
-                    AssetTag = x.Asset.Tag,
-                    TransferDate = x.TransferDate.Value,
-                    FromEmployee = x.Staff.Firstname + " " + x.Staff.Lastname,
-                    ToEmployee = x.Staff1.Firstname + " " + x.Staff1.Lastname,
-                    Note = x.Note
-                }).OrderByDescending(x => x.ID).ToList();
-                return PartialView("~/Views/Asset/AssetTransferHistory.cshtml", transferHistoryList);
-            }
-            else{
-                var error = new ErrorViewModel
-                {
-                    ErrorMessage = "Can not transfer the asset! "
+                    AssetID = model.AssetID,
+                    TransferDate = model.TransferDate,
+                    FromEmployeeId = model.FromEmployeeId,
+                    ToEmployeeId = model.ToEmployeeId,
+                    Note = model.Note
                 };
-                return View("~/Views/Error/Page500.cshtml",error);
+                Db.AssetTransfers.Add(newTransfer);
+
+                //Update asset table
+                var asset = Db.Assets.Find(model.AssetID);
+                asset.UsedById = model.ToEmployeeId;
+
+                if (Db.SaveChanges() > 0)
+                {
+                    var transferHistoryList = Db.AssetTransfers.Select(x => new AssetTransferHistoryViewModel
+                    {
+                        ID = x.ID,
+                        AssetName = x.Asset.Name,
+                        AssetTag = x.Asset.Tag,
+                        TransferDate = x.TransferDate.Value,
+                        FromEmployee = x.Staff.Firstname + " " + x.Staff.Lastname,
+                        ToEmployee = x.Staff1.Firstname + " " + x.Staff1.Lastname,
+                        Note = x.Note
+                    }).OrderByDescending(x => x.ID).ToList();
+                    return PartialView("~/Views/Asset/AssetTransferHistory.cshtml", transferHistoryList);
+                }
+                else
+                {
+                    var error = new ErrorViewModel
+                    {
+                        ErrorMessage = "Can not transfer the asset! "
+                    };
+                    return View("~/Views/Error/Page500.cshtml", error);
+                }
             }
+            return View("~/Views/Asset/AssetTransfer.cshtml");
         }
 
         [HttpPost]
@@ -1327,7 +1333,9 @@ namespace AssetManagement.Controllers
                 CompanyEmail = x.Email,
                 LoginLink = x.LogoLink,
                 CompanyPhone = x.Phone,
-                CompanyID = x.ID
+                CompanyID = x.ID,
+                Address = x.Address,
+                Country = x.Country
             }).FirstOrDefault();
 
             return PartialView("~/Views/Shared/_Footer.cshtml", setting);

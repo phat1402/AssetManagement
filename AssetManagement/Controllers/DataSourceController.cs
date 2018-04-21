@@ -91,8 +91,8 @@ namespace AssetManagement.Controllers
             List<Select2DataModel> dataList = new List<Select2DataModel>();
             if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
             {
-                dataList = Db.Assets.Where(v => v.Name.Contains(query.ToLower()) ||
-                                                v.Tag.Contains(query.ToLower()))
+                dataList = Db.Assets.Where(v => (v.Name.Contains(query.ToLower()) ||
+                                                v.Tag.Contains(query.ToLower())) && v.UsedById != null)
                                      .Select(v => new Select2DataModel
                                      {
                                          id = v.ID,

@@ -77,11 +77,18 @@
         </form>
         <!-- END LOGIN FORM -->
         <!-- BEGIN FORGOT PASSWORD FORM -->
-        <form class="forget-form" action="index.html" method="post">
+        <form class="forget-form" action="@Url.Action("ResetPassword","Account")" method="post">
+            @Html.HiddenFor(x => x.Firstname, new { Value = "Firstname" })
+            @Html.HiddenFor(x => x.Lastname, new { Value = "Lastname" })
+            @Html.HiddenFor(x => x.RegisterEmail, new { Value = "RegisterEmail" })
+            @Html.HiddenFor(x => x.RegisterPassword, new { Value = "RegisterPassword" })
+            @Html.HiddenFor(x => x.RetypePassword, new { Value = "RetypePassword" })
+            @Html.HiddenFor(x => x.Password, new { Value = "Password"})
             <h3 class="font-green">Forget Password ?</h3>
             <p> Enter your e-mail address below to reset your password. </p>
             <div class="form-group">
-                <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email" />
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control form-control-solid placeholder-no-fix", type = "text", autocomplete = "off", placeholder = "Email" })
+                @Html.ValidationMessageFor(x => x.Email, null, new { @class = "text-danger" })
             </div>
             <div class="form-actions">
                 <button type="button" id="back-btn" class="btn green btn-outline">Back</button>

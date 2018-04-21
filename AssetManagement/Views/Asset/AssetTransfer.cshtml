@@ -42,6 +42,7 @@
                                             <label class="control-label col-md-3">Transfer Date</label>
                                             <div class="col-md-9">
                                                 @Html.TextBoxFor(x => x.TransferDate, new { @class = "form-control date-picker" })
+                                                @Html.ValidationMessageFor(x => x.TransferDate, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -55,6 +56,7 @@
                                             <label class="control-label col-md-3">From Employee </label>
                                             <div class="col-md-9">
                                                 @Html.DropDownListFor(x => x.FromEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-from-employee form-control" })
+                                                @Html.ValidationMessageFor(x => x.FromEmployeeId, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>
@@ -64,6 +66,7 @@
                                             <label class="control-label col-md-3">To Employee</label>
                                             <div class="col-md-9">
                                                 @Html.DropDownListFor(x => x.ToEmployeeId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-to-employee form-control" })
+                                                @Html.ValidationMessageFor(x => x.ToEmployeeId, null, new { @class = "text-danger" })
                                             </div>
                                         </div>
                                     </div>

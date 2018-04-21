@@ -5,6 +5,7 @@ using AssetManagement.Models.Error;
 using AssetManagement.Models.Setting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -196,6 +197,54 @@ namespace AssetManagement.Controllers
                 return Json("Update Role Successfully!");
             }
             return Json("Update Failed! ");
+        }
+
+        public static string GetRandomString()
+        {
+            string path = Path.GetRandomFileName();
+            path = path.Replace(".", ""); // Remove period.
+            return path;
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(LoginRegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var userEmail = model.Email;
+                var tempPassword = GetRandomString();
+
+                var user = Db.ApplicationUsers.FirstOrDefault(x => x.Email == userEmail);
+                if (user == null)
+                {
+                    var emailError = new ErrorViewModel
+                    {
+                        ErrorTitle = "Your email is not existed in the system",
+                        ErrorMessage = "Try to log in again or enter another email !"
+                    };
+                    return View("~/Views/Error/ErrorPage.cshtml", emailError);
+                }
+                user.Password = tempPassword;
+                Db.SaveChanges();
+         
+                GMailer.GmailUsername = "asset.qscloud@gmail.com";
+                GMailer.GmailPassword = "asset2018";
+
+                GMailer mailer = new GMailer();
+                mailer.ToEmail = userEmail;
+                mailer.Subject = "Reset Password";
+                mailer.Body = "Did you forget your password? Don't worry.<br> Here is your temporary password: <br> Temporary Password: " + tempPassword + "<br> Remember to change your password after sign in ! ";
+                mailer.IsHtml = true;
+                mailer.Send();
+                var errorModel = new ErrorViewModel
+                {
+                    ErrorTitle = "Reset Password Successfully!",
+                    ErrorMessage = "Check your personal email to get the temporary password"
+                };
+                return View("~/Views/Error/ErrorPage.cshtml", errorModel);
+            }
+
+            return View("~/Views/Account/Index.cshtml");
         }
     }
 }

@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\ChangePasswordViewModel.cs" />
+    <Compile Include="Models\Account\Gmailer.cs" />
     <Compile Include="Models\Account\LoginRegisterViewModel.cs" />
     <Compile Include="Models\Account\SystemUserViewModel.cs" />
     <Compile Include="Models\Account\UserProfileSessionData.cs" />
