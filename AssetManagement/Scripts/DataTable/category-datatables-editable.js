@@ -144,13 +144,28 @@ var TableDatatablesEditable = function () {
         table.on('click', '.delete', function (e) {
             e.preventDefault();
 
-            if (confirm("Are you sure to delete this row ?") == false) {
+            if (confirm("When you delete this category, all of its sub category and asset belong to this category will be deleted.Are you sure to delete this category ?") == false) {
                 return;
             }
-
+            var categoryId = $(this).data("id");
             var nRow = $(this).parents('tr')[0];
             oTable.fnDeleteRow(nRow);
-            alert("Deleted! Do not forget to do some ajax to sync with backend :)");
+            $.ajax({
+                url: "/Home/DeleteCategory",
+                type: "POST",
+                data: categoryId,
+                async: false,
+                success: function (response) {
+                    if (response == "Success") {
+                        alert("Delete Successfully!");
+                        location.reload();
+                    }
+                    else {
+                        alert("Delete Failed");
+                        location.reload();
+                    }
+                }
+            });
         });
 
         table.on('click', '.cancel', function (e) {

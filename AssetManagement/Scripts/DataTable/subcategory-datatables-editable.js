@@ -146,10 +146,25 @@ var TableDatatablesEditable = function () {
             if (confirm("Are you sure to delete this row ?") == false) {
                 return;
             }
-
+            var subCategoryId = $(this).data("id");
             var nRow = $(this).parents('tr')[0];
             oTable.fnDeleteRow(nRow);
-            alert("Deleted! Do not forget to do some ajax to sync with backend :)");
+            $.ajax({
+                url: "/Home/DeleteSubCategory",
+                type: "POST",
+                data: subCategoryId,
+                async: false,
+                success: function (response) {
+                    if (response == "Success") {
+                        alert("Delete Successfully!");
+                        location.reload();
+                    }
+                    else {
+                        alert("Delete Failed");
+                        location.reload();
+                    }
+                }
+            });
         });
 
         table.on('click', '.cancel', function (e) {

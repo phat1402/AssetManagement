@@ -1,10 +1,15 @@
-﻿@section scripts {
+﻿@using AssetManagement.Models.Account
+@section scripts {
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/subcategory-datatables-editable.js"></script>
 }
 @model IEnumerable<AssetManagement.Models.ViewModel.SubCategoryViewModel>
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    var userRole = profileData.UserRole;
+}
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
@@ -27,7 +32,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover table-bordered" id="sub-category-list-table" data-categoryid="@Model.First().CategoryId" >
+                <table class="table table-striped table-hover table-bordered" id="sub-category-list-table" data-categoryid="@Model.First().CategoryId">
                     <thead>
                         <tr>
                             <th> Sub Category ID </th>
@@ -40,13 +45,12 @@
                         @foreach (var subcategory in Model)
                         {
 
-                            <tr data-id="@subcategory.ID" class="categoryId">
-                                <td>@subcategory.ID</td>
-                                <td>@subcategory.Name</td>
-                                <td><a class="edit" href="javascript:;"> Edit </a></td>
-                                <td><a class="delete" href="javascript:;"> Delete </a></td>
-
-                            </tr>
+                        <tr data-id="@subcategory.ID" class="categoryId">
+                            <td>@subcategory.ID</td>
+                            <td>@subcategory.Name</td>
+                            <td><a class="edit @(userRole == "ReadOnly" ? "isDisabled" : "") " href="javascript:;"> Edit </a></td>
+                            <td><a class="delete @(userRole == "Admin" ? "":"isDisabled") " href="javascript:;" data-id="@subcategory.ID"> Delete </a></td>
+                        </tr>
                         }
                     </tbody>
                 </table>

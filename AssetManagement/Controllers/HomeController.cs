@@ -280,6 +280,25 @@ namespace AssetManagement.Controllers
             return View("~/Views/Vendor/CreateNewVendor.cshtml");
         }
 
+        public ActionResult DeleteVendor(int vendorId)
+        {
+            var vendor = Db.Vendors.Find(vendorId);
+            Db.Vendors.Remove(vendor);
+
+            var assetList = Db.Assets.Where(x => x.VendorId == vendorId).ToList();
+            foreach(var asset in assetList)
+            {
+                asset.VendorId = null;
+            }
+
+            if(Db.SaveChanges()> 0)
+            {
+                return Json("Success");
+            }
+
+            return Json("Fail");
+        }
+
         [HttpPost]
         public ActionResult CreateOrUpdateVendor(Vendor model)
         {
@@ -452,6 +471,66 @@ namespace AssetManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult DeleteCategory(int categoryId)
+        {
+            var subCategoryIdList = Db.SubCategories.Where(x => x.CategoryId == categoryId).Select(x => x.ID).ToList();
+            var assetList = Db.Assets.Where(x => subCategoryIdList.Contains(x.SubCategoryId.Value)).ToList();
+            var assetIdList = assetList.Select(x => x.ID);
+            
+            // Delete Asset Transfer
+            var assetTransferList = Db.AssetTransfers.Where(x => assetIdList.Contains(x.AssetID.Value)).ToList();
+            foreach( var transfer in assetTransferList)
+            {
+                Db.AssetTransfers.Remove(transfer);
+            }
+
+            // Delete Asset Check in
+            var assetCheckInList = Db.AssetCheckIns.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach(var checkin in assetCheckInList)
+            {
+                Db.AssetCheckIns.Remove(checkin);
+            }
+
+            // Delete Asset Check Out
+            var assetCheckOutList = Db.AssetCheckOuts.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach(var checkout in assetCheckOutList)
+            {
+                Db.AssetCheckOuts.Remove(checkout);
+            }
+
+            //Delete Asset Disposal
+            var assetDisposal = Db.Asset_Disposal.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach(var disposal in assetDisposal)
+            {
+                Db.Asset_Disposal.Remove(disposal);
+            }
+
+            // Delete Asset
+            foreach( var asset in assetList)
+            {
+                Db.Assets.Remove(asset);
+            }
+
+            // Delete all subcategory
+            var subcategoryList = Db.SubCategories.Where(x => subCategoryIdList.Contains(x.ID)).ToList();
+            foreach( var sub in subcategoryList)
+            {
+                Db.SubCategories.Remove(sub);
+            }
+
+            //Delete category
+            var category = Db.Categories.Find(categoryId);
+            Db.Categories.Remove(category);
+
+            if(Db.SaveChanges()> 0)
+            {
+                return Json("Success");
+            }
+
+            return Json("Fail");
+        
+        }
 
         public ActionResult ViewSubCategoryList(int categoryId)
         {
@@ -540,6 +619,60 @@ namespace AssetManagement.Controllers
             {
                 return Json(e.Message);
             }
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSubCategory(int subCategoryId)
+        {
+            var assetList = Db.Assets.Where(x => x.SubCategoryId == subCategoryId).ToList();
+            var assetIdList = assetList.Select(x => x.ID);
+
+            // Delete Asset Transfer
+            var assetTransferList = Db.AssetTransfers.Where(x => assetIdList.Contains(x.AssetID.Value)).ToList();
+            foreach (var transfer in assetTransferList)
+            {
+                Db.AssetTransfers.Remove(transfer);
+            }
+
+            // Delete Asset Check in
+            var assetCheckInList = Db.AssetCheckIns.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach (var checkin in assetCheckInList)
+            {
+                Db.AssetCheckIns.Remove(checkin);
+            }
+
+            // Delete Asset Check Out
+            var assetCheckOutList = Db.AssetCheckOuts.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach (var checkout in assetCheckOutList)
+            {
+                Db.AssetCheckOuts.Remove(checkout);
+            }
+
+            //Delete Asset Disposal
+            var assetDisposal = Db.Asset_Disposal.Where(x => assetIdList.Contains(x.AssetId.Value)).ToList();
+            foreach (var disposal in assetDisposal)
+            {
+                Db.Asset_Disposal.Remove(disposal);
+            }
+
+            // Delete Asset
+            foreach (var asset in assetList)
+            {
+                Db.Assets.Remove(asset);
+            }
+
+            // Delete all subcategory
+            var subCategory = Db.SubCategories.Find(subCategoryId);
+            Db.SubCategories.Remove(subCategory);
+
+
+            if (Db.SaveChanges() > 0)
+            {
+                return Json("Success");
+            }
+
+            return Json("Fail");
+
         }
 
         public ActionResult ViewAssetFromVendor(int vendorId)
