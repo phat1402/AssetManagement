@@ -36,6 +36,7 @@ namespace AssetManagement.Models
         public Nullable<int> UsedById { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
         public string Tag { get; set; }
+        public Nullable<int> StoreId { get; set; }
     
         public virtual Department Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,5 +52,8 @@ namespace AssetManagement.Models
         public virtual ICollection<AssetCheckOut> AssetCheckOuts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssetTransfer> AssetTransfers { get; set; }
+        public virtual Asset Asset1 { get; set; }
+        public virtual Asset Asset2 { get; set; }
+        public virtual Store Store { get; set; }
     }
 }

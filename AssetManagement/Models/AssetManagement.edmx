@@ -38,6 +38,7 @@
           <Property Name="UsedById" Type="int" />
           <Property Name="UnitPrice" Type="decimal" Precision="15" Scale="2" />
           <Property Name="Tag" Type="nvarchar" MaxLength="50" />
+          <Property Name="StoreId" Type="int" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -127,6 +128,13 @@
           <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="date" />
         </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="SubCategory">
           <Key>
             <PropertyRef Name="ID" />
@@ -170,6 +178,18 @@
             </Principal>
             <Dependent Role="ApplicationUser">
               <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Asset">
+          <End Role="Asset" Type="Self.Asset" Multiplicity="1" />
+          <End Role="Asset1" Type="Self.Asset" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset1">
+              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -246,6 +266,18 @@
             </Principal>
             <Dependent Role="Asset">
               <PropertyRef Name="UsedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
+          <End Role="Asset" Type="Self.Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="StoreId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -387,6 +419,7 @@
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategory" EntityType="Self.SubCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
@@ -394,6 +427,10 @@
           <AssociationSet Name="FK_ApplicationUser_UserRole" Association="Self.FK_ApplicationUser_UserRole">
             <End Role="UserRole" EntitySet="UserRole" />
             <End Role="ApplicationUser" EntitySet="ApplicationUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Asset" Association="Self.FK_Asset_Asset">
+            <End Role="Asset" EntitySet="Asset" />
+            <End Role="Asset1" EntitySet="Asset" />
           </AssociationSet>
           <AssociationSet Name="FK_Asset_Department" Association="Self.FK_Asset_Department">
             <End Role="Department" EntitySet="Department" />
@@ -417,6 +454,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Asset_Staff1" Association="Self.FK_Asset_Staff1">
             <End Role="Staff" EntitySet="Staff" />
+            <End Role="Asset" EntitySet="Asset" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Store" Association="Self.FK_Asset_Store">
+            <End Role="Store" EntitySet="Store" />
             <End Role="Asset" EntitySet="Asset" />
           </AssociationSet>
           <AssociationSet Name="FK_Asset_SubCategory" Association="Self.FK_Asset_SubCategory">
@@ -508,6 +549,10 @@
           <NavigationProperty Name="AssetCheckIns" Relationship="Self.FK_AssetCheckIn_Asset" FromRole="Asset" ToRole="AssetCheckIn" />
           <NavigationProperty Name="AssetCheckOuts" Relationship="Self.FK_AssetCheckOut_Asset" FromRole="Asset" ToRole="AssetCheckOut" />
           <NavigationProperty Name="AssetTransfers" Relationship="Self.FK_AssetTransfer_Asset" FromRole="Asset" ToRole="AssetTransfer" />
+          <Property Name="StoreId" Type="Int32" />
+          <NavigationProperty Name="Asset1" Relationship="AssetManagementModel.FK_Asset_Asset" FromRole="Asset" ToRole="Asset1" />
+          <NavigationProperty Name="Asset2" Relationship="AssetManagementModel.FK_Asset_Asset" FromRole="Asset1" ToRole="Asset" />
+          <NavigationProperty Name="Store" Relationship="AssetManagementModel.FK_Asset_Store" FromRole="Asset" ToRole="Store" />
         </EntityType>
         <EntityType Name="Asset_Disposal">
           <Key>
@@ -940,6 +985,15 @@
             <End Role="SubCategory" EntitySet="SubCategories" />
           </AssociationSet>
           <EntitySet Name="CompanySettings" EntityType="AssetManagementModel.CompanySetting" />
+          <EntitySet Name="Stores" EntityType="AssetManagementModel.Store" />
+          <AssociationSet Name="FK_Asset_Asset" Association="AssetManagementModel.FK_Asset_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="Asset1" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Store" Association="AssetManagementModel.FK_Asset_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="CompanySetting">
           <Key>
@@ -953,6 +1007,38 @@
           <Property Name="Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="Country" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Assets" Relationship="AssetManagementModel.FK_Asset_Store" FromRole="Store" ToRole="Asset" />
+        </EntityType>
+        <Association Name="FK_Asset_Asset">
+          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="1" />
+          <End Type="AssetManagementModel.Asset" Role="Asset1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Store">
+          <End Type="AssetManagementModel.Store" Role="Store" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -979,6 +1065,7 @@
           <EntitySetMapping Name="Assets">
             <EntityTypeMapping TypeName="AssetManagementModel.Asset">
               <MappingFragment StoreEntitySet="Asset">
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -1126,6 +1213,14 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="AssetManagementModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

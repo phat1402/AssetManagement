@@ -37,6 +37,9 @@
         <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId" ManuallyRouted="false" />
         <AssociationConnector Association="AssetManagementModel.FK_SubCategory_Category" ManuallyRouted="false" />
         <EntityTypeShape EntityType="AssetManagementModel.CompanySetting" Width="1.5" PointX="10.375" PointY="5.75" />
+        <EntityTypeShape EntityType="AssetManagementModel.Store" Width="1.5" PointX="10.375" PointY="9.875" />
+        <AssociationConnector Association="AssetManagementModel.FK_Asset_Asset" />
+        <AssociationConnector Association="AssetManagementModel.FK_Asset_Store" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

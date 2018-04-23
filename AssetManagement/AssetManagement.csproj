@@ -224,6 +224,9 @@
     <Compile Include="Models\Staff.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Store.cs">
+      <DependentUpon>AssetManagement.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SubCategory.cs">
       <DependentUpon>AssetManagement.tt</DependentUpon>
     </Compile>
@@ -258,6 +261,7 @@
     <Compile Include="Models\ViewModel\LocationListViewModel.cs" />
     <Compile Include="Models\ViewModel\PrintLabelViewModel.cs" />
     <Compile Include="Models\ViewModel\ReportAssetViewModel.cs" />
+    <Compile Include="Models\ViewModel\StoreListViewModel.cs" />
     <Compile Include="Models\ViewModel\SubCategoryViewModel.cs" />
     <Compile Include="Models\ViewModel\VendorListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -395,6 +399,7 @@
     <Content Include="Scripts\DataTable\asset-by-department-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-building-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-employee-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\store-datatables-editable.js" />
     <Content Include="Scripts\DataTable\disposal-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-out-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\check-in-datatables-colreorder.js" />
@@ -506,6 +511,8 @@
     <Content Include="Views\Account\CompanySetting.cshtml" />
     <Content Include="Views\Shared\_Logo.cshtml" />
     <Content Include="Views\CompanySetting\Setting.cshtml" />
+    <Content Include="Views\Purchase\NewPurchase.cshtml" />
+    <Content Include="Views\More\StoreList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

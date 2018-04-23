@@ -1559,5 +1559,119 @@ namespace AssetManagement.Controllers
 
         #endregion
 
+        #region Store
+        public ActionResult ViewStoreList()
+        {
+            var storeList = Db.Stores.Select(
+                x => new StoreListViewModel
+                {
+                    ID = x.ID,
+                    Name = x.Name
+                }
+                ).ToList();
+
+            return View("~/Views/More/StoreList.cshtml", storeList);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOrUpdateStore(Store model)
+        {
+            try
+            {
+                if (model.ID != 0)
+                {
+                    var store = Db.Stores.Find(model.ID);
+                    if (store != null)
+                    {
+                        store.Name = model.Name;
+                        if (Db.SaveChanges() > 0)
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Update successfully",
+                                ID = store.ID,
+                                Name = store.Name
+                            });
+                        }
+                        else
+                        {
+                            return Json(new
+                            {
+                                RequestType = "Update",
+                                Message = "Can not update",
+                                ID = 0,
+                                Name = ""
+                            });
+                        }
+                    }
+                    return Json(new
+                    {
+                        RequestType = "Update",
+                        Message = "Can not find category",
+                        ID = 0,
+                        Name = ""
+                    });
+                }
+                else
+                {
+                    var newStore = new Store();
+                    newStore.Name = model.Name;
+                    Db.Stores.Add(newStore);
+                    if (Db.SaveChanges() > 0)
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Create successfully"
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            RequestType = "New",
+                            Message = "Can not create new category!"
+                        });
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult DeleteStore(int storeId)
+        {
+            var assets = Db.Assets.Where(x => x.StoreId == storeId).ToList();
+            foreach (var asset in assets)
+            {
+                asset.StoreId = null;
+            }
+            var store = Db.Stores.Find(storeId);
+            Db.Stores.Remove(store);
+
+            if (Db.SaveChanges() > 0)
+            {
+                return Json("Success");
+            }
+            return Json("Fail");
+        }
+
+        #endregion
+
+        #region Purchase
+        public ActionResult CreateNewPurchase()
+        {
+
+            return null;
+        }
+        #endregion
+
     }
+
 }
