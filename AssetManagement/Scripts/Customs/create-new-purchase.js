@@ -32,11 +32,12 @@
             minimumInputLength: 2
         }
     }); 
-    $(".choose-department").select2({
-        placeholder: "Select a department",
+
+    $(".choose-store").select2({
+        placeholder: "Select a store",
         allowClear: true,
         ajax: {
-            url: '/DataSource/GetDepartmentList',
+            url: '/DataSource/GetStoreList',
             width: 'resolve',
             delay: 250,
             data: function (params) {
@@ -53,50 +54,4 @@
         }
     });
 
-    $(".choose-location").select2({
-        placeholder: "Select a location",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetLocationList',
-            width: 'resolve',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
-    });
-
-    $(".assign-staff").select2({
-        placeholder: "Who use the asset?",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetEmployeeList',
-            width: 'resolve',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
-    });
 });
-
-function OnSuccess(result) {
-    alert(result);
-    location.reload();
-}

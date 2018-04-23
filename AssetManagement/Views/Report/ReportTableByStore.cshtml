@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AssetManagement.Models.ViewModel.ReportAssetViewModel>
+<table class="table table-striped table-bordered table-hover" id="asset_by_store_table">
+    <thead>
+        <tr>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Tag </th>
+            <th> Store</th>
+            <th> Status </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var asset in Model)
+        {
+            <tr>
+                <td> @asset.ID </td>
+                <td> @asset.Name </td>
+                <td> @asset.Tag </td>
+                <td> @asset.StoreName </td>
+                <td>
+                    @if (asset.StatusID == 1)
+                    {
+                        <span class="label label-sm label-success"> Active </span>
+                    }
+                    else
+                    {
+                        <span class="label label-sm label-danger"> Disposal </span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

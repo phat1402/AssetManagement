@@ -170,5 +170,21 @@ namespace AssetManagement.Controllers
             }
             return Json(new { items = dataList }, JsonRequestBehavior.AllowGet); ;
         }
+
+        public ActionResult GetStoreList(string query)
+        {
+            List<Select2DataModel> dataList = new List<Select2DataModel>();
+            if (!string.IsNullOrEmpty(query) || !string.IsNullOrWhiteSpace(query))
+            {
+                dataList = Db.Stores.Where(d => d.Name.StartsWith(query.ToLower()))
+                                     .Select(d => new Select2DataModel
+                                     {
+                                         id = d.ID,
+                                         text = d.Name
+                                     })
+                                     .ToList();
+            }
+            return Json(new { items = dataList }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

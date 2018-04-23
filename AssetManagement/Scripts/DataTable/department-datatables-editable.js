@@ -151,9 +151,11 @@ var TableDatatablesEditable = function () {
             var nRow = $(this).parents('tr')[0];
             oTable.fnDeleteRow(nRow);
             $.ajax({
-                url: "/Home/DeleteDepartment",
-                type: "POST",
-                data: departmentId,
+                url: '/Home/DeleteDepartment',
+                type: 'POST',
+                data: {
+                    departmentId: departmentId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

@@ -169,7 +169,9 @@ var TableDatatablesEditable = function () {
             $.ajax({
                 url: "/Home/DeleteLocation",
                 type: "POST",
-                data: locationId,
+                data: {
+                    locationId: locationId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

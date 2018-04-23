@@ -1,7 +1,13 @@
-﻿@section scripts {
+﻿@using AssetManagement.Models.Account
+@section scripts {
     <script type="text/javascript" src="~/Scripts/Customs/create-new-asset.js"></script>
 }
 @model AssetManagement.Models.ViewModel.CreatNewAssetViewModel
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    var userRole = profileData.UserRole;
+    var userId = profileData.UserId;
+}
 <div class="portlet light ">
     <div class="portlet-title">
         <div class="caption">
@@ -10,7 +16,9 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-        <form action="@Url.Action("CreateNewAsset","Home")" class="form-horizontal" method="post">
+        @using (Ajax.BeginForm("CreateNewAsset", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "newAssetForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.HiddenFor(x => x.CreatedBy, new { Value = userId })
             <div class="form-body">
                 <h3 class="form-section">General</h3>
                 <div class="row">
@@ -40,7 +48,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Purchase Date</label>
                             <div class="col-md-9">
-                                @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control date-picker" })
+                                @Html.TextBoxFor(x => x.PurchaseDate, new { type = "text", @class = "date-picker form-control" })
                             </div>
                         </div>
                     </div>
@@ -84,6 +92,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Assign To</label>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(x => x.UsedBy, Enumerable.Empty<SelectListItem>(), new { @class = "assign-staff form-control" })
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <h3 class="form-section">Asset Location</h3>
                 <!--/row-->
@@ -99,7 +115,6 @@
                 </div>
                 <!--/row-->
                 <!--/row-->
-                <h3 class="form-section">Asset Deparment</h3>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -119,14 +134,14 @@
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
                                 <button type="submit" class="btn green">Submit</button>
-                                <a href="@Url.Action("ViewAssetList","Home")" class="btn default" > Back To Asset List</a>
+                                <a href="@Url.Action("ViewAssetList","Home")" class="btn default"> Back To Asset List</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6"> </div>
                 </div>
             </div>
-        </form>
+        }
         <!-- END FORM-->
     </div>
 </div>

@@ -1,0 +1,46 @@
+﻿@section scripts {
+    <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/distribute-table-datatables-managed.js"></script>
+}
+@model IEnumerable<AssetManagement.Models.ViewModel.DistributeAssetViewModel>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject font-green bold uppercase">Distribute Asset</span>
+                </div>
+                <div class="actions">
+                    <a class="btn green" onclick="assignAsset()">
+                        Assign Asset
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="select-store form-control"></select>
+                    </div>
+                    <button type="submit" class="btn green" onclick="filterAssetByStore()">Filter</button>
+                </div>
+                <br />
+                <div id="assetByStoreTable">
+                    @Html.Partial("~/Views/Asset/DistributeAssetTable.cshtml", Model)
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Assign To</label>
+                            <div class="col-md-9">
+                                <select class="assign-staff form-control" />
+                            </div>
+                        </div>
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

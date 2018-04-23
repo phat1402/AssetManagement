@@ -96,7 +96,48 @@ var TableDatatablesManaged = function () {
             }
 
             initTable1();
+            $(".select-store").select2({
+                placeholder: "Input a store",
+                allowClear: true,
+                ajax: {
+                    url: '/DataSource/GetStoreList',
+                    width: 'resolve',
+                    data: function (params) {
+                        return {
+                            query: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.items
+                        };
+                    },
+                    minimumInputLength: 2
+                }
+            });
+
+            $(".assign-staff").select2({
+                placeholder: "Who use the asset",
+                allowClear: true,
+                ajax: {
+                    url: '/DataSource/GetEmployeeList',
+                    width: 'resolve',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            query: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.items
+                        };
+                    },
+                    minimumInputLength: 2
+                }
+            });
         }
+
 
     };
 
@@ -105,5 +146,45 @@ var TableDatatablesManaged = function () {
 if (App.isAngularJsApp() === false) { 
     jQuery(document).ready(function() {
         TableDatatablesManaged.init();
+    });
+}
+
+
+function filterAssetByStore() {
+    var storeId = $('.select-store').select2('val');
+    $.ajax({
+        async: false,
+        url: '/Home/FilterAssetByStoreForDistribute',
+        data: { storeId: storeId },
+        success: function (response) {
+            $("#assetByStoreTable").html(response);
+            TableDatatablesManaged.init()
+        },
+        error: function () {
+            alert("Oops! Something wrong!");
+            location.reload();
+        }
+    });
+}
+
+function assignAsset() {
+    var selected = [];
+    var employeeId = $('.assign-staff').select2('val');
+    $('#check_box_body input:checked').each(function () {
+        selected.push($(this).val());
+    });
+    $.ajax({
+        method: "POST",
+        async: false,
+        url: '/Home/AssignAsset',
+        data: { assetIdList: selected, employeeId: employeeId },
+        success: function (response) {
+            alert(response);
+            location.reload()
+        },
+        error: function () {
+            alert("Something wrong happened!");
+            location.reload();
+        }
     });
 }

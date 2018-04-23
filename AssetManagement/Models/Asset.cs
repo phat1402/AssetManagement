@@ -44,6 +44,7 @@ namespace AssetManagement.Models
         public virtual Location Location { get; set; }
         public virtual Staff Staff { get; set; }
         public virtual Staff Staff1 { get; set; }
+        public virtual Store Store { get; set; }
         public virtual SubCategory SubCategory { get; set; }
         public virtual Vendor Vendor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -52,8 +53,5 @@ namespace AssetManagement.Models
         public virtual ICollection<AssetCheckOut> AssetCheckOuts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssetTransfer> AssetTransfers { get; set; }
-        public virtual Asset Asset1 { get; set; }
-        public virtual Asset Asset2 { get; set; }
-        public virtual Store Store { get; set; }
     }
 }

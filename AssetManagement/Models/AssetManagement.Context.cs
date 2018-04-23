@@ -26,7 +26,6 @@ namespace AssetManagement.Models
         }
     
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public virtual DbSet<Asset> Assets { get; set; }
         public virtual DbSet<Asset_Disposal> Asset_Disposal { get; set; }
         public virtual DbSet<AssetCheckIn> AssetCheckIns { get; set; }
         public virtual DbSet<AssetCheckOut> AssetCheckOuts { get; set; }
@@ -41,5 +40,6 @@ namespace AssetManagement.Models
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<CompanySetting> CompanySettings { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<Asset> Assets { get; set; }
     }
 }

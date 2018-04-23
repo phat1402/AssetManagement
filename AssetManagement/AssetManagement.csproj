@@ -251,9 +251,11 @@
     <Compile Include="Models\ViewModel\AssetTransferHistoryViewModel.cs" />
     <Compile Include="Models\ViewModel\AssetTransferViewModel.cs" />
     <Compile Include="Models\ViewModel\CategoryListViewModel.cs" />
+    <Compile Include="Models\ViewModel\CreateNewPurchaseViewModel.cs" />
     <Compile Include="Models\ViewModel\CreatNewAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModel\DepartmentListViewModel.cs" />
+    <Compile Include="Models\ViewModel\DistributeAssetViewModel.cs" />
     <Compile Include="Models\ViewModel\EmployeeListViewModel.cs" />
     <Compile Include="Models\ViewModel\LabelPrintingModel.cs" />
     <Compile Include="Models\ViewModel\LastAssetCheckInViewModel.cs" />
@@ -384,6 +386,7 @@
     <Content Include="Scripts\Customs\asset-checkin-handle.js" />
     <Content Include="Scripts\Customs\asset-transfer-handle.js" />
     <Content Include="Scripts\Customs\countries-select2.js" />
+    <Content Include="Scripts\Customs\create-new-purchase.js" />
     <Content Include="Scripts\Customs\edit-asset.js" />
     <Content Include="Scripts\Customs\dispose-asset.js" />
     <Content Include="Scripts\Customs\check-out-asset.js" />
@@ -398,6 +401,7 @@
     <Content Include="Scripts\DataTable\asset-by-category-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-department-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-building-datatables-colreorder.js" />
+    <Content Include="Scripts\DataTable\asset-by-store-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-by-employee-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\store-datatables-editable.js" />
     <Content Include="Scripts\DataTable\disposal-datatables-colreorder.js" />
@@ -405,6 +409,7 @@
     <Content Include="Scripts\DataTable\check-in-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\department-datatables-editable.js" />
     <Content Include="Scripts\DataTable\location-datatables-editable.js" />
+    <Content Include="Scripts\DataTable\distribute-table-datatables-managed.js" />
     <Content Include="Scripts\DataTable\table-datatables-managed.js" />
     <Content Include="Scripts\DataTable\transfer-datatables-colreorder.js" />
     <Content Include="Scripts\DataTable\asset-datatables-colreorder.js" />
@@ -513,6 +518,10 @@
     <Content Include="Views\CompanySetting\Setting.cshtml" />
     <Content Include="Views\Purchase\NewPurchase.cshtml" />
     <Content Include="Views\More\StoreList.cshtml" />
+    <Content Include="Views\Report\AssetByStore.cshtml" />
+    <Content Include="Views\Report\ReportTableByStore.cshtml" />
+    <Content Include="Views\Asset\DistributeAsset.cshtml" />
+    <Content Include="Views\Asset\DistributeAssetTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

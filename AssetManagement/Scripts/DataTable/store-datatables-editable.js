@@ -153,7 +153,9 @@ var TableDatatablesEditable = function () {
             $.ajax({
                 url: "/Home/DeleteStore",
                 type: "POST",
-                data: storeId,
+                data: {
+                    storeId: storeId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

@@ -17,13 +17,13 @@ namespace AssetManagement.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Staff()
         {
-            this.Assets = new HashSet<Asset>();
-            this.Assets1 = new HashSet<Asset>();
             this.Asset_Disposal = new HashSet<Asset_Disposal>();
             this.AssetCheckIns = new HashSet<AssetCheckIn>();
             this.AssetCheckOuts = new HashSet<AssetCheckOut>();
             this.AssetTransfers = new HashSet<AssetTransfer>();
             this.AssetTransfers1 = new HashSet<AssetTransfer>();
+            this.Assets = new HashSet<Asset>();
+            this.Assets1 = new HashSet<Asset>();
         }
     
         public int ID { get; set; }
@@ -34,10 +34,6 @@ namespace AssetManagement.Models
         public Nullable<System.DateTime> CreatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Asset> Assets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Asset> Assets1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asset_Disposal> Asset_Disposal { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssetCheckIn> AssetCheckIns { get; set; }
@@ -47,5 +43,9 @@ namespace AssetManagement.Models
         public virtual ICollection<AssetTransfer> AssetTransfers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AssetTransfer> AssetTransfers1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Asset> Assets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Asset> Assets1 { get; set; }
     }
 }

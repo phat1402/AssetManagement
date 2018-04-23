@@ -2,7 +2,7 @@
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
-    <script type="text/javascript" src="~/Scripts/DataTable/asset-by-employee-datatables-colreorder.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTable/asset-by-store-datatables-colreorder.js"></script>
 }
 @model IEnumerable<AssetManagement.Models.ViewModel.ReportAssetViewModel>
 <div class="row">
@@ -10,20 +10,20 @@
         <div class="portlet light ">
             <div class="portlet-title">
                 <div class="caption">
-                    <span class="caption-subject font-green bold uppercase">Asset By Employee</span>
+                    <span class="caption-subject font-green bold uppercase">Asset By Store</span>
                 </div>
                 <div class="tools"> </div>
             </div>
             <div class="portlet-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <select class="select-employee form-control"></select>
+                        <select class="select-store form-control"></select>
                     </div>
-                    <button type="submit" class="btn green" onclick="filterAssetByEmployee()">Filter</button>
+                    <button type="submit" class="btn green" onclick="filterAssetByStore()">Filter</button>
                 </div>
                 <br />
-                <div id="assetByEmployeeTable">
-                    @Html.Partial("~/Views/Report/ReportTableByEmployee.cshtml", Model)
+                <div id="assetByStoreTable">
+                    @Html.Partial("~/Views/Report/ReportTableByStore.cshtml", Model)
                 </div>
             </div>
         </div>

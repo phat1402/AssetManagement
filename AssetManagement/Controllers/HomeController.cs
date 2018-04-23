@@ -114,6 +114,8 @@ namespace AssetManagement.Controllers
                         LocationId = model.LocationId,
                         DepartmentId = model.DepartmentId,
                         UnitPrice = model.UnitOfPrice,
+                        CreateById = model.CreatedBy,
+                        UsedById = model.UsedBy != 0 ? model.UsedBy : default(int?),
                         StatusId = (int)EnumList.AssetStatus.Active
                     };
                     assetList.Add(asset);
@@ -1079,6 +1081,37 @@ namespace AssetManagement.Controllers
             return PartialView("~/Views/Report/ReportTableByCategoAndDept.cshtml", assetList);
         }
 
+        public ActionResult GetAssetByStore()
+        {
+            var assetList = Db.Assets.Where(x => x.StoreId.HasValue).Select(x => new ReportAssetViewModel
+            {
+                ID = x.ID,
+                Name = x.Name,
+                Tag = x.Tag,
+                SubCategory = x.SubCategory.Name,
+                Category = x.SubCategory.Category.Name,
+                StatusID = x.StatusId.Value,
+                StoreName = x.Store.Name
+            }).ToList();
+            return View("~/Views/Report/AssetByStore.cshtml", assetList);
+        }
+
+        public ActionResult FilterAssetByStore(int storeId)
+        {
+            var assetList = Db.Assets.Where(x => x.StoreId == storeId)
+                .Select(x => new ReportAssetViewModel
+                {
+                    ID = x.ID,
+                    Tag = x.Tag,
+                    StoreName = x.Store.Name,
+                    Name = x.Name,
+                    StatusID = x.StatusId.Value
+                }).ToList();
+
+            return PartialView("~/Views/Report/ReportTableByStore.cshtml", assetList);
+        }
+
+
         #endregion
         public ActionResult GetEditAssetInfor(int assetId)
         {
@@ -1431,7 +1464,7 @@ namespace AssetManagement.Controllers
 
         public ActionResult PrintAssetLabel()
         {
-            var assetList = Db.Assets.Select(x => new PrintLabelViewModel
+            var assetList = Db.Assets.Where(x => !String.IsNullOrEmpty(x.Tag)).Select(x => new PrintLabelViewModel
             {
                 AssetID = x.ID,
                 AssetName = x.Name,
@@ -1668,9 +1701,96 @@ namespace AssetManagement.Controllers
         public ActionResult CreateNewPurchase()
         {
 
-            return null;
+            return View("~/Views/Purchase/NewPurchase.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult CreateNewPurchase(CreateNewPurchaseViewModel model)
+        {
+            try
+            {
+                int numberOfAsset = model.PurchaseAmount;
+                List<Asset> assetList = new List<Asset>();
+                for (int i = 0; i < numberOfAsset; i++)
+                {
+                    Asset asset = new Asset
+                    {
+                        Name = model.AssetName,
+                        PurchaseDate = model.PurchaseDate,
+                        SubCategoryId = model.AssetSubCategoryId,
+                        VendorId = model.VendorId,
+                        UnitPrice = model.UnitOfPrice,
+                        StoreId = model.StoreId,
+                        CreateById = model.CreatedBy,
+                        StatusId = (int)EnumList.AssetStatus.Active
+                    };
+                    assetList.Add(asset);
+                }
+                Db.Assets.AddRange(assetList);
+                Db.SaveChanges();
+                foreach (var recentAddAsset in assetList)
+                {
+                    var entity = Db.Assets.Find(recentAddAsset.ID);
+                    entity.Tag = GenerateAssetTag(recentAddAsset.ID);
+                }
+                Db.SaveChanges();
+                return Json("Success");
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
         }
         #endregion
+
+        public ActionResult AssignAssetFromStore()
+        {
+            var assetList = Db.Assets.Where(x => x.StoreId.HasValue && x.UsedById == null).Select(x => new DistributeAssetViewModel
+            {
+                AssetID = x.ID,
+                AssetName = x.Name,
+                AssetTag = x.Tag,
+                StoreId = x.StoreId.Value,
+                StoreName = x.Store.Name
+            }).ToList();
+            return View("~/Views/Asset/DistributeAsset.cshtml", assetList);
+        }
+
+        public ActionResult FilterAssetByStoreForDistribute(int storeId)
+        {
+            var assetList = Db.Assets.Where(x => x.StoreId == storeId && x.UsedById == null )
+                .Select(x => new DistributeAssetViewModel
+                {
+                    AssetID = x.ID,
+                    AssetTag = x.Tag,
+                    StoreName = x.Store.Name,
+                    AssetName = x.Name,
+                    StoreId = x.StoreId.Value
+                }).ToList();
+
+            return PartialView("~/Views/Asset/DistributeAssetTable.cshtml", assetList);
+        }
+
+        [HttpPost]
+        public ActionResult AssignAsset(List<int> assetIdList, int employeeId)
+        {
+            if( employeeId == 0 || assetIdList.Count() == 0)
+            {
+                return Json("Failed To Assign. Try again!");
+            }
+            var assetList = Db.Assets.Where(x => assetIdList.Contains(x.ID)).ToList();
+            foreach(var asset in assetList)
+            {
+                asset.UsedById = employeeId;
+            }
+
+            if(Db.SaveChanges() > 0)
+            {
+                return Json("Assign Successfully");
+            }
+            return Json("Failed To Assign. Try again!");
+        }
+
 
     }
 

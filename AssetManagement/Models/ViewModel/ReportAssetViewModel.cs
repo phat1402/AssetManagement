@@ -16,5 +16,6 @@ namespace AssetManagement.Models.ViewModel
         public string UsedByFullname { get; set; }
         public string BuildingName { get; set; }
         public string DepartmentName { get; set; }
+        public string StoreName { get; set; }
     }
 }

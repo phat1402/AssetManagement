@@ -1,1 +1,116 @@
-﻿
+﻿@using AssetManagement.Models.Account
+@section scripts {
+    <script type="text/javascript" src="~/Scripts/Customs/create-new-purchase.js"></script>
+}
+@model AssetManagement.Models.ViewModel.CreateNewPurchaseViewModel
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    var userRole = profileData.UserRole;
+    var userId = profileData.UserId;
+}
+<div class="portlet light ">
+    <div class="portlet-title">
+        <div class="caption">
+            <span class="caption-subject font-green bold uppercase">Add New Purchase</span>
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <!-- BEGIN FORM-->
+        @using (Ajax.BeginForm("CreateNewPurchase", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "newPurchaseForm", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.HiddenFor(x => x.CreatedBy, new { Value = userId })
+            <div class="form-body">
+                <h3 class="form-section">General</h3>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Asset Name</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(x => x.AssetName, new { @class = "form-control", placeholder = "Please fill in the asset name" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Asset Category</label>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(x => x.AssetSubCategoryId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-category form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+                <!--/row-->
+                <!--/row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Purchase Date</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(x => x.PurchaseDate, new { @class = "form-control date-picker" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Purchase Amount</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(x => x.PurchaseAmount, new { type = "number", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Unit Of Price</label>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(x => x.UnitOfPrice, new { type = "number", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Vendor</label>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(x => x.VendorId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-vendor form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                </div>
+                <h3 class="form-section">Store Location</h3>
+                <!--/row-->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Store Name</label>
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(x => x.StoreId, Enumerable.Empty<SelectListItem>(), new { id = "assetStore", @class = "choose-store form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/row-->
+            </div>
+            <div class="form-actions">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Create Purchase</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6"> </div>
+                </div>
+            </div>
+        }
+        <!-- END FORM-->
+    </div>
+</div>
