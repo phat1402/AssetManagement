@@ -217,16 +217,12 @@ a.editable-click.editable-disabled:hover {
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-.datepicker {
+/*.datepicker {
   padding: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   direction: ltr;
-  /*.dow {
-    border-top: 1px solid #ddd !important;
-  }*/
-
 }
 .datepicker-inline {
   width: 220px;
@@ -251,8 +247,8 @@ a.editable-click.editable-disabled:hover {
   position: absolute;
   top: -7px;
   right: 6px;
-}
-.datepicker-dropdown:after {
+}*/
+/*.datepicker-dropdown:after {
   content: '';
   display: inline-block;
   border-right: 6px solid transparent;
@@ -290,12 +286,12 @@ a.editable-click.editable-disabled:hover {
 .table-striped .datepicker table tr td,
 .table-striped .datepicker table tr th {
   background-color: transparent;
-}
-.datepicker table tr td.day:hover {
+}*/
+/*.datepicker table tr td.day:hover {
   background: #eeeeee;
   cursor: pointer;
-}
-.datepicker table tr td.old,
+}*/
+/*.datepicker table tr td.old,
 .datepicker table tr td.new {
   color: #999999;
 }
@@ -620,7 +616,7 @@ a.editable-click.editable-disabled:hover {
 .datepicker thead tr:first-child th.cw {
   cursor: default;
   background-color: transparent;
-}
+}*/
 .input-append.date .add-on i,
 .input-prepend.date .add-on i {
   display: block;

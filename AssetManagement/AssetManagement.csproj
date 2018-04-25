@@ -380,6 +380,7 @@
     <None Include="Properties\PublishProfiles\SmarterASP.NET.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\clockface.js" />
+    <Content Include="Scripts\components-date-time-pickers.js" />
     <Content Include="Scripts\components-date-time-pickers.min.js" />
     <Content Include="Scripts\Customs\asset-disposal-handle.js" />
     <Content Include="Scripts\Customs\asset-checkout-handle.js" />

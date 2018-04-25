@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Web;
 using System.Web.Mvc;
+using static AssetManagement.Models.Common.EnumList;
 
 namespace AssetManagement.Controllers
 {
@@ -776,6 +777,16 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult CreateAssetTransfer( AssetTransferViewModel model) 
         {
+            var isExisted = Db.AssetTransfers.Any(x => x.AssetID == model.AssetID && x.FromEmployeeId == model.FromEmployeeId && x.ToEmployeeId == model.ToEmployeeId);
+            if (isExisted)
+            {
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle = "Transfer Error",
+                    ErrorMessage = "This transfer was existed!"
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
+            }
             if (ModelState.IsValid)
             {
                 var newTransfer = new AssetTransfer()
@@ -821,6 +832,15 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult CheckInAsset(AssetCheckInViewModel model)
         {
+            var isExisted = Db.AssetCheckIns.Any(x => x.AssetId == model.AssetID && x.AssignedTo == model.StaffID);
+            if (isExisted) {
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle =" Check in error",
+                    ErrorMessage = "This check-in is existed! Try again"
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
+            }
             var newCheckIn = new AssetCheckIn
             {
                 AssetId = model.AssetID,
@@ -856,6 +876,16 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult CheckOutAsset(AssetCheckOutViewModel model)
         {
+            var isExisted = Db.AssetCheckOuts.Any(x => x.AssetId == model.AssetID && x.WhoTake == model.StaffID);
+            if (isExisted)
+            {
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle = " Check out error",
+                    ErrorMessage = "This check-out is existed! Try again"
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
+            }
             var newCheckOut = new AssetCheckOut
             {
                 AssetId = model.AssetID,
@@ -891,6 +921,16 @@ namespace AssetManagement.Controllers
         [HttpPost]
         public ActionResult DisposeAsset(AssetDisposalViewModel model)
         {
+            var isExisted = Db.Assets.Any(x => x.ID == model.AssetID && x.StatusId == (int)AssetStatus.Disposal);
+            if (isExisted)
+            {
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle = " Disposal Error",
+                    ErrorMessage = "This asset has been disposed! Try again"
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
+            }
             var newDisposal = new Asset_Disposal()
             {
                 AssetId = model.AssetID,
