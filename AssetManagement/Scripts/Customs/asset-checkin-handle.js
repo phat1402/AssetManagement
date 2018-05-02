@@ -1,9 +1,13 @@
-﻿
-function OnSuccess(result) {
-    alert("Check-in Asset Successfully !");
-    $("#checkInHistoryTable").html(result);
-    initTable1();
-
+﻿function OnSuccess(result) {
+    if (result == "Existed") {
+        alert("Check-in existed! Try again!");
+        location.reload();
+    }
+    else {
+        alert("Check-in Asset Successfully !");
+        $("#checkInHistoryTable").html(result);
+        initTable1();
+    }
 }
 
 function OnFailure (result) {

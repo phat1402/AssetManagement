@@ -36,27 +36,11 @@ var TableDatatablesEditable = function () {
                 success: function (response) {
                     if (response.RequestType == "Update") {
                         alert(response.Message);
-                        if (response.Message !== "Update successfully") {
-                            location.reload();
-                        }
-                        else {
-                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                            oTable.fnDraw();
-                        }                    
+                        location.reload();                   
                     }
                     else {
                         alert(response.Message);
-                        if (response.Message !== "Create successfully") {
-                            location.reload();
-                        } else {
-                            oTable.fnUpdate(response.ID, nRow, 1, false);
-                            oTable.fnUpdate(jqInputs[0].value, nRow, 1, false);
-                            oTable.fnUpdate('<a class="edit" href="">Edit</a>', nRow, 2, false);
-                            oTable.fnUpdate('<a class="delete" href="">Delete</a>', nRow, 3, false);
-                            oTable.fnDraw();
-                        }
+                        location.reload();
                     }
                 }
             });
@@ -152,7 +136,9 @@ var TableDatatablesEditable = function () {
             $.ajax({
                 url: "/Home/DeleteSubCategory",
                 type: "POST",
-                data: subCategoryId,
+                data: {
+                    subCategoryId: subCategoryId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

@@ -92,25 +92,20 @@ function filterAssetByBuilding() {
         }
     });
 }
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+    var buildingData;
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetBuildingList',
+        success: function (response) {
+            buildingData = response.items;
+        },
+        error: function () {
+            buildingData = [];
+        }
+    });
     TableDatatablesColreorder.init();
     $(".select-building").select2({
-        placeholder: "Input a building name",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetBuildingList',
-            width: 'resolve',
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: buildingData
     });
 });

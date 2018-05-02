@@ -92,25 +92,20 @@ function filterAssetByCategory() {
         }
     });
 }
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+    var categoryData;
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetCategoryListForReport',
+        success: function (response) {
+            categoryData = response.items;
+        },
+        error: function () {
+            categoryData = [];
+        }
+    });
     TableDatatablesColreorder.init();
     $(".select-category").select2({
-        placeholder: "Input a category",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetCategoryListForReport',
-            width: 'resolve',
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: categoryData
     });
 });

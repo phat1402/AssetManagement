@@ -162,7 +162,9 @@ var TableDatatablesEditable = function () {
             $.ajax({
                 url: "/Home/DeleteVendor",
                 type: "POST",
-                data: vendorId,
+                data: {
+                    vendorId: vendorId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

@@ -5,40 +5,40 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="22bbb16326144bcf8ca00583b1a13195" Name="Diagram1">
-        <EntityTypeShape EntityType="AssetManagementModel.ApplicationUser" Width="1.5" PointX="11" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Asset_Disposal" Width="1.5" PointX="6" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.AssetCheckIn" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.AssetCheckOut" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.AssetTransfer" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Category" Width="1.5" PointX="1.5" PointY="23.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Department" Width="1.5" PointX="3.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Location" Width="1.5" PointX="3.75" PointY="20.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Staff" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.SubCategory" Width="1.5" PointX="3.75" PointY="23" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.UserRole" Width="1.5" PointX="8.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="AssetManagementModel.Vendor" Width="1.5" PointX="3.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.ApplicationUser" Width="1.5" PointX="10" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.Asset_Disposal" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.AssetCheckIn" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.AssetTransfer" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.Category" Width="1.5" PointX="1.5" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.Department" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.Location" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.SubCategory" Width="1.5" PointX="0.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.UserRole" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="AssetManagementModel.Vendor" Width="1.5" PointX="0.75" PointY="20.75" IsExpanded="true" />
         <AssociationConnector Association="AssetManagementModel.FK_ApplicationUser_UserRole" ManuallyRouted="false" />
-        <AssociationConnector Association="AssetManagementModel.FK_Asset_Disposal_Staff" ManuallyRouted="false" />
-        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckIn_Staff" ManuallyRouted="false" />
-        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckOut_Staff" ManuallyRouted="false" />
-        <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset_FromEmployee" ManuallyRouted="false" />
-        <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId" ManuallyRouted="false" />
         <AssociationConnector Association="AssetManagementModel.FK_SubCategory_Category" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AssetManagementModel.CompanySetting" Width="1.5" PointX="8.75" PointY="5.75" />
-        <EntityTypeShape EntityType="AssetManagementModel.Store" Width="1.5" PointX="3.75" PointY="17.75" />
-        <EntityTypeShape EntityType="AssetManagementModel.Asset" Width="1.5" PointX="6" PointY="3.125" />
+        <EntityTypeShape EntityType="AssetManagementModel.CompanySetting" Width="1.5" PointX="4.75" PointY="0.875" />
+        <EntityTypeShape EntityType="AssetManagementModel.Store" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AssetManagementModel.Asset" Width="1.5" PointX="3" PointY="6.625" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_Department" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_Disposal_Asset" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_Location" />
-        <AssociationConnector Association="AssetManagementModel.FK_Asset_Staff" />
-        <AssociationConnector Association="AssetManagementModel.FK_Asset_Staff1" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_Store" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_SubCategory" />
         <AssociationConnector Association="AssetManagementModel.FK_Asset_Vendor" />
         <AssociationConnector Association="AssetManagementModel.FK_AssetCheckIn_Asset" />
-        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckOut_Asset" />
         <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset" />
+        <EntityTypeShape EntityType="AssetManagementModel.AssetCheckOut" Width="1.5" PointX="5.25" PointY="12.375" />
+        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckOut_Asset" />
+        <EntityTypeShape EntityType="AssetManagementModel.Staff" Width="1.5" PointX="0.75" PointY="7.625" />
+        <AssociationConnector Association="AssetManagementModel.FK_Asset_Staff" />
+        <AssociationConnector Association="AssetManagementModel.FK_Asset_Staff1" />
+        <AssociationConnector Association="AssetManagementModel.FK_Asset_Disposal_Staff" />
+        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckIn_Staff" />
+        <AssociationConnector Association="AssetManagementModel.FK_AssetCheckOut_Staff" />
+        <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset_FromEmployee" />
+        <AssociationConnector Association="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

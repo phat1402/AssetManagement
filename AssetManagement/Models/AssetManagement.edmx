@@ -64,7 +64,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CheckOutDate" Type="date" />
           <Property Name="WhoTake" Type="int" />
           <Property Name="AssetId" Type="int" />
@@ -127,6 +127,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" />
           <Property Name="MobileNo" Type="nvarchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="date" />
+          <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="Store">
           <Key>
@@ -515,8 +516,8 @@
           <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="AssetId" Type="Int32" />
           <Property Name="DiposeById" Type="Int32" />
-          <NavigationProperty Name="Staff" Relationship="Self.FK_Asset_Disposal_Staff" FromRole="Asset_Disposal" ToRole="Staff" />
           <NavigationProperty Name="Asset" Relationship="AssetManagementModel.FK_Asset_Disposal_Asset" FromRole="Asset_Disposal" ToRole="Asset" />
+          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_Asset_Disposal_Staff" FromRole="Asset_Disposal" ToRole="Staff" />
         </EntityType>
         <EntityType Name="AssetCheckIn">
           <Key>
@@ -527,20 +528,8 @@
           <Property Name="AssetId" Type="Int32" />
           <Property Name="AssignedTo" Type="Int32" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Staff" Relationship="Self.FK_AssetCheckIn_Staff" FromRole="AssetCheckIn" ToRole="Staff" />
           <NavigationProperty Name="Asset" Relationship="AssetManagementModel.FK_AssetCheckIn_Asset" FromRole="AssetCheckIn" ToRole="Asset" />
-        </EntityType>
-        <EntityType Name="AssetCheckOut">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="CheckOutDate" Type="DateTime" Precision="0" />
-          <Property Name="WhoTake" Type="Int32" />
-          <Property Name="AssetId" Type="Int32" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Staff" Relationship="Self.FK_AssetCheckOut_Staff" FromRole="AssetCheckOut" ToRole="Staff" />
-          <NavigationProperty Name="Asset" Relationship="AssetManagementModel.FK_AssetCheckOut_Asset" FromRole="AssetCheckOut" ToRole="Asset" />
+          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_AssetCheckIn_Staff" FromRole="AssetCheckIn" ToRole="Staff" />
         </EntityType>
         <EntityType Name="AssetTransfer">
           <Key>
@@ -552,9 +541,9 @@
           <Property Name="ToEmployeeId" Type="Int32" />
           <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="AssetID" Type="Int32" />
-          <NavigationProperty Name="Staff" Relationship="Self.FK_AssetTransfer_Asset_FromEmployee" FromRole="AssetTransfer" ToRole="Staff" />
-          <NavigationProperty Name="Staff1" Relationship="Self.FK_AssetTransfer_Asset_ToEmployeeId" FromRole="AssetTransfer" ToRole="Staff" />
           <NavigationProperty Name="Asset" Relationship="AssetManagementModel.FK_AssetTransfer_Asset" FromRole="AssetTransfer" ToRole="Asset" />
+          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_AssetTransfer_Asset_FromEmployee" FromRole="AssetTransfer" ToRole="Staff" />
+          <NavigationProperty Name="Staff1" Relationship="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId" FromRole="AssetTransfer" ToRole="Staff" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -582,24 +571,6 @@
           <Property Name="RoomNo" Type="Int32" />
           <Property Name="BuildingName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Assets" Relationship="AssetManagementModel.FK_Asset_Location" FromRole="Location" ToRole="Asset" />
-        </EntityType>
-        <EntityType Name="Staff">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Asset_Disposal" Relationship="Self.FK_Asset_Disposal_Staff" FromRole="Staff" ToRole="Asset_Disposal" />
-          <NavigationProperty Name="AssetCheckIns" Relationship="Self.FK_AssetCheckIn_Staff" FromRole="Staff" ToRole="AssetCheckIn" />
-          <NavigationProperty Name="AssetCheckOuts" Relationship="Self.FK_AssetCheckOut_Staff" FromRole="Staff" ToRole="AssetCheckOut" />
-          <NavigationProperty Name="AssetTransfers" Relationship="Self.FK_AssetTransfer_Asset_FromEmployee" FromRole="Staff" ToRole="AssetTransfer" />
-          <NavigationProperty Name="AssetTransfers1" Relationship="Self.FK_AssetTransfer_Asset_ToEmployeeId" FromRole="Staff" ToRole="AssetTransfer" />
-          <NavigationProperty Name="Assets" Relationship="AssetManagementModel.FK_Asset_Staff" FromRole="Staff" ToRole="Asset" />
-          <NavigationProperty Name="Assets1" Relationship="AssetManagementModel.FK_Asset_Staff1" FromRole="Staff" ToRole="Asset" />
         </EntityType>
         <EntityType Name="SubCategory">
           <Key>
@@ -651,66 +622,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Asset_Disposal_Staff">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
-          <End Role="Asset_Disposal" Type="Self.Asset_Disposal" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Asset_Disposal">
-              <PropertyRef Name="DiposeById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AssetCheckIn_Staff">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
-          <End Role="AssetCheckIn" Type="Self.AssetCheckIn" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AssetCheckIn">
-              <PropertyRef Name="AssignedTo" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AssetCheckOut_Staff">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
-          <End Role="AssetCheckOut" Type="Self.AssetCheckOut" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AssetCheckOut">
-              <PropertyRef Name="WhoTake" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AssetTransfer_Asset_FromEmployee">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
-          <End Role="AssetTransfer" Type="Self.AssetTransfer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AssetTransfer">
-              <PropertyRef Name="FromEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AssetTransfer_Asset_ToEmployeeId">
-          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
-          <End Role="AssetTransfer" Type="Self.AssetTransfer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="AssetTransfer">
-              <PropertyRef Name="ToEmployeeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SubCategory_Category">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -729,12 +640,10 @@
           <EntitySet Name="ApplicationUsers" EntityType="Self.ApplicationUser" />
           <EntitySet Name="Asset_Disposal" EntityType="Self.Asset_Disposal" />
           <EntitySet Name="AssetCheckIns" EntityType="Self.AssetCheckIn" />
-          <EntitySet Name="AssetCheckOuts" EntityType="Self.AssetCheckOut" />
           <EntitySet Name="AssetTransfers" EntityType="Self.AssetTransfer" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
-          <EntitySet Name="Staffs" EntityType="Self.Staff" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
@@ -742,26 +651,6 @@
           <AssociationSet Name="FK_ApplicationUser_UserRole" Association="Self.FK_ApplicationUser_UserRole">
             <End Role="UserRole" EntitySet="UserRoles" />
             <End Role="ApplicationUser" EntitySet="ApplicationUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asset_Disposal_Staff" Association="Self.FK_Asset_Disposal_Staff">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AssetCheckIn_Staff" Association="Self.FK_AssetCheckIn_Staff">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="AssetCheckIn" EntitySet="AssetCheckIns" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AssetCheckOut_Staff" Association="Self.FK_AssetCheckOut_Staff">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="AssetCheckOut" EntitySet="AssetCheckOuts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AssetTransfer_Asset_FromEmployee" Association="Self.FK_AssetTransfer_Asset_FromEmployee">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="AssetTransfer" EntitySet="AssetTransfers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AssetTransfer_Asset_ToEmployeeId" Association="Self.FK_AssetTransfer_Asset_ToEmployeeId">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="AssetTransfer" EntitySet="AssetTransfers" />
           </AssociationSet>
           <AssociationSet Name="FK_SubCategory_Category" Association="Self.FK_SubCategory_Category">
             <End Role="Category" EntitySet="Categories" />
@@ -782,14 +671,6 @@
             <End Role="Location" EntitySet="Locations" />
             <End Role="Asset" EntitySet="Assets" />
           </AssociationSet>
-          <AssociationSet Name="FK_Asset_Staff" Association="AssetManagementModel.FK_Asset_Staff">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="Asset" EntitySet="Assets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asset_Staff1" Association="AssetManagementModel.FK_Asset_Staff1">
-            <End Role="Staff" EntitySet="Staffs" />
-            <End Role="Asset" EntitySet="Assets" />
-          </AssociationSet>
           <AssociationSet Name="FK_Asset_Store" Association="AssetManagementModel.FK_Asset_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="Asset" EntitySet="Assets" />
@@ -806,12 +687,42 @@
             <End Role="Asset" EntitySet="Assets" />
             <End Role="AssetCheckIn" EntitySet="AssetCheckIns" />
           </AssociationSet>
+          <AssociationSet Name="FK_AssetTransfer_Asset" Association="AssetManagementModel.FK_AssetTransfer_Asset">
+            <End Role="Asset" EntitySet="Assets" />
+            <End Role="AssetTransfer" EntitySet="AssetTransfers" />
+          </AssociationSet>
+          <EntitySet Name="AssetCheckOuts" EntityType="AssetManagementModel.AssetCheckOut" />
           <AssociationSet Name="FK_AssetCheckOut_Asset" Association="AssetManagementModel.FK_AssetCheckOut_Asset">
             <End Role="Asset" EntitySet="Assets" />
             <End Role="AssetCheckOut" EntitySet="AssetCheckOuts" />
           </AssociationSet>
-          <AssociationSet Name="FK_AssetTransfer_Asset" Association="AssetManagementModel.FK_AssetTransfer_Asset">
+          <EntitySet Name="Staffs" EntityType="AssetManagementModel.Staff" />
+          <AssociationSet Name="FK_Asset_Staff" Association="AssetManagementModel.FK_Asset_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
             <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Staff1" Association="AssetManagementModel.FK_Asset_Staff1">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Asset" EntitySet="Assets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Asset_Disposal_Staff" Association="AssetManagementModel.FK_Asset_Disposal_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Asset_Disposal" EntitySet="Asset_Disposal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetCheckIn_Staff" Association="AssetManagementModel.FK_AssetCheckIn_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="AssetCheckIn" EntitySet="AssetCheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetCheckOut_Staff" Association="AssetManagementModel.FK_AssetCheckOut_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="AssetCheckOut" EntitySet="AssetCheckOuts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTransfer_Asset_FromEmployee" Association="AssetManagementModel.FK_AssetTransfer_Asset_FromEmployee">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="AssetTransfer" EntitySet="AssetTransfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AssetTransfer_Asset_ToEmployeeId" Association="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId">
+            <End Role="Staff" EntitySet="Staffs" />
             <End Role="AssetTransfer" EntitySet="AssetTransfers" />
           </AssociationSet>
         </EntityContainer>
@@ -856,14 +767,14 @@
           <NavigationProperty Name="Department" Relationship="AssetManagementModel.FK_Asset_Department" FromRole="Asset" ToRole="Department" />
           <NavigationProperty Name="Asset_Disposal" Relationship="AssetManagementModel.FK_Asset_Disposal_Asset" FromRole="Asset" ToRole="Asset_Disposal" />
           <NavigationProperty Name="Location" Relationship="AssetManagementModel.FK_Asset_Location" FromRole="Asset" ToRole="Location" />
-          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_Asset_Staff" FromRole="Asset" ToRole="Staff" />
-          <NavigationProperty Name="Staff1" Relationship="AssetManagementModel.FK_Asset_Staff1" FromRole="Asset" ToRole="Staff" />
           <NavigationProperty Name="Store" Relationship="AssetManagementModel.FK_Asset_Store" FromRole="Asset" ToRole="Store" />
           <NavigationProperty Name="SubCategory" Relationship="AssetManagementModel.FK_Asset_SubCategory" FromRole="Asset" ToRole="SubCategory" />
           <NavigationProperty Name="Vendor" Relationship="AssetManagementModel.FK_Asset_Vendor" FromRole="Asset" ToRole="Vendor" />
           <NavigationProperty Name="AssetCheckIns" Relationship="AssetManagementModel.FK_AssetCheckIn_Asset" FromRole="Asset" ToRole="AssetCheckIn" />
-          <NavigationProperty Name="AssetCheckOuts" Relationship="AssetManagementModel.FK_AssetCheckOut_Asset" FromRole="Asset" ToRole="AssetCheckOut" />
           <NavigationProperty Name="AssetTransfers" Relationship="AssetManagementModel.FK_AssetTransfer_Asset" FromRole="Asset" ToRole="AssetTransfer" />
+          <NavigationProperty Name="AssetCheckOuts" Relationship="AssetManagementModel.FK_AssetCheckOut_Asset" FromRole="Asset" ToRole="AssetCheckOut" />
+          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_Asset_Staff" FromRole="Asset" ToRole="Staff" />
+          <NavigationProperty Name="Staff1" Relationship="AssetManagementModel.FK_Asset_Staff1" FromRole="Asset" ToRole="Staff" />
         </EntityType>
         <Association Name="FK_Asset_Department">
           <End Type="AssetManagementModel.Department" Role="Department" Multiplicity="0..1" />
@@ -900,32 +811,6 @@
             </Principal>
             <Dependent Role="Asset">
               <PropertyRef Name="LocationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asset_Staff">
-          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Asset">
-              <PropertyRef Name="CreateById" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asset_Staff1">
-          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
-          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Staff">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Asset">
-              <PropertyRef Name="UsedById" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -981,6 +866,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AssetTransfer_Asset">
+          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.AssetTransfer" Role="AssetTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asset">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssetTransfer">
+              <PropertyRef Name="AssetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AssetCheckOut">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CheckOutDate" Type="DateTime" Precision="0" />
+          <Property Name="WhoTake" Type="Int32" />
+          <Property Name="AssetId" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Asset" Relationship="AssetManagementModel.FK_AssetCheckOut_Asset" FromRole="AssetCheckOut" ToRole="Asset" />
+          <NavigationProperty Name="Staff" Relationship="AssetManagementModel.FK_AssetCheckOut_Staff" FromRole="AssetCheckOut" ToRole="Staff" />
+        </EntityType>
         <Association Name="FK_AssetCheckOut_Asset">
           <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="0..1" />
           <End Type="AssetManagementModel.AssetCheckOut" Role="AssetCheckOut" Multiplicity="*" />
@@ -993,15 +902,108 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_AssetTransfer_Asset">
-          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="0..1" />
+        <EntityType Name="Staff">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Assets" Relationship="AssetManagementModel.FK_Asset_Staff" FromRole="Staff" ToRole="Asset" />
+          <NavigationProperty Name="Assets1" Relationship="AssetManagementModel.FK_Asset_Staff1" FromRole="Staff" ToRole="Asset" />
+          <NavigationProperty Name="Asset_Disposal" Relationship="AssetManagementModel.FK_Asset_Disposal_Staff" FromRole="Staff" ToRole="Asset_Disposal" />
+          <NavigationProperty Name="AssetCheckIns" Relationship="AssetManagementModel.FK_AssetCheckIn_Staff" FromRole="Staff" ToRole="AssetCheckIn" />
+          <NavigationProperty Name="AssetCheckOuts" Relationship="AssetManagementModel.FK_AssetCheckOut_Staff" FromRole="Staff" ToRole="AssetCheckOut" />
+          <NavigationProperty Name="AssetTransfers" Relationship="AssetManagementModel.FK_AssetTransfer_Asset_FromEmployee" FromRole="Staff" ToRole="AssetTransfer" />
+          <NavigationProperty Name="AssetTransfers1" Relationship="AssetManagementModel.FK_AssetTransfer_Asset_ToEmployeeId" FromRole="Staff" ToRole="AssetTransfer" />
+        </EntityType>
+        <Association Name="FK_Asset_Staff">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="CreateById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Staff1">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.Asset" Role="Asset" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset">
+              <PropertyRef Name="UsedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Asset_Disposal_Staff">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.Asset_Disposal" Role="Asset_Disposal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Asset_Disposal">
+              <PropertyRef Name="DiposeById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetCheckIn_Staff">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.AssetCheckIn" Role="AssetCheckIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssetCheckIn">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetCheckOut_Staff">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.AssetCheckOut" Role="AssetCheckOut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssetCheckOut">
+              <PropertyRef Name="WhoTake" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTransfer_Asset_FromEmployee">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
           <End Type="AssetManagementModel.AssetTransfer" Role="AssetTransfer" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Asset">
+            <Principal Role="Staff">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="AssetTransfer">
-              <PropertyRef Name="AssetID" />
+              <PropertyRef Name="FromEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AssetTransfer_Asset_ToEmployeeId">
+          <End Type="AssetManagementModel.Staff" Role="Staff" Multiplicity="0..1" />
+          <End Type="AssetManagementModel.AssetTransfer" Role="AssetTransfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AssetTransfer">
+              <PropertyRef Name="ToEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1050,17 +1052,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AssetCheckOuts">
-            <EntityTypeMapping TypeName="AssetManagementModel.AssetCheckOut">
-              <MappingFragment StoreEntitySet="AssetCheckOut">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
-                <ScalarProperty Name="WhoTake" ColumnName="WhoTake" />
-                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AssetTransfers">
             <EntityTypeMapping TypeName="AssetManagementModel.AssetTransfer">
               <MappingFragment StoreEntitySet="AssetTransfer">
@@ -1097,18 +1088,6 @@
                 <ScalarProperty Name="FloorNo" ColumnName="FloorNo" />
                 <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
                 <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Staffs">
-            <EntityTypeMapping TypeName="AssetManagementModel.Staff">
-              <MappingFragment StoreEntitySet="Staff">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
-                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1187,6 +1166,30 @@
                 <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AssetCheckOuts">
+            <EntityTypeMapping TypeName="AssetManagementModel.AssetCheckOut">
+              <MappingFragment StoreEntitySet="AssetCheckOut">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="AssetId" ColumnName="AssetId" />
+                <ScalarProperty Name="WhoTake" ColumnName="WhoTake" />
+                <ScalarProperty Name="CheckOutDate" ColumnName="CheckOutDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Staffs">
+            <EntityTypeMapping TypeName="AssetManagementModel.Staff">
+              <MappingFragment StoreEntitySet="Staff">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Lastname" ColumnName="Lastname" />
+                <ScalarProperty Name="Firstname" ColumnName="Firstname" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

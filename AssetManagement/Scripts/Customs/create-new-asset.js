@@ -1,5 +1,10 @@
 ﻿$(document).ready(function () {
     var categoryData;
+    var vendorData;
+    var departmentData;
+    var locationData;
+    var employeeData;
+
     $.ajax({
         async: false,
         url: '/DataSource/GetCategoriesList',
@@ -10,92 +15,64 @@
             categoryData = [];
         }
     });
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetVendorList',
+        success: function (response) {
+            vendorData = response.items;
+        },
+        error: function () {
+            vendorData = [];
+        }
+    });
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetDepartmentList',
+        success: function (response) {
+            departmentData = response.items;
+        },
+        error: function () {
+            departmentData = [];
+        }
+    });
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetLocationList',
+        success: function (response) {
+            locationData = response.items;
+        },
+        error: function () {
+            locationData = [];
+        }
+    });
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetEmployeeList',
+        success: function (response) {
+            employeeData = response.items;
+        },
+        error: function () {
+            employeeData = [];
+        }
+    });
+    
+    
     $(".choose-category").select2({
         data: categoryData
     });
     $(".choose-vendor").select2({
-        placeholder: "Select a vendor",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetVendorList',
-            width: 'resolve',
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: vendorData
     }); 
     $(".choose-department").select2({
-        placeholder: "Select a department",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetDepartmentList',
-            width: 'resolve',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: departmentData
     });
-
     $(".choose-location").select2({
-        placeholder: "Select a location",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetLocationList',
-            width: 'resolve',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: locationData
     });
-
     $(".assign-staff").select2({
-        placeholder: "Who use the asset?",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetEmployeeList',
-            width: 'resolve',
-            delay: 250,
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: employeeData
     });
 });
-
 function OnSuccess(result) {
     alert(result);
     location.reload();

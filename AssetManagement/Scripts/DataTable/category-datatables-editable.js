@@ -153,7 +153,9 @@ var TableDatatablesEditable = function () {
             $.ajax({
                 url: "/Home/DeleteCategory",
                 type: "POST",
-                data: categoryId,
+                data: {
+                    categoryId: categoryId
+                },
                 async: false,
                 success: function (response) {
                     if (response == "Success") {

@@ -101,39 +101,48 @@ namespace AssetManagement.Controllers
         {
             try
             {
-                int numberOfAsset = model.PurchaseAmount;
-                List<Asset> assetList = new List<Asset>();
-                for (int i = 0; i < numberOfAsset; i++)
+                if (ModelState.IsValid)
                 {
-                    Asset asset = new Asset
+                    int numberOfAsset = model.PurchaseAmount;
+                    List<Asset> assetList = new List<Asset>();
+                    for (int i = 0; i < numberOfAsset; i++)
                     {
-                        Name = model.AssetName,
-                        Description = model.AssetDescription,
-                        PurchaseDate = model.PurchaseDate,
-                        SubCategoryId = model.AssetSubCategoryId,
-                        VendorId = model.VendorId,
-                        LocationId = model.LocationId,
-                        DepartmentId = model.DepartmentId,
-                        UnitPrice = model.UnitOfPrice,
-                        CreateById = model.CreatedBy,
-                        UsedById = model.UsedBy != 0 ? model.UsedBy : default(int?),
-                        StatusId = (int)EnumList.AssetStatus.Active
-                    };
-                    assetList.Add(asset);
+                        Asset asset = new Asset
+                        {
+                            Name = model.AssetName,
+                            Description = model.AssetDescription,
+                            PurchaseDate = model.PurchaseDate,
+                            SubCategoryId = model.AssetSubCategoryId,
+                            VendorId = model.VendorId,
+                            LocationId = model.LocationId,
+                            DepartmentId = model.DepartmentId,
+                            UnitPrice = model.UnitOfPrice,
+                            CreateById = model.CreatedBy,
+                            UsedById = model.UsedBy != 0 ? model.UsedBy : default(int?),
+                            StatusId = (int)EnumList.AssetStatus.Active
+                        };
+                        assetList.Add(asset);
+                    }
+                    Db.Assets.AddRange(assetList);
+                    Db.SaveChanges();
+                    foreach (var recentAddAsset in assetList)
+                    {
+                        var entity = Db.Assets.Find(recentAddAsset.ID);
+                        entity.Tag = GenerateAssetTag(recentAddAsset.ID);
+                    }
+                    Db.SaveChanges();
+                    return RedirectToAction("ViewAssetList");
                 }
-                Db.Assets.AddRange(assetList);
-                Db.SaveChanges();
-                foreach( var recentAddAsset in assetList)
-                {
-                    var entity = Db.Assets.Find(recentAddAsset.ID);
-                    entity.Tag = GenerateAssetTag(recentAddAsset.ID);                      
-                }
-                Db.SaveChanges();
-                return Json("Success");
+                return View("~/Views/Asset/CreatingNewAsset.cshtml");
             }
             catch (Exception e)
             {
-                return Json(e.Message);
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle = " Something wrong",
+                    ErrorMessage = e.Message
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
             }
         }
 
@@ -780,12 +789,7 @@ namespace AssetManagement.Controllers
             var isExisted = Db.AssetTransfers.Any(x => x.AssetID == model.AssetID && x.FromEmployeeId == model.FromEmployeeId && x.ToEmployeeId == model.ToEmployeeId);
             if (isExisted)
             {
-                var error = new ErrorViewModel
-                {
-                    ErrorTitle = "Transfer Error",
-                    ErrorMessage = "This transfer was existed!"
-                };
-                return View("~/Views/Error/Page500.cshtml", error);
+                return Json("Existed");
             }
             if (ModelState.IsValid)
             {
@@ -823,7 +827,7 @@ namespace AssetManagement.Controllers
                     {
                         ErrorMessage = "Can not transfer the asset! "
                     };
-                    return View("~/Views/Error/Page500.cshtml", error);
+                    return PartialView("~/Views/Error/Page500.cshtml", error);
                 }
             }
             return View("~/Views/Asset/AssetTransfer.cshtml");
@@ -834,12 +838,7 @@ namespace AssetManagement.Controllers
         {
             var isExisted = Db.AssetCheckIns.Any(x => x.AssetId == model.AssetID && x.AssignedTo == model.StaffID);
             if (isExisted) {
-                var error = new ErrorViewModel
-                {
-                    ErrorTitle =" Check in error",
-                    ErrorMessage = "This check-in is existed! Try again"
-                };
-                return View("~/Views/Error/Page500.cshtml", error);
+                return Json("Existed");
             }
             var newCheckIn = new AssetCheckIn
             {
@@ -849,7 +848,7 @@ namespace AssetManagement.Controllers
                 CheckInDate = model.CheckInDate
             };
             Db.AssetCheckIns.Add(newCheckIn);
-            if( Db.SaveChanges() > 0)
+            if (Db.SaveChanges() > 0)
             {
                 var lastCheckIn = Db.AssetCheckIns.Select(x => new LastAssetCheckInViewModel
                 {
@@ -869,7 +868,7 @@ namespace AssetManagement.Controllers
                 {
                     ErrorMessage = "Can not check in asset !"
                 };
-                return View("~/Views/Error/Page500.cshtml",error);
+                return PartialView("~/Views/Error/Page500.cshtml", error);
             }
         }
 
@@ -879,12 +878,7 @@ namespace AssetManagement.Controllers
             var isExisted = Db.AssetCheckOuts.Any(x => x.AssetId == model.AssetID && x.WhoTake == model.StaffID);
             if (isExisted)
             {
-                var error = new ErrorViewModel
-                {
-                    ErrorTitle = " Check out error",
-                    ErrorMessage = "This check-out is existed! Try again"
-                };
-                return View("~/Views/Error/Page500.cshtml", error);
+                return Json("Existed");
             }
             var newCheckOut = new AssetCheckOut
             {
@@ -914,7 +908,7 @@ namespace AssetManagement.Controllers
                 {
                     ErrorMessage = "Can not check out asset !"
                 };
-                return View("~/Views/Error/Page500.cshtml",error);
+                return PartialView("~/Views/Error/Page500.cshtml", error);
             }
         }
 
@@ -924,12 +918,7 @@ namespace AssetManagement.Controllers
             var isExisted = Db.Assets.Any(x => x.ID == model.AssetID && x.StatusId == (int)AssetStatus.Disposal);
             if (isExisted)
             {
-                var error = new ErrorViewModel
-                {
-                    ErrorTitle = " Disposal Error",
-                    ErrorMessage = "This asset has been disposed! Try again"
-                };
-                return View("~/Views/Error/Page500.cshtml", error);
+                return Json("Existed");
             }
             var newDisposal = new Asset_Disposal()
             {
@@ -964,7 +953,7 @@ namespace AssetManagement.Controllers
                 {
                     ErrorMessage = "Can not dispose asset!"
                 };
-                return View("~/Views/Error/Page500.cshtml",error);
+                return PartialView("~/Views/Error/Page500.cshtml",error);
             }
         }
 
@@ -1178,7 +1167,7 @@ namespace AssetManagement.Controllers
         #region Employee Management
         public ActionResult GetEmployeeList()
         {
-            var staffList = Db.Staffs.Select(
+            var staffList = Db.Staffs.Where(x=> x.IsDeleted == false).Select(
                 x => new EmployeeListViewModel {
                     EmployeeId = x.ID,
                     FirstName = x.Firstname,
@@ -1263,6 +1252,7 @@ namespace AssetManagement.Controllers
                     newStaff.Email = model.Email;
                     newStaff.MobileNo = model.MobileNo;
                     newStaff.CreatedDate = DateTime.Now;
+                    newStaff.IsDeleted = false;
                     Db.Staffs.Add(newStaff);
                     if (Db.SaveChanges() > 0)
                     {
@@ -1289,6 +1279,17 @@ namespace AssetManagement.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult DeleteEmployee(int employeeId)
+        {
+            var staff = Db.Staffs.Find(employeeId);
+            staff.IsDeleted = true;
+            if (Db.SaveChanges() > 0) { 
+                return Json("Success");
+            }
+            return Json("Failed");
+
+        }
         #endregion
 
         #region Location
@@ -1749,36 +1750,45 @@ namespace AssetManagement.Controllers
         {
             try
             {
-                int numberOfAsset = model.PurchaseAmount;
-                List<Asset> assetList = new List<Asset>();
-                for (int i = 0; i < numberOfAsset; i++)
+                if (ModelState.IsValid)
                 {
-                    Asset asset = new Asset
+                    int numberOfAsset = model.PurchaseAmount;
+                    List<Asset> assetList = new List<Asset>();
+                    for (int i = 0; i < numberOfAsset; i++)
                     {
-                        Name = model.AssetName,
-                        PurchaseDate = model.PurchaseDate,
-                        SubCategoryId = model.AssetSubCategoryId,
-                        VendorId = model.VendorId,
-                        UnitPrice = model.UnitOfPrice,
-                        StoreId = model.StoreId,
-                        CreateById = model.CreatedBy,
-                        StatusId = (int)EnumList.AssetStatus.Active
-                    };
-                    assetList.Add(asset);
+                        Asset asset = new Asset
+                        {
+                            Name = model.AssetName,
+                            PurchaseDate = model.PurchaseDate,
+                            SubCategoryId = model.AssetSubCategoryId,
+                            VendorId = model.VendorId,
+                            UnitPrice = model.UnitOfPrice,
+                            StoreId = model.StoreId,
+                            CreateById = model.CreatedBy,
+                            StatusId = (int)EnumList.AssetStatus.Active
+                        };
+                        assetList.Add(asset);
+                    }
+                    Db.Assets.AddRange(assetList);
+                    Db.SaveChanges();
+                    foreach (var recentAddAsset in assetList)
+                    {
+                        var entity = Db.Assets.Find(recentAddAsset.ID);
+                        entity.Tag = GenerateAssetTag(recentAddAsset.ID);
+                    }
+                    Db.SaveChanges();
+                    return RedirectToAction("ViewAssetList");
                 }
-                Db.Assets.AddRange(assetList);
-                Db.SaveChanges();
-                foreach (var recentAddAsset in assetList)
-                {
-                    var entity = Db.Assets.Find(recentAddAsset.ID);
-                    entity.Tag = GenerateAssetTag(recentAddAsset.ID);
-                }
-                Db.SaveChanges();
-                return Json("Success");
+                return View("~/Views/Purchase/NewPurchase.cshtml");
             }
             catch (Exception e)
             {
-                return Json(e.Message);
+                var error = new ErrorViewModel
+                {
+                    ErrorTitle = " Something wrong",
+                    ErrorMessage = e.Message
+                };
+                return View("~/Views/Error/Page500.cshtml", error);
             }
         }
         #endregion

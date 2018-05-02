@@ -92,25 +92,20 @@ function filterAssetByDepartment() {
         }
     });
 }
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+    var departmentData;
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetDepartmentList',
+        success: function (response) {
+            departmentData = response.items;
+        },
+        error: function () {
+            departmentData = [];
+        }
+    });
     TableDatatablesColreorder.init();
     $(".select-department").select2({
-        placeholder: "Input a department name",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetDepartmentList',
-            width: 'resolve',
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: departmentData
     });
 });

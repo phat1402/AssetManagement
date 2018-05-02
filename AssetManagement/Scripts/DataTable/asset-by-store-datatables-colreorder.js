@@ -92,25 +92,20 @@ function filterAssetByStore() {
         }
     });
 }
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
+    var storeData;
+    $.ajax({
+        async: false,
+        url: '/DataSource/GetStoreList',
+        success: function (response) {
+            storeData = response.items;
+        },
+        error: function () {
+            storeData = [];
+        }
+    });
     TableDatatablesColreorder.init();
     $(".select-store").select2({
-        placeholder: "Input a store",
-        allowClear: true,
-        ajax: {
-            url: '/DataSource/GetStoreList',
-            width: 'resolve',
-            data: function (params) {
-                return {
-                    query: params.term// search term
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: data.items
-                };
-            },
-            minimumInputLength: 2
-        }
+        data: storeData
     });
 });

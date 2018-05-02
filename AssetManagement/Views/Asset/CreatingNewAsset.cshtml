@@ -16,8 +16,7 @@
     </div>
     <div class="portlet-body form">
         <!-- BEGIN FORM-->
-        @using (Ajax.BeginForm("CreateNewAsset", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess", OnFailure = "OnFailure" }, new { @id = "newAssetForm", @class = "form-horizontal", role = "form" }))
-        {
+        <form class="form-horizontal" action="@Url.Action("CreateNewAsset","Home")" method="post">
             @Html.HiddenFor(x => x.CreatedBy, new { Value = userId })
             <div class="form-body">
                 <h3 class="form-section">General</h3>
@@ -27,6 +26,7 @@
                             <label class="control-label col-md-3">Asset Name</label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(x => x.AssetName, new { @class = "form-control", placeholder = "Please fill in the asset name" })
+                                @Html.ValidationMessageFor(x => x.AssetName, null, new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -36,6 +36,7 @@
                             <label class="control-label col-md-3">Asset Category</label>
                             <div class="col-md-9">
                                 @Html.DropDownListFor(x => x.AssetSubCategoryId, Enumerable.Empty<SelectListItem>(), new { @class = "choose-category form-control" })
+                                @Html.ValidationMessageFor(x => x.AssetSubCategoryId, null, new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -58,6 +59,7 @@
                             <label class="control-label col-md-3">Purchase Amount</label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(x => x.PurchaseAmount, new { type = "number", @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.PurchaseAmount, null, new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -69,6 +71,7 @@
                             <label class="control-label col-md-3">Unit Of Price</label>
                             <div class="col-md-9">
                                 @Html.TextBoxFor(x => x.UnitOfPrice, new { type = "number", @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.UnitOfPrice, null, new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
@@ -141,7 +144,7 @@
                     <div class="col-md-6"> </div>
                 </div>
             </div>
-        }
+        </form>
         <!-- END FORM-->
     </div>
 </div>

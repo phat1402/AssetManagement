@@ -28,12 +28,10 @@ namespace AssetManagement.Models
         public virtual DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public virtual DbSet<Asset_Disposal> Asset_Disposal { get; set; }
         public virtual DbSet<AssetCheckIn> AssetCheckIns { get; set; }
-        public virtual DbSet<AssetCheckOut> AssetCheckOuts { get; set; }
         public virtual DbSet<AssetTransfer> AssetTransfers { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<Staff> Staffs { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
@@ -41,5 +39,7 @@ namespace AssetManagement.Models
         public virtual DbSet<CompanySetting> CompanySettings { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
         public virtual DbSet<Asset> Assets { get; set; }
+        public virtual DbSet<AssetCheckOut> AssetCheckOuts { get; set; }
+        public virtual DbSet<Staff> Staffs { get; set; }
     }
 }

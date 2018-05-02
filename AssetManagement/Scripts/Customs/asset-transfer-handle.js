@@ -1,9 +1,13 @@
 ﻿
 function OnCreateTransferSuccess(result) {
-    alert("Transfer Asset Successfully !");
-    $("#transferHistoryTable").html(result);
-    initTable1();
-
+    if (result == "Existed") {
+        alert("Transfer existed! Try again!");
+        location.reload();
+    } else {
+        alert("Transfer Asset Successfully !");
+        $("#transferHistoryTable").html(result);
+        initTable1();
+    }
 }
 
 function OnCreateTransferFailure (result) {

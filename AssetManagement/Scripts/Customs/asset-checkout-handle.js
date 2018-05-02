@@ -1,9 +1,14 @@
 ﻿
 function OnSuccess(result) {
-    alert("Check-out Asset Successfully !");
-    $("#checkOutHistoryTable").html(result);
-    initTable1();
-
+    if (result == "Existed") {
+        alert("Check-out existed! Try again!");
+        location.reload();
+    }
+    else {
+        alert("Check-out Asset Successfully !");
+        $("#checkOutHistoryTable").html(result);
+        initTable1();
+    }
 }
 
 function OnFailure (result) {

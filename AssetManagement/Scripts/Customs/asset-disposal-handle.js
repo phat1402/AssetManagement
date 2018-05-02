@@ -1,9 +1,14 @@
 ﻿
 function OnSuccess(result) {
-    alert("Dispose Asset Successfully !");
-    $("#disposalHistoryTable").html(result);
-    initTable1();
-
+    if (result == "Existed") {
+        alert("Disposal existed! Try again!");
+        location.reload();
+    }
+    else {
+        alert("Dispose Asset Successfully !");
+        $("#disposalHistoryTable").html(result);
+        initTable1();
+    }
 }
 
 function OnFailure (result) {

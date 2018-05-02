@@ -1,10 +1,15 @@
-﻿@section scripts {
+﻿@using AssetManagement.Models.Account
+@section scripts {
     <script type="text/javascript" src="~/Scripts/DataTable/datatable.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/datatables.bootstrap.js"></script>
     <script type="text/javascript" src="~/Scripts/DataTable/employee-datatables-editable.js"></script>
 }
 @model IEnumerable<AssetManagement.Models.ViewModel.EmployeeListViewModel>
+@{
+    var profileData = this.Session["UserProfile"] as UserProfileSessionData;
+    var userRole = profileData.UserRole;
+}
 <div class="row">
     <div class="col-md-12">
         <div class="portlet light ">
@@ -48,8 +53,8 @@
                                 <td>@employee.LastName</td>
                                 <td>@employee.Email</td>
                                 <td>@employee.Phone</td>
-                                <td><a class="edit" href="javascript:;"> Edit </a></td>
-                                <td><a class="delete" href="javascript:;"> Delete </a></td>
+                                <td><a class="edit @(userRole == "ReadOnly" ? "isDisabled" : "") " href="javascript:;"> Edit </a></td>
+                                <td><a class="delete @(userRole == "Admin" ? "":"isDisabled") " href="javascript:;" data-id="@employee.EmployeeId"> Delete </a></td>
                             </tr>
                         }
                     </tbody>
